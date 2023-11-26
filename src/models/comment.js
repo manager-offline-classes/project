@@ -19,11 +19,11 @@ module.exports = (sequelize, DataTypes) => {
         autoIncrement: true,
       },
       classId: DataTypes.INTEGER,
-      title: DataTypes.STRING,
+      title: DataTypes.STRING(200),
       content: DataTypes.TEXT,
       parentId: DataTypes.INTEGER,
       studentId: DataTypes.INTEGER,
-      attachment: DataTypes.STRING,
+      attachment: DataTypes.STRING(200),
     },
     {
       sequelize,

@@ -27,7 +27,7 @@ module.exports = (sequelize, DataTypes) => {
       studentId: DataTypes.INTEGER,
       exerciseId: DataTypes.INTEGER,
       content: DataTypes.TEXT,
-      attachment: DataTypes.STRING,
+      attachment: DataTypes.STRING(200),
     },
     {
       sequelize,

@@ -22,8 +22,8 @@ module.exports = (sequelize, DataTypes) => {
         autoIncrement: true,
       },
       userId: DataTypes.INTEGER,
-      featureName: DataTypes.STRING,
-      status: DataTypes.TINYINT,
+      featureName: DataTypes.STRING(100),
+      status: DataTypes.TINYINT(1),
       position: DataTypes.INTEGER,
     },
     {
