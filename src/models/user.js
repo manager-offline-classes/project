@@ -18,11 +18,11 @@ module.exports = (sequelize, DataTypes) => {
       User.hasMany(models.UserSocial, {
         foreignKey: "userId",
       });
-      User.BelongsToMany(models.Role, {
+      User.belongsToMany(models.Role, {
         through: "UserRoles",
         foreignKey: "userId",
       });
-      User.BelongsToMany(models.Permission, {
+      User.belongsToMany(models.Permission, {
         through: "UserPermissions",
         foreignKey: "userId",
       });
@@ -60,13 +60,13 @@ module.exports = (sequelize, DataTypes) => {
         primaryKey: true,
         autoIncrement: true,
       },
-      name: DataTypes.STRING,
-      email: DataTypes.STRING,
-      password: DataTypes.STRING,
-      phone: DataTypes.STRING,
-      address: DataTypes.STRING,
+      name: DataTypes.STRING(50),
+      email: DataTypes.STRING(100),
+      password: DataTypes.STRING(100),
+      phone: DataTypes.STRING(15),
+      address: DataTypes.STRING(200),
       typeId: DataTypes.INTEGER,
-      firstLogin: DataTypes.INTEGER,
+      firstLogin: DataTypes.TINYINT(1),
     },
     {
       sequelize,

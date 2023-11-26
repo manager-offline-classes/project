@@ -21,7 +21,7 @@ module.exports = (sequelize, DataTypes) => {
         primaryKey: true,
         autoIncrement: true,
       },
-      otp: DataTypes.STRING,
+      otp: DataTypes.STRING(10),
       userId: DataTypes.INTEGER,
       expires: DataTypes.DATE,
     },

@@ -18,7 +18,7 @@ module.exports = (sequelize, DataTypes) => {
         primaryKey: true,
         autoIncrement: true,
       },
-      optKey: DataTypes.STRING,
+      optKey: DataTypes.STRING(200),
       optValue: DataTypes.TEXT,
     },
     {
