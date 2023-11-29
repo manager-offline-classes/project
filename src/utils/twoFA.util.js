@@ -15,6 +15,6 @@ module.exports = async (email, otp) => {
     to: email, // list of receivers
     subject: "Xác minh hai bước", // Subject line
     text: `Mã xác minh của bạn là ${otp} `, // plain text body
-    html: `<b>Mã xác minh của bạn là ${otp}. Mã có hiệu lực 5p </b>`, // html body
+    html: `<b>Mã xác minh của bạn là ${otp}. Mã có hiệu lực 5 phút </b>`, // html body
   });
 };

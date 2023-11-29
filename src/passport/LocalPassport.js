@@ -8,13 +8,12 @@ module.exports = new LocalStrategy(
   },
   async function (email, password, done) {
     const user = await User.findOne({ where: { email: email } });
-
     if (!user) {
-      return done(null, false);
+      return done(null, false, { message: "Không tồn tại tài khoản" });
     }
     const check = hash.check(password, user.password);
     if (!check) {
-      return done(null, false);
+      return done(null, false, { message: "Mật khẩu không chính xác" });
     }
     return done(null, user);
   }

@@ -10,11 +10,16 @@ const authMiddleware = require("../../http/middlewares/auth.middleware");
 router.get("/login", guestMiddleware, AuthController.login);
 router.post(
   "/login",
-  passport.authenticate("local", { failureRedirect: "/auth/login" }),
+  passport.authenticate("local", {
+    failureRedirect: "/auth/login",
+    failureFlash: true,
+    badRequestMessage: "Vui lòng nhập đầy đủ thông tin",
+  }),
   AuthController.handleLogin
 );
 router.get("/twoFA", twoFAMiddleware, AuthController.twoFA);
 router.post("/twoFA", AuthController.handleTwoFA);
 router.get("/logout", AuthController.logout);
+router.get("/resendOtp", twoFAMiddleware, AuthController.resendOtp);
 
 module.exports = router;

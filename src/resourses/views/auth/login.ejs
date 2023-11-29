@@ -1,4 +1,7 @@
 <p class="login-box-msg">SIGN IN</p>
+<%- msgErr.length ? `
+<p class="alert alert-danger">${msgErr}</p>
+` : ""%>
 
 <form action="" method="post">
   <div class="input-group mb-3">

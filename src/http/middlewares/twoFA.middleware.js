@@ -11,18 +11,22 @@ module.exports = async (req, res, next) => {
       },
     });
     console.log(req.cookies.loginToken);
-    console.log(loginToken.token);
-    if (loginToken.token === req.cookies.loginToken) {
-      if (req.user.typeId === 1) {
-        return res.redirect("/student");
-      } else if (req.user.typeId === 2) {
-        return res.redirect("/teacher");
-      }
-    } else {
-      console.log(4464454);
-      res.clearCookie("loginToken");
-      // res.end();
+    console.log(!loginToken);
+    if (!loginToken) {
       next();
+    } else {
+      if (loginToken.token === req.cookies.loginToken) {
+        if (req.user.typeId === 1) {
+          return res.redirect("/student");
+        } else if (req.user.typeId === 2) {
+          return res.redirect("/teacher");
+        }
+      } else {
+        console.log(4464454);
+        res.clearCookie("loginToken");
+        // res.end();
+        next();
+      }
     }
   }
   // next();
