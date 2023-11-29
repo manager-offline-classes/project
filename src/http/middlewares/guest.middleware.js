@@ -5,6 +5,8 @@ module.exports = (req, res, next) => {
       return res.redirect("/student");
     } else if (req.user.typeId === 2) {
       return res.redirect("/teacher");
+    } else if (req.user.typeId === 3) {
+      return res.redirect("/admin");
     }
   }
   next();

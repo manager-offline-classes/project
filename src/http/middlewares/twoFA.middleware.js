@@ -1,7 +1,6 @@
 const { LoginToken } = require("../../models/index");
 module.exports = async (req, res, next) => {
   console.log(`two FA`);
-  console.log(949494994);
   if (!req.user) {
     return res.redirect("/auth/login");
   } else {
@@ -20,6 +19,8 @@ module.exports = async (req, res, next) => {
           return res.redirect("/student");
         } else if (req.user.typeId === 2) {
           return res.redirect("/teacher");
+        } else if (req.user.typeId === 3) {
+          return res.redirect("/admin");
         }
       } else {
         console.log(4464454);

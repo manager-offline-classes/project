@@ -9,9 +9,11 @@ const session = require("express-session");
 const flash = require("connect-flash");
 const { User } = require("./models/index");
 
+const authMiddleware = require("./http/middlewares/auth.middleware");
 const studentsRouter = require("./routes/students/index");
 const teachersRouter = require("./routes/teachers/index");
 const authRouter = require("./routes/auth/auth");
+const adminRouter = require("./routes/admin/index");
 
 const localPassport = require("./passport/LocalPassport");
 const passport = require("passport");
@@ -52,6 +54,9 @@ app.use(express.static(path.join(__dirname, "../public")));
 app.use(flash());
 
 app.use("/auth", authRouter);
+
+// app.use(authMiddleware);
+app.use("/admin", adminRouter);
 app.use("/student", studentsRouter);
 app.use("/teacher", teachersRouter);
 // catch 404 and forward to error handler
