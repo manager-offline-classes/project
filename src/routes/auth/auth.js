@@ -21,9 +21,19 @@ router.get("/twoFA", twoFAMiddleware, AuthController.twoFA);
 router.post("/twoFA", AuthController.handleTwoFA);
 router.get("/logout", AuthController.logout);
 router.get("/resendOtp", twoFAMiddleware, AuthController.resendOtp);
-router.get("/forgetPw", AuthController.forgetFw);
+router.get("/forgetPw", guestMiddleware, AuthController.forgetFw);
 router.post("/forgetPw", AuthController.handleForgetPw);
 router.get("/resetPw/:token", AuthController.resetPw);
 router.post("/resetPw/:token", AuthController.handleResetPw);
+
+router.get("/google/redirect", passport.authenticate("google"));
+router.get(
+  "/google/callback",
+  passport.authenticate("google", {
+    failureRedirect: "/auth/login",
+    failureMessage: true,
+    successRedirect: "/",
+  })
+);
 
 module.exports = router;

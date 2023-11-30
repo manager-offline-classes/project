@@ -8,7 +8,7 @@ module.exports = {
   login: async (req, res) => {
     const msgErr = req.flash("error");
     const msgSuccess = req.flash("msgSuccess");
-
+    console.log(50494984);
     return res.render("auth/login", {
       layout: "layouts/auth.layout.ejs",
       msgErr,

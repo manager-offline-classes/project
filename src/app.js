@@ -16,6 +16,7 @@ const authRouter = require("./routes/auth/auth");
 const adminRouter = require("./routes/admin/index");
 
 const localPassport = require("./passport/LocalPassport");
+const googlePassport = require("./passport/google.passport");
 const passport = require("passport");
 var app = express();
 
@@ -40,6 +41,7 @@ passport.deserializeUser(async function (id, done) {
 app.use(passport.session());
 app.use(passport.initialize());
 passport.use("local", localPassport);
+passport.use("google", googlePassport);
 
 // view engine setup
 app.set("views", path.join(__dirname, "resourses/views"));
