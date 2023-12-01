@@ -17,6 +17,8 @@ const adminRouter = require("./routes/admin/index");
 
 const localPassport = require("./passport/LocalPassport");
 const googlePassport = require("./passport/google.passport");
+const githubPassport = require("./passport/github.passport");
+const facebookPassport = require("./passport/facebook.passport");
 const passport = require("passport");
 var app = express();
 
@@ -29,6 +31,7 @@ app.use(
 );
 
 app.use(expressLayouts);
+// app.set("authLayout", "layouts/auth.layout.ejs"); //set layout default
 app.set("layout", "layouts/master.layout.ejs"); //set layout default
 passport.serializeUser(function (user, done) {
   done(null, user.id);
@@ -42,6 +45,8 @@ app.use(passport.session());
 app.use(passport.initialize());
 passport.use("local", localPassport);
 passport.use("google", googlePassport);
+passport.use("github", githubPassport);
+passport.use("facebook", facebookPassport);
 
 // view engine setup
 app.set("views", path.join(__dirname, "resourses/views"));

@@ -31,8 +31,28 @@ router.get(
   "/google/callback",
   passport.authenticate("google", {
     failureRedirect: "/auth/login",
-    failureMessage: true,
-    successRedirect: "/",
+    failureFlash: true,
+    successRedirect: "/admin",
+  })
+);
+
+router.get("/github/redirect", passport.authenticate("github"));
+router.get(
+  "/github/callback",
+  passport.authenticate("github", {
+    failureRedirect: "/auth/login",
+    failureFlash: true,
+    successRedirect: "/admin",
+  })
+);
+
+router.get("/facebook/redirect", passport.authenticate("facebook"));
+router.get(
+  "/facebook/callback",
+  passport.authenticate("facebook", {
+    failureRedirect: "/auth/login",
+    failureFlash: true,
+    successRedirect: "/admin",
   })
 );
 

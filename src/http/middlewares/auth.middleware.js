@@ -1,9 +1,9 @@
 const { LoginToken } = require("../../models/index");
 module.exports = async (req, res, next) => {
-  console.log(949494994);
   if (!req.user) {
     return res.redirect("/auth/login");
   } else {
+    console.log(4464454);
     const loginToken = await LoginToken.findOne({
       where: {
         userId: req.user.id,
