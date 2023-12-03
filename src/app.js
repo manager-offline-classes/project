@@ -7,7 +7,7 @@ var logger = require("morgan");
 const expressLayouts = require("express-ejs-layouts");
 const session = require("express-session");
 const flash = require("connect-flash");
-const { User } = require("./models/index");
+const { User, UserSocial } = require("./models/index");
 
 const authMiddleware = require("./http/middlewares/auth.middleware");
 const studentsRouter = require("./routes/students/index");
@@ -30,16 +30,21 @@ app.use(
   })
 );
 
-app.use(expressLayouts);
-// app.set("authLayout", "layouts/auth.layout.ejs"); //set layout default
-app.set("layout", "layouts/master.layout.ejs"); //set layout default
-passport.serializeUser(function (user, done) {
-  done(null, user.id);
+passport.serializeUser(function ({ user, userSocial }, done) {
+  console.log(`serializeUser`);
+  console.log(user?.id);
+  // console.log(userSocial.id);
+  console.log(`serializeUser`);
+  done(null, { id: user?.id, idSocial: userSocial?.id });
 });
 
-passport.deserializeUser(async function (id, done) {
+passport.deserializeUser(async function ({ id, idSocial }, done) {
   const user = await User.findByPk(id);
-  done(null, user);
+  const userSocial = await UserSocial.findByPk(idSocial);
+  console.log(`deserializeUser`);
+  // console.log(user.id);
+  // console.log(userSocial?.id);
+  done(null, { user: user?.dataValues, userSocial: userSocial?.dataValues });
 });
 app.use(passport.session());
 app.use(passport.initialize());
@@ -49,7 +54,7 @@ passport.use("github", githubPassport);
 passport.use("facebook", facebookPassport);
 
 // view engine setup
-app.set("views", path.join(__dirname, "resourses/views"));
+app.set("views", path.join(__dirname, "resources/views"));
 app.set("view engine", "ejs");
 
 app.use(logger("dev"));
@@ -57,6 +62,9 @@ app.use(express.json());
 app.use(express.urlencoded({ extended: false }));
 app.use(cookieParser());
 app.use(express.static(path.join(__dirname, "../public")));
+app.use(expressLayouts);
+// app.set("authLayout", "layouts/auth.layout.ejs"); //set layout default
+app.set("layout", "layouts/master.layout.ejs"); //set layout default
 
 app.use(flash());
 
@@ -66,6 +74,9 @@ app.use("/auth", authRouter);
 app.use("/admin", adminRouter);
 app.use("/student", studentsRouter);
 app.use("/teacher", teachersRouter);
+app.use("/", (req, res) => {
+  return res.json("thanh cong");
+});
 // catch 404 and forward to error handler
 app.use(function (req, res, next) {
   next(createError(404));

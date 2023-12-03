@@ -1,6 +1,6 @@
 const LocalStrategy = require("passport-local").Strategy;
 const hash = require("../utils/hash.util");
-const { User } = require("../models/index");
+const { User, UserSocial } = require("../models/index");
 module.exports = new LocalStrategy(
   {
     usernameField: "email",
@@ -15,6 +15,10 @@ module.exports = new LocalStrategy(
     if (!check) {
       return done(null, false, { message: "Mật khẩu không chính xác" });
     }
-    return done(null, user);
+    console.log(`local passport`);
+    console.log(user);
+    const userSocial = null;
+    // const userSocial = await UserSocial.findByPk(1);
+    return done(null, { user, userSocial });
   }
 );

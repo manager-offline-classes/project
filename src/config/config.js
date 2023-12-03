@@ -7,7 +7,7 @@ module.exports = {
     host: process.env.DB_HOST,
     dialect: process.env.DB_DRIVER,
     timezone: process.env.TIME_ZONE,
-    // logging: true,
+    logging: true,
   },
   test: {
     username: process.env.DB_USER,

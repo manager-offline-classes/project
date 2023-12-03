@@ -4,8 +4,11 @@ var AuthController = require("../../http/controllers/auth/auth.controller");
 const passport = require("passport");
 const guestMiddleware = require("../../http/middlewares/guest.middleware");
 const twoFAMiddleware = require("../../http/middlewares/twoFA.middleware");
+const googlePassportMiddleware = require("../../http/middlewares/googlePassport.middleware");
 
 const authMiddleware = require("../../http/middlewares/auth.middleware");
+const createTokenUtil = require("../../utils/createToken.util");
+const authController = require("../../http/controllers/auth/auth.controller");
 /* GET home page. */
 router.get("/login", guestMiddleware, AuthController.login);
 router.post(
@@ -30,11 +33,14 @@ router.get("/google/redirect", passport.authenticate("google"));
 router.get(
   "/google/callback",
   passport.authenticate("google", {
-    failureRedirect: "/auth/login",
+    // failureRedirect: "/auth/login",
     failureFlash: true,
-    successRedirect: "/admin",
-  })
+  }),
+  googlePassportMiddleware,
+  authController.googleCB
 );
+
+router.get("/disableGoogle", authController.disableGoogle);
 
 router.get("/github/redirect", passport.authenticate("github"));
 router.get(

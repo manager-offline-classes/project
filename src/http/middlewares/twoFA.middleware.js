@@ -1,12 +1,14 @@
 const { LoginToken } = require("../../models/index");
 module.exports = async (req, res, next) => {
-  console.log(`two FA`);
+  console.log(`two FA middleware`);
+  console.log(req.user);
+  console.log(req.userSocial);
   if (!req.user) {
     return res.redirect("/auth/login");
   } else {
     const loginToken = await LoginToken.findOne({
       where: {
-        userId: req.user.id,
+        userId: req.user.user.id,
       },
     });
     console.log(req.cookies.loginToken);
@@ -23,7 +25,6 @@ module.exports = async (req, res, next) => {
           return res.redirect("/admin");
         }
       } else {
-        console.log(4464454);
         res.clearCookie("loginToken");
         // res.end();
         next();

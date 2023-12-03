@@ -1,11 +1,14 @@
 const createTokenUtil = require("../../../utils/createToken.util");
-const { UserOtp, User } = require("../../../models/index");
+const { UserOtp, User, UserSocial } = require("../../../models/index");
+const { Op } = require("sequelize");
 const createOtpService = require("../../services/createOtp.service");
 const forgetPwUtil = require("../../../utils/forgetPw.until");
 const hashUtil = require("../../../utils/hash.util");
 const jwt = require("jsonwebtoken");
 module.exports = {
   login: async (req, res) => {
+    console.log(`login hihihih`);
+    console.log(req.isAuthenticated());
     const msgErr = req.flash("error");
     const msgSuccess = req.flash("msgSuccess");
     return res.render("auth/login", {
@@ -15,7 +18,7 @@ module.exports = {
     });
   },
   handleLogin: async (req, res) => {
-    const id = req.user.id;
+    const id = req.user.user.id;
     const { email } = req.body;
     createOtpService(id, email);
     return res.redirect("/auth/twoFA");
@@ -39,8 +42,9 @@ module.exports = {
     });
   },
   handleTwoFA: async (req, res) => {
+    console.log(`handle TwoFA`);
     console.log(req.user);
-    const id = req.user.id;
+    const id = req.user.user.id;
     const { otp } = req.body;
     const userOtp = await UserOtp.findOne({
       where: {
@@ -50,14 +54,15 @@ module.exports = {
     const currentTime = new Date();
     if (userOtp.expires > currentTime) {
       if (otp === userOtp.otp) {
+        console.log(`đúng otp`);
         // set cookie
-        const token = await createTokenUtil(+id);
+        const token = await createTokenUtil(id);
         res.cookie("loginToken", token, { maxAge: 900000, httpOnly: true });
-        if (req.user.typeId === 1) {
+        if (req.user.user.typeId === 1) {
           return res.redirect("/student");
-        } else if (req.user.typeId === 2) {
+        } else if (req.user.user.typeId === 2) {
           return res.redirect("/teacher");
-        } else if (req.user.typeId === 3) {
+        } else if (req.user.user.typeId === 3) {
           return res.redirect("/admin");
         }
       }
@@ -151,5 +156,32 @@ module.exports = {
       req.flash("msgSuccess", "Đổi mật khẩu thành công vui lòng đăng nhập!");
       res.redirect("/auth/login");
     }
+  },
+  googleCB: async (req, res) => {
+    console.log(`google CB`);
+    console.log(req.user.userSocial);
+    console.log(req.user.user);
+    const token = await createTokenUtil(req.user.user.id);
+    res.cookie("loginToken", token, { maxAge: 900000, httpOnly: true });
+
+    console.log(`google CB end`);
+    if (req.user.user.typeId === 1) {
+      return res.redirect("/student");
+    } else if (req.user.user.typeId === 2) {
+      return res.redirect("/teacher");
+    } else if (req.user.user.typeId === 3) {
+      console.log(`google CB end`);
+      return res.redirect("/admin");
+    }
+  },
+  disableGoogle: async (req, res) => {
+    const id = req.user.user.id;
+    await UserSocial.destroy({
+      where: {
+        [Op.and]: [{ userId: id }, { provider: "google" }],
+      },
+    });
+    req.flash("success", "Xóa liên kết thành công");
+    res.redirect("/admin");
   },
 };

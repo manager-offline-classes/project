@@ -18,7 +18,6 @@ module.exports = async (id) => {
         userId: id,
       },
     });
-    console.log(id);
     await LoginToken.create({
       userId: id,
       token: cookie,

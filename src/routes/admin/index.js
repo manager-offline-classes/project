@@ -7,5 +7,6 @@ const adminMiddleware = require("../../http/middlewares/admin.middleware");
 router.use(authMiddleware);
 // router.use(adminMiddleware);
 router.get("/", HomeController.index);
+router.get("/google/redirect");
 
 module.exports = router;
