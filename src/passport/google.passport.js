@@ -12,24 +12,30 @@ module.exports = new GoogleStrategy(
     const { displayName, emails, id } = profile;
     console.log(468464);
     console.log(profile);
-    console.log(issuer);
 
     const userSocial = await UserSocial.findOne({
       where: { providerId: id },
     });
-    console.log(userSocial);
-    const user = await User?.findByPk(userSocial?.userId);
-    console.log(user);
+    // console.log(userSocial);
+    console.log(req.isAuthenticated());
     // Status : not logged in yet
     if (!req.isAuthenticated()) {
-      // if (!userSocial) {
-      //   return cb(null, false, {
-      //     message: "Đăng nhập thất bại. Tài khoản chưa được liên kết",
-      //   });
-      // }
-      // console.log(userSocial);
-
-      return cb(null, { user, userSocial });
+      const user = await User?.findByPk(userSocial?.userId);
+      // console.log(user);
+      if (user) {
+        console.log(`Gan user vao req`);
+        return cb(null, { user, userSocial });
+      } else {
+        // req.flash(
+        //   "error",
+        //   "Đăng nhập bằng Google không thành công! tài khoản chưa được liên kết.Tài khoản chưa được liên kết"
+        // );
+        // req.res.redirect("/auth/login");
+        // return;
+        return cb(null, false, {
+          message: "Đăng nhập thất bại. Tài khoản chưa được liên kết",
+        });
+      }
     }
     // status : log in
     else {
@@ -48,10 +54,13 @@ module.exports = new GoogleStrategy(
           provider: "google",
           providerId: id,
         });
-        req.flash("success", "Liên kết thành công!");
+        // req.flash("success", "Liên kết thành công!");
 
-        req.res.redirect("/admin");
-        return;
+        // req.res.redirect("/admin");
+        // return;
+        let user = req.user.user;
+        const userSocial = null;
+        return cb(null, { user, userSocial });
       }
     }
   }

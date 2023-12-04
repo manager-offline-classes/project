@@ -33,11 +33,12 @@ router.get("/google/redirect", passport.authenticate("google"));
 router.get(
   "/google/callback",
   passport.authenticate("google", {
-    // failureRedirect: "/auth/login",
+    failureRedirect: "/auth/login",
     failureFlash: true,
+    successFlash: true,
   }),
-  googlePassportMiddleware,
-  authController.googleCB
+  // googlePassportMiddleware,
+  authController.googleCb
 );
 
 router.get("/disableGoogle", authController.disableGoogle);
@@ -46,20 +47,19 @@ router.get("/github/redirect", passport.authenticate("github"));
 router.get(
   "/github/callback",
   passport.authenticate("github", {
-    failureRedirect: "/auth/login",
     failureFlash: true,
-    successRedirect: "/admin",
-  })
+  }),
+  authController.githubCb
 );
+router.get("/disableGithub", authController.disableGithub);
 
 router.get("/facebook/redirect", passport.authenticate("facebook"));
 router.get(
   "/facebook/callback",
   passport.authenticate("facebook", {
-    failureRedirect: "/auth/login",
     failureFlash: true,
-    successRedirect: "/admin",
-  })
+  }),
+  authController.facebookCb
 );
 
 module.exports = router;

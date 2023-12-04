@@ -16,16 +16,19 @@
       </a>
 
       <div class="dropdown-menu dropdown-menu-lg dropdown-menu-right">
-        <a class="dropdown-item" href="#">Tài khoản</a>
-        <a class="dropdown-item" href="#">Đổi mật khẩu</a>
-        <a class="dropdown-item" href="#"
-          >Liên kết facebook <% if (socials.includes("facebook")) {%>
-          <button class="btn btn-dark ml-5">Tắt</button>
+        <a class="dropdown-item" href="#">Cài đặt</a>
+
+        <div class="dropdown-item">
+          Liên kết facebook <% if (socials.includes("facebook")) {%>
+          <a class="btn btn-dark ml-5" href="/auth/disableFacebook">Tắt</a>
           <% } else { %>
-          <button class="btn btn-primary ml-5">Bật</button>
+
+          <a href="/auth/facebook/redirect">
+            <button class="btn btn-primary ml-5">Bật</button>
+          </a>
           <% } %>
-        </a>
-        <div class="dropdown-item" href="">
+        </div>
+        <div class="dropdown-item">
           Liên kết google <% if (socials.includes("google")) {%>
           <a class="btn btn-dark ml-5" href="/auth/disableGoogle">Tắt</a>
           <% } else { %>
@@ -35,13 +38,17 @@
           </a>
           <% } %>
         </div>
-        <a class="dropdown-item" href="#"
-          >Liên kết github <% if (socials.includes("github")) {%>
-          <button class="btn btn-dark ml-5">Tắt</button>
+
+        <div class="dropdown-item">
+          Liên kết github <% if (socials.includes("github")) {%>
+          <a class="btn btn-dark ml-5" href="/auth/disableGithub">Tắt</a>
           <% } else { %>
-          <button class="btn btn-primary ml-5">Bật</button>
+
+          <a href="/auth/github/redirect">
+            <button class="btn btn-primary ml-5">Bật</button>
+          </a>
           <% } %>
-        </a>
+        </div>
         <a class="dropdown-item" href="/auth/logout">Đăng xuất</a>
       </div>
     </li>

@@ -7,8 +7,8 @@ const hashUtil = require("../../../utils/hash.util");
 const jwt = require("jsonwebtoken");
 module.exports = {
   login: async (req, res) => {
-    console.log(`login hihihih`);
-    console.log(req.isAuthenticated());
+    // console.log(`login hihihih`);
+    // console.log(req.isAuthenticated());
     const msgErr = req.flash("error");
     const msgSuccess = req.flash("msgSuccess");
     return res.render("auth/login", {
@@ -157,7 +157,7 @@ module.exports = {
       res.redirect("/auth/login");
     }
   },
-  googleCB: async (req, res) => {
+  googleCb: async (req, res) => {
     console.log(`google CB`);
     console.log(req.user.userSocial);
     console.log(req.user.user);
@@ -183,5 +183,45 @@ module.exports = {
     });
     req.flash("success", "Xóa liên kết thành công");
     res.redirect("/admin");
+  },
+  githubCb: async (req, res) => {
+    console.log(`passport CB`);
+    console.log(req.user);
+    const token = await createTokenUtil(req.user.user.id);
+    res.cookie("loginToken", token, { maxAge: 900000, httpOnly: true });
+
+    console.log(`passport CB end`);
+    if (req.user.user.typeId === 1) {
+      return res.redirect("/student");
+    } else if (req.user.user.typeId === 2) {
+      return res.redirect("/teacher");
+    } else if (req.user.user.typeId === 3) {
+      console.log(`passport CB end`);
+      return res.redirect("/admin");
+    }
+  },
+  disableGithub: async (req, res) => {
+    const id = req.user.user.id;
+    await UserSocial.destroy({
+      where: {
+        [Op.and]: [{ userId: id }, { provider: "google" }],
+      },
+    });
+    req.flash("success", "Xóa liên kết thành công");
+    res.redirect("/admin");
+  },
+  facebookCb: async (req, res) => {
+    console.log(`passport CB`);
+    console.log(req.user);
+    const token = await createTokenUtil(req.user.user.id);
+    res.cookie("loginToken", token, { maxAge: 900000, httpOnly: true });
+
+    if (req.user.user.typeId === 1) {
+      return res.redirect("/student");
+    } else if (req.user.user.typeId === 2) {
+      return res.redirect("/teacher");
+    } else if (req.user.user.typeId === 3) {
+      return res.redirect("/admin");
+    }
   },
 };

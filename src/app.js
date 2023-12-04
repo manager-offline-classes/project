@@ -31,17 +31,18 @@ app.use(
 );
 
 passport.serializeUser(function ({ user, userSocial }, done) {
-  console.log(`serializeUser`);
-  console.log(user?.id);
+  // console.log(`serializeUser serializeUser`);
+  // console.log(user?.id);
   // console.log(userSocial.id);
-  console.log(`serializeUser`);
+  // console.log(`serializeUser`);
   done(null, { id: user?.id, idSocial: userSocial?.id });
 });
 
 passport.deserializeUser(async function ({ id, idSocial }, done) {
   const user = await User.findByPk(id);
   const userSocial = await UserSocial.findByPk(idSocial);
-  console.log(`deserializeUser`);
+  // console.log(`deserializeUser`);
+
   // console.log(user.id);
   // console.log(userSocial?.id);
   done(null, { user: user?.dataValues, userSocial: userSocial?.dataValues });
@@ -89,6 +90,7 @@ app.use(function (err, req, res, next) {
   res.locals.error = req.app.get("env") === "development" ? err : {};
 
   // render the error page
+  console.log("Error: ", err);
   res.status(err.status || 500);
   res.render("error");
 });
