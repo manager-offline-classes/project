@@ -39,27 +39,27 @@ module.exports = new GoogleStrategy(
     }
     // status : log in
     else {
-      console.log(6666);
+      let user = req.user.user;
       if (userSocial) {
         console.log(888);
+        let userSocial = req.user.userSocial;
+        // không hoạt động với passport 0.0.6
         req.flash(
           "error",
           "Liên kết thất bại! Tài khoản google này đã được liên kết với một tài khoản khác."
         );
-        req.res.redirect("/admin");
-        return;
+        return cb(null, { cb, userSocial });
+        // req.res.redirect("/admin");
+        // return;
       } else {
         UserSocial.create({
           userId: req.user.user.id,
           provider: "google",
           providerId: id,
         });
-        // req.flash("success", "Liên kết thành công!");
-
-        // req.res.redirect("/admin");
-        // return;
-        let user = req.user.user;
         const userSocial = null;
+        // không hoạt động với passport 0.0.6
+        req.flash("success", "Liên kết thành công");
         return cb(null, { user, userSocial });
       }
     }

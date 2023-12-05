@@ -29,6 +29,8 @@ app.use(
     saveUninitialized: true,
   })
 );
+app.use(passport.session());
+app.use(passport.initialize());
 
 passport.serializeUser(function ({ user, userSocial }, done) {
   // console.log(`serializeUser serializeUser`);
@@ -47,8 +49,6 @@ passport.deserializeUser(async function ({ id, idSocial }, done) {
   // console.log(userSocial?.id);
   done(null, { user: user?.dataValues, userSocial: userSocial?.dataValues });
 });
-app.use(passport.session());
-app.use(passport.initialize());
 passport.use("local", localPassport);
 passport.use("google", googlePassport);
 passport.use("github", githubPassport);

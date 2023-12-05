@@ -1,8 +1,6 @@
 const { LoginToken } = require("../../models/index");
 module.exports = async (req, res, next) => {
   console.log(`two FA middleware`);
-  console.log(req.user);
-  console.log(req.userSocial);
   if (!req.user) {
     return res.redirect("/auth/login");
   } else {

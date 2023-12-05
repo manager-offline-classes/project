@@ -23,12 +23,14 @@ module.exports = {
     createOtpService(id, email);
     return res.redirect("/auth/twoFA");
   },
-  logout: (req, res) => {
+  logout: async (req, res) => {
+    console.log(540545);
+    console.log(req.logout);
     req.logout(function (err) {
       if (err) {
         return next(err);
       }
-
+      console.log(9999);
       res.clearCookie("loginToken");
       // res.end();
       return res.redirect("/auth/login");
