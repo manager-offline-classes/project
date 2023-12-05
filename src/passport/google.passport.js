@@ -1,5 +1,6 @@
 const GoogleStrategy = require("passport-google-oidc");
 const { UserSocial, User } = require("../models/index");
+// const createTokenUtil = require("../utils/createToken.util");
 module.exports = new GoogleStrategy(
   {
     clientID: process.env.GOOGLE_CLIENT_ID,
@@ -10,9 +11,7 @@ module.exports = new GoogleStrategy(
   },
   async (req, issuer, profile, cb) => {
     const { displayName, emails, id } = profile;
-    console.log(468464);
-    console.log(profile);
-
+    // kiểm tra mxh này có trong db khong
     const userSocial = await UserSocial.findOne({
       where: { providerId: id },
     });
@@ -20,18 +19,11 @@ module.exports = new GoogleStrategy(
     console.log(req.isAuthenticated());
     // Status : not logged in yet
     if (!req.isAuthenticated()) {
-      const user = await User?.findByPk(userSocial?.userId);
-      // console.log(user);
+      const user = await User.findByPk(userSocial?.userId);
       if (user) {
-        console.log(`Gan user vao req`);
-        return cb(null, { user, userSocial });
+        // mxh đã lk với user này
+        return cb(null, user);
       } else {
-        // req.flash(
-        //   "error",
-        //   "Đăng nhập bằng Google không thành công! tài khoản chưa được liên kết.Tài khoản chưa được liên kết"
-        // );
-        // req.res.redirect("/auth/login");
-        // return;
         return cb(null, false, {
           message: "Đăng nhập thất bại. Tài khoản chưa được liên kết",
         });
@@ -39,28 +31,23 @@ module.exports = new GoogleStrategy(
     }
     // status : log in
     else {
-      let user = req.user.user;
+      let user = req.user;
       if (userSocial) {
-        console.log(888);
-        let userSocial = req.user.userSocial;
         // không hoạt động với passport 0.0.6
         req.flash(
           "error",
           "Liên kết thất bại! Tài khoản google này đã được liên kết với một tài khoản khác."
         );
-        return cb(null, { cb, userSocial });
-        // req.res.redirect("/admin");
-        // return;
+        return cb(null, user);
       } else {
         UserSocial.create({
-          userId: req.user.user.id,
+          userId: req.user.id,
           provider: "google",
           providerId: id,
         });
-        const userSocial = null;
-        // không hoạt động với passport 0.0.6
-        req.flash("success", "Liên kết thành công");
-        return cb(null, { user, userSocial });
+        return cb(null, user, {
+          message: "Liên kết thành công.",
+        });
       }
     }
   }

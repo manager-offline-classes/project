@@ -16,40 +16,13 @@
       </a>
 
       <div class="dropdown-menu dropdown-menu-lg dropdown-menu-right">
-        <a class="dropdown-item" href="/admin/setting">Cài đặt</a>
+        <a class="dropdown-item" href="/admin/setting"
+          ><i class="fas fa-cogs fa-spin mr-3"></i>Cài đặt</a
+        >
 
-        <div class="dropdown-item">
-          Liên kết facebook <% if (socials.includes("facebook")) {%>
-          <a class="btn btn-dark ml-5" href="/auth/disableFacebook">Tắt</a>
-          <% } else { %>
-
-          <a href="/auth/facebook/redirect">
-            <button class="btn btn-primary ml-5">Bật</button>
-          </a>
-          <% } %>
-        </div>
-        <div class="dropdown-item">
-          Liên kết google <% if (socials.includes("google")) {%>
-          <a class="btn btn-dark ml-5" href="/auth/disableGoogle">Tắt</a>
-          <% } else { %>
-
-          <a href="/auth/google/redirect">
-            <button class="btn btn-primary ml-5">Bật</button>
-          </a>
-          <% } %>
-        </div>
-
-        <div class="dropdown-item">
-          Liên kết github <% if (socials.includes("github")) {%>
-          <a class="btn btn-dark ml-5" href="/auth/disableGithub">Tắt</a>
-          <% } else { %>
-
-          <a href="/auth/github/redirect">
-            <button class="btn btn-primary ml-5">Bật</button>
-          </a>
-          <% } %>
-        </div>
-        <a class="dropdown-item" href="/auth/logout">Đăng xuất</a>
+        <a class="dropdown-item" href="/auth/logout"
+          ><i class="fas fa-sign-out-alt mr-3"></i>Đăng xuất</a
+        >
       </div>
     </li>
     <!-- Messages Dropdown Menu -->

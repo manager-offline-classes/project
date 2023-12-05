@@ -38,7 +38,7 @@ router.get(
     successFlash: true,
   }),
   // googlePassportMiddleware,
-  authController.googleCb
+  authController.passportRedirect
 );
 
 router.get("/disableGoogle", authController.disableGoogle);
@@ -49,7 +49,7 @@ router.get(
   passport.authenticate("github", {
     failureFlash: true,
   }),
-  authController.githubCb
+  authController.passportRedirect
 );
 router.get("/disableGithub", authController.disableGithub);
 
@@ -59,7 +59,7 @@ router.get(
   passport.authenticate("facebook", {
     failureFlash: true,
   }),
-  authController.facebookCb
+  authController.passportRedirect
 );
 
 module.exports = router;

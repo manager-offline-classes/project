@@ -15,55 +15,43 @@ module.exports = new FacebookStrategy(
     console.log(468464);
     console.log(profile);
 
+    // kiểm tra mxh này có trong db khong
     const userSocial = await UserSocial.findOne({
       where: { providerId: id },
     });
-    console.log(userSocial);
-    const user = await User?.findByPk(userSocial?.userId);
-    console.log(user);
+    // console.log(userSocial);
     console.log(req.isAuthenticated());
     // Status : not logged in yet
     if (!req.isAuthenticated()) {
-      // if (!userSocial) {
-      //   return cb(null, false, {
-      //     message: "Đăng nhập thất bại. Tài khoản chưa được liên kết",
-      //   });
-      // }
-      // console.log(userSocial);
-
+      const user = await User.findByPk(userSocial?.userId);
       if (user) {
-        console.log(`Gan user vao req`);
-        return cb(null, { user, userSocial });
+        // mxh đã lk với user này
+        return cb(null, user);
       } else {
-        req.flash(
-          "error",
-          "Đăng nhập bằng Facebook không thành công! tài khoản chưa được liên kết.Tài khoản chưa được liên kết"
-        );
-        req.res.redirect("/auth/login");
-        return;
+        return cb(null, false, {
+          message: "Đăng nhập thất bại. Tài khoản chưa được liên kết",
+        });
       }
     }
     // status : log in
     else {
-      console.log(6666);
+      let user = req.user;
       if (userSocial) {
-        console.log(888);
+        // không hoạt động với passport 0.0.6
         req.flash(
           "error",
           "Liên kết thất bại! Tài khoản facebook này đã được liên kết với một tài khoản khác."
         );
-        req.res.redirect("/admin");
-        return;
+        return cb(null, user);
       } else {
         UserSocial.create({
-          userId: req.user.user.id,
+          userId: req.user.id,
           provider: "facebook",
           providerId: id,
         });
-        req.flash("success", "Liên kết thành công!");
-
-        req.res.redirect("/admin");
-        return;
+        return cb(null, user, {
+          message: "Liên kết thành công.",
+        });
       }
     }
   }

@@ -1,5 +1,10 @@
 const createTokenUtil = require("../../../utils/createToken.util");
-const { UserOtp, User, UserSocial } = require("../../../models/index");
+const {
+  UserOtp,
+  User,
+  UserSocial,
+  LoginToken,
+} = require("../../../models/index");
 const { Op } = require("sequelize");
 const createOtpService = require("../../services/createOtp.service");
 const forgetPwUtil = require("../../../utils/forgetPw.until");
@@ -18,23 +23,32 @@ module.exports = {
     });
   },
   handleLogin: async (req, res) => {
-    const id = req.user.user.id;
+    const id = req.user.id;
     const { email } = req.body;
     createOtpService(id, email);
     return res.redirect("/auth/twoFA");
   },
   logout: async (req, res) => {
-    console.log(540545);
-    console.log(req.logout);
-    req.logout(function (err) {
+    req.logout((err) => {
+      console.log(6666);
       if (err) {
-        return next(err);
+        next(err);
       }
-      console.log(9999);
-      res.clearCookie("loginToken");
-      // res.end();
-      return res.redirect("/auth/login");
     });
+    res.clearCookie("loginToken");
+    return res.redirect("/auth/login");
+    // console.log(req.user);
+    // console.log(540545);
+
+    // req.logout(function (err) {
+    //   if (err) {
+    //     console.log(888);
+    //     return next(err);
+    //   }
+    //   console.log(9999);
+    //   res.clearCookie("loginToken");
+    //   return res.redirect("/auth/login");
+    // });
   },
   twoFA: (req, res) => {
     const msgErr = req.flash("msgErr");
@@ -46,7 +60,7 @@ module.exports = {
   handleTwoFA: async (req, res) => {
     console.log(`handle TwoFA`);
     console.log(req.user);
-    const id = req.user.user.id;
+    const id = req.user.id;
     const { otp } = req.body;
     const userOtp = await UserOtp.findOne({
       where: {
@@ -60,11 +74,11 @@ module.exports = {
         // set cookie
         const token = await createTokenUtil(id);
         res.cookie("loginToken", token, { maxAge: 900000, httpOnly: true });
-        if (req.user.user.typeId === 1) {
+        if (req.user.typeId === 1) {
           return res.redirect("/student");
-        } else if (req.user.user.typeId === 2) {
+        } else if (req.user.typeId === 2) {
           return res.redirect("/teacher");
-        } else if (req.user.user.typeId === 3) {
+        } else if (req.user.typeId === 3) {
           return res.redirect("/admin");
         }
       }
@@ -159,71 +173,47 @@ module.exports = {
       res.redirect("/auth/login");
     }
   },
-  googleCb: async (req, res) => {
-    console.log(`google CB`);
-    console.log(req.user.userSocial);
-    console.log(req.user.user);
-    const token = await createTokenUtil(req.user.user.id);
-    res.cookie("loginToken", token, { maxAge: 900000, httpOnly: true });
+  passportRedirect: async (req, res) => {
+    console.log(`passportRedirect CB`);
 
-    console.log(`google CB end`);
-    if (req.user.user.typeId === 1) {
-      return res.redirect("/student");
-    } else if (req.user.user.typeId === 2) {
-      return res.redirect("/teacher");
-    } else if (req.user.user.typeId === 3) {
-      console.log(`google CB end`);
-      return res.redirect("/admin");
+    const loginToken = await LoginToken.findOne({
+      where: {
+        userId: req.user.id,
+      },
+    });
+    if (loginToken.token !== req.cookies.loginToken) {
+      // not logged in yet
+      const token = await createTokenUtil(req.user.id);
+      res.cookie("loginToken", token, { maxAge: 900000, httpOnly: true });
+    }
+
+    if (req.user.typeId === 1) {
+      return res.redirect("/student/setting");
+    } else if (req.user.typeId === 2) {
+      return res.redirect("/teacher/setting");
+    } else if (req.user.typeId === 3) {
+      return res.redirect("/admin/setting");
     }
   },
   disableGoogle: async (req, res) => {
-    const id = req.user.user.id;
+    const id = req.user.id;
     await UserSocial.destroy({
       where: {
         [Op.and]: [{ userId: id }, { provider: "google" }],
       },
     });
     req.flash("success", "Xóa liên kết thành công");
-    res.redirect("/admin");
+    res.redirect("/admin/setting");
   },
-  githubCb: async (req, res) => {
-    console.log(`passport CB`);
-    console.log(req.user);
-    const token = await createTokenUtil(req.user.user.id);
-    res.cookie("loginToken", token, { maxAge: 900000, httpOnly: true });
 
-    console.log(`passport CB end`);
-    if (req.user.user.typeId === 1) {
-      return res.redirect("/student");
-    } else if (req.user.user.typeId === 2) {
-      return res.redirect("/teacher");
-    } else if (req.user.user.typeId === 3) {
-      console.log(`passport CB end`);
-      return res.redirect("/admin");
-    }
-  },
   disableGithub: async (req, res) => {
-    const id = req.user.user.id;
+    const id = req.user.id;
     await UserSocial.destroy({
       where: {
         [Op.and]: [{ userId: id }, { provider: "google" }],
       },
     });
     req.flash("success", "Xóa liên kết thành công");
-    res.redirect("/admin");
-  },
-  facebookCb: async (req, res) => {
-    console.log(`passport CB`);
-    console.log(req.user);
-    const token = await createTokenUtil(req.user.user.id);
-    res.cookie("loginToken", token, { maxAge: 900000, httpOnly: true });
-
-    if (req.user.user.typeId === 1) {
-      return res.redirect("/student");
-    } else if (req.user.user.typeId === 2) {
-      return res.redirect("/teacher");
-    } else if (req.user.user.typeId === 3) {
-      return res.redirect("/admin");
-    }
+    res.redirect("/admin/setting");
   },
 };

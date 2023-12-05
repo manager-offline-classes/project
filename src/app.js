@@ -29,26 +29,18 @@ app.use(
     saveUninitialized: true,
   })
 );
+
+passport.serializeUser(function (user, done) {
+  done(null, user.id);
+});
+
+passport.deserializeUser(async function (id, done) {
+  const user = await User.findByPk(id);
+  done(null, user);
+});
+
 app.use(passport.session());
 app.use(passport.initialize());
-
-passport.serializeUser(function ({ user, userSocial }, done) {
-  // console.log(`serializeUser serializeUser`);
-  // console.log(user?.id);
-  // console.log(userSocial.id);
-  // console.log(`serializeUser`);
-  done(null, { id: user?.id, idSocial: userSocial?.id });
-});
-
-passport.deserializeUser(async function ({ id, idSocial }, done) {
-  const user = await User.findByPk(id);
-  const userSocial = await UserSocial.findByPk(idSocial);
-  // console.log(`deserializeUser`);
-
-  // console.log(user.id);
-  // console.log(userSocial?.id);
-  done(null, { user: user?.dataValues, userSocial: userSocial?.dataValues });
-});
 passport.use("local", localPassport);
 passport.use("google", googlePassport);
 passport.use("github", githubPassport);
@@ -76,7 +68,7 @@ app.use("/admin", adminRouter);
 app.use("/student", studentsRouter);
 app.use("/teacher", teachersRouter);
 app.use("/", (req, res) => {
-  return res.json("thanh cong");
+  return res.json("Không tồn tại trang");
 });
 // catch 404 and forward to error handler
 app.use(function (req, res, next) {

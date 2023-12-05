@@ -8,6 +8,7 @@ router.use(authMiddleware);
 // router.use(adminMiddleware);
 router.get("/", HomeController.index);
 router.get("/setting", HomeController.setting);
-router.get("/google/redirect");
+router.get("/setting/edit-info", HomeController.editInfo);
+router.post("/setting/edit-info", HomeController.handleEditInfo);
 
 module.exports = router;

@@ -1,16 +1,15 @@
 const { LoginToken } = require("../../models/index");
 module.exports = async (req, res, next) => {
   console.log(`two FA middleware`);
+  console.log(req.user);
   if (!req.user) {
     return res.redirect("/auth/login");
   } else {
     const loginToken = await LoginToken.findOne({
       where: {
-        userId: req.user.user.id,
+        userId: req.user.id,
       },
     });
-    console.log(req.cookies.loginToken);
-    console.log(!loginToken);
     if (!loginToken) {
       next();
     } else {

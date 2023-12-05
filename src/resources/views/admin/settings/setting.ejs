@@ -1,4 +1,9 @@
 <div class="card-body">
+  <%- msgErr.length ? `
+  <p class="alert alert-danger">${msgErr}</p>
+  ` : ""%> <%- msgSuccess.length ? `
+  <p class="alert alert-success">${msgSuccess}</p>
+  ` : ""%>
   <div class="row">
     <div class="col-5 col-sm-3">
       <div
@@ -15,7 +20,7 @@
           role="tab"
           aria-controls="vert-tabs-home"
           aria-selected="true"
-          >Thông tin người dùng</a
+          ><i class="fas fa-user mr-2"></i>Thông tin người dùng</a
         >
         <a
           class="nav-link"
@@ -25,7 +30,7 @@
           role="tab"
           aria-controls="vert-tabs-profile"
           aria-selected="false"
-          >Bảo mật và đăng nhập</a
+          ><i class="fas fa-shield-alt mr-2"></i>Bảo mật và đăng nhập</a
         >
         <a
           class="nav-link"
@@ -35,7 +40,7 @@
           role="tab"
           aria-controls="vert-tabs-messages"
           aria-selected="false"
-          >Mật khẩu</a
+          ><i class="fas fa-key mr-2"></i>Mật khẩu</a
         >
       </div>
     </div>
@@ -47,7 +52,71 @@
           role="tabpanel"
           aria-labelledby="vert-tabs-home-tab"
         >
-          thông tin ng dùng
+          <div class="form-group row d-flex justify-content-center">
+            <label for="name" class="col-sm-2 col-form-label"
+              >Tên người dùng</label
+            >
+            <div class="col-sm-6">
+              <input
+                type="text"
+                name="name"
+                id="name"
+                placeholder="Nhập tên ..."
+                class="form-control"
+                value="<%= user.name %>"
+                readonly="readonly"
+              />
+            </div>
+          </div>
+          <div class="form-group row d-flex justify-content-center">
+            <label for="email" class="col-sm-2 col-form-label">Email</label>
+            <div class="col-sm-6">
+              <input
+                type="text"
+                name="email"
+                id="email"
+                placeholder="Nhập tên email ..."
+                class="form-control"
+                value="<%= user.email %>"
+                readonly="readonly"
+              />
+            </div>
+          </div>
+          <div class="form-group row d-flex justify-content-center">
+            <label for="phone" class="col-sm-2 col-form-label"
+              >Số điện thoại</label
+            >
+            <div class="col-sm-6">
+              <input
+                type="text"
+                name="phone"
+                id="phone"
+                placeholder="Nhập tên số điện thoại ..."
+                class="form-control"
+                value="<%= user.phone %>"
+                readonly="readonly"
+              />
+            </div>
+          </div>
+          <div class="form-group row d-flex justify-content-center">
+            <label for="address" class="col-sm-2 col-form-label">Địa chỉ</label>
+            <div class="col-sm-6">
+              <input
+                type="text"
+                name="address"
+                id="address"
+                placeholder="Nhập tên address ..."
+                class="form-control"
+                value="<%= user.address %>"
+                readonly="readonly"
+              />
+            </div>
+          </div>
+          <div class="d-flex justify-content-center">
+            <a href="/admin/setting/edit-info" class="btn btn-primary"
+              >Đổi thông tin</a
+            >
+          </div>
         </div>
         <div
           class="tab-pane fade"
@@ -55,9 +124,11 @@
           role="tabpanel"
           aria-labelledby="vert-tabs-profile-tab"
         >
-          <div class="mb-3">
-            <i class="fab fa-facebook"></i>
-            Liên kết facebook <% if (socials.includes("facebook")) {%>
+          <div class="mb-3 row">
+            <i class="fab fa-facebook col-sm-2 align-items-center d-flex"
+              >Liên kết facebook</i
+            >
+            <% if (socials.includes("facebook")) {%>
             <a class="btn btn-dark ml-5" href="/auth/disableFacebook">Tắt</a>
             <% } else { %>
 
@@ -66,9 +137,11 @@
             </a>
             <% } %>
           </div>
-          <div class="mb-3">
-            <i class="fab fa-google"></i>
-            Liên kết google <% if (socials.includes("google")) {%>
+          <div class="mb-3 row">
+            <i class="fab fa-google col-sm-2 align-items-center d-flex"
+              >Liên kết google</i
+            >
+            <% if (socials.includes("google")) {%>
             <a class="btn btn-dark ml-5" href="/auth/disableGoogle">Tắt</a>
             <% } else { %>
 
@@ -78,9 +151,11 @@
             <% } %>
           </div>
 
-          <div class="mb-3">
-            <i class="fab fa-github"></i>
-            Liên kết github <% if (socials.includes("github")) {%>
+          <div class="mb-3 row">
+            <i class="fab fa-github col-sm-2 align-items-center d-flex"
+              >Liên kết github</i
+            >
+            <% if (socials.includes("github")) {%>
             <a class="btn btn-dark ml-5" href="/auth/disableGithub">Tắt</a>
             <% } else { %>
 

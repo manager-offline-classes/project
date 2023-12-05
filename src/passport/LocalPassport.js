@@ -15,10 +15,7 @@ module.exports = new LocalStrategy(
     if (!check) {
       return done(null, false, { message: "Mật khẩu không chính xác" });
     }
-    console.log(`local passport`);
     console.log(user);
-    const userSocial = null;
-    // const userSocial = await UserSocial.findByPk(1);
-    return done(null, { user, userSocial });
+    return done(null, user);
   }
 );

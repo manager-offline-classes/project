@@ -1,8 +1,9 @@
 const { UserSocial } = require("../../../models/index");
 module.exports = {
   index: async (req, res) => {
-    const user = req.user.user;
+    const user = req.user;
     console.log(user);
+    console.log(464646);
     console.log(user.id);
     const userSocials = await UserSocial.findAll({
       where: { userId: user.id },
