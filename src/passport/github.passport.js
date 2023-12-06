@@ -1,5 +1,10 @@
 const GitHubStrategy = require("passport-github").Strategy;
 const { UserSocial, User } = require("../models/index");
+
+const {
+  messageError,
+  messageSuccess,
+} = require("../constants/constants.message");
 module.exports = new GitHubStrategy(
   {
     clientID: process.env.GITHUB_CLIENT_ID,
@@ -10,26 +15,25 @@ module.exports = new GitHubStrategy(
     passReqToCallback: true,
   },
   async (req, accessToken, refreshToken, profile, cb) => {
-    console.log(`github passport`);
-    console.log(8989899);
-    console.log(cb);
-
     const { id } = profile;
     // kiểm tra mxh này có trong db khong
     const userSocial = await UserSocial.findOne({
       where: { providerId: id },
     });
     // console.log(userSocial);
+    console.log(id);
     console.log(req.isAuthenticated());
     // Status : not logged in yet
     if (!req.isAuthenticated()) {
+      console.log(`chua lk`);
       const user = await User.findByPk(userSocial?.userId);
       if (user) {
         // mxh đã lk với user này
         return cb(null, user);
       } else {
+        console.log(`chua lk 1`);
         return cb(null, false, {
-          message: "Đăng nhập thất bại. Tài khoản chưa được liên kết",
+          message: messageError.ACCOUNT_NOT_LINK,
         });
       }
     }
@@ -38,10 +42,7 @@ module.exports = new GitHubStrategy(
       let user = req.user;
       if (userSocial) {
         // không hoạt động với passport 0.0.6
-        req.flash(
-          "error",
-          "Liên kết thất bại! Tài khoản github này đã được liên kết với một tài khoản khác."
-        );
+        req.flash("error", messageError.ACCOUNT_LINKED);
         return cb(null, user);
       } else {
         UserSocial.create({
@@ -49,9 +50,8 @@ module.exports = new GitHubStrategy(
           provider: "github",
           providerId: id,
         });
-        return cb(null, user, {
-          message: "Liên kết thành công.",
-        });
+        req.flash("success", messageSuccess.SUCCESSFUL_LINK);
+        return cb(null, user);
       }
     }
   }

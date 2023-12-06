@@ -113,7 +113,9 @@
             </div>
           </div>
           <div class="d-flex justify-content-center">
-            <a href="/admin/setting/edit-info" class="btn btn-primary"
+            <a
+              href="<%= redirectPath.SETTINGS_INFO_ADMIN %>"
+              class="btn btn-primary"
               >Đổi thông tin</a
             >
           </div>
@@ -129,10 +131,16 @@
               >Liên kết facebook</i
             >
             <% if (socials.includes("facebook")) {%>
-            <a class="btn btn-dark ml-5" href="/auth/disableFacebook">Tắt</a>
+            <a
+              class="btn btn-dark ml-5"
+              href="<%= redirectPath.DISABLE_FACEBOOK %>"
+              >Tắt</a
+            >
             <% } else { %>
 
-            <a class="btn btn-primary ml-5" href="/auth/facebook/redirect"
+            <a
+              class="btn btn-primary ml-5"
+              href="<%= redirectPath.LOGIN_FACEBOOK %>"
               >Bật
             </a>
             <% } %>
@@ -142,10 +150,16 @@
               >Liên kết google</i
             >
             <% if (socials.includes("google")) {%>
-            <a class="btn btn-dark ml-5" href="/auth/disableGoogle">Tắt</a>
+            <a
+              class="btn btn-dark ml-5"
+              href="<%= redirectPath.DISABLE_GOOGLE %>"
+              >Tắt</a
+            >
             <% } else { %>
 
-            <a class="btn btn-primary ml-5" href="/auth/google/redirect"
+            <a
+              class="btn btn-primary ml-5"
+              href="<%= redirectPath.LOGIN_GOOGLE %>"
               >Bật
             </a>
             <% } %>
@@ -156,10 +170,16 @@
               >Liên kết github</i
             >
             <% if (socials.includes("github")) {%>
-            <a class="btn btn-dark ml-5" href="/auth/disableGithub">Tắt</a>
+            <a
+              class="btn btn-dark ml-5"
+              href="<%= redirectPath.DISABLE_GITHUB %>"
+              >Tắt</a
+            >
             <% } else { %>
 
-            <a class="btn btn-primary ml-5" href="/auth/github/redirect"
+            <a
+              class="btn btn-primary ml-5"
+              href="<%= redirectPath.LOGIN_GITHUB %>"
               >Bật
             </a>
             <% } %>
@@ -171,7 +191,14 @@
           role="tabpanel"
           aria-labelledby="vert-tabs-messages-tab"
         >
-          mat khau
+          <div class="d-flex justify-content-center">
+            <a
+              class="btn btn-primary col-6"
+              href="/admin/setting/edit-password"
+            >
+              Đổi Mật Khẩu
+            </a>
+          </div>
         </div>
       </div>
     </div>

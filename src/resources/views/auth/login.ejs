@@ -43,19 +43,19 @@
 
 <div class="social-auth-links text-center mb-3">
   <p>- Hoặc -</p>
-  <a href="/auth/facebook/redirect" class="btn btn-block btn-primary">
+  <a href="<%= redirectPath.LOGIN_FACEBOOK %>" class="btn btn-block btn-primary">
     <i class="fab fa-facebook mr-2"></i> Đăng nhập bằng facebook
   </a>
-  <a href="/auth/google/redirect" class="btn btn-block btn-danger">
+  <a href="<%= redirectPath.LOGIN_GOOGLE %>" class="btn btn-block btn-danger">
     <i class="fab fa-google mr-2" ></i> Đăng nhập bằng email
   </a>
 
-  <a href="/auth/github/redirect" class="btn btn-block btn-dark">
+  <a href="<%= redirectPath.LOGIN_GITHUB %>" class="btn btn-block btn-dark">
     <i class="fab fa-github mr-2"></i></i> Đăng nhập bằng github
   </a>
 </div>
 <!-- /.social-auth-links -->
 
 <p class="mb-1">
-  <a href="/auth/forgetPw">Quên mật khẩu</a>
+  <a href="<%= redirectPath.FORGET_PASSWORD %>">Quên mật khẩu</a>
 </p>

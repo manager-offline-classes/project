@@ -63,7 +63,7 @@ app.use(flash());
 
 app.use("/auth", authRouter);
 
-// app.use(authMiddleware);
+app.use(authMiddleware);
 app.use("/admin", adminRouter);
 app.use("/student", studentsRouter);
 app.use("/teacher", teachersRouter);

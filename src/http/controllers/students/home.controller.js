@@ -11,6 +11,6 @@ module.exports = {
     console.log(userSocials);
     const socials = userSocials.map((social) => social.dataValues.provider);
     console.log(socials);
-    return res.render("admin/index", { user, socials });
+    return res.render("student/index", { user, socials });
   },
 };

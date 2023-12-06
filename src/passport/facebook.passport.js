@@ -1,6 +1,10 @@
 // require("dotenv").config();
 var FacebookStrategy = require("passport-facebook");
 console.log("CallbackUrl: " + process.env.FACEBOOK_CALLBACK_URL);
+const {
+  messageError,
+  messageSuccess,
+} = require("../constants/constants.message");
 module.exports = new FacebookStrategy(
   {
     clientID: process.env["FACEBOOK_CLIENT_ID"],
@@ -14,6 +18,7 @@ module.exports = new FacebookStrategy(
     const { displayName, emails, id } = profile;
     console.log(468464);
     console.log(profile);
+    console.log(id);
 
     // kiểm tra mxh này có trong db khong
     const userSocial = await UserSocial.findOne({
@@ -29,7 +34,7 @@ module.exports = new FacebookStrategy(
         return cb(null, user);
       } else {
         return cb(null, false, {
-          message: "Đăng nhập thất bại. Tài khoản chưa được liên kết",
+          message: messageError.ACCOUNT_NOT_LINK,
         });
       }
     }
@@ -38,10 +43,7 @@ module.exports = new FacebookStrategy(
       let user = req.user;
       if (userSocial) {
         // không hoạt động với passport 0.0.6
-        req.flash(
-          "error",
-          "Liên kết thất bại! Tài khoản facebook này đã được liên kết với một tài khoản khác."
-        );
+        req.flash("error", messageError.ACCOUNT_LINKED);
         return cb(null, user);
       } else {
         UserSocial.create({
@@ -49,9 +51,8 @@ module.exports = new FacebookStrategy(
           provider: "facebook",
           providerId: id,
         });
-        return cb(null, user, {
-          message: "Liên kết thành công.",
-        });
+        req.flash("success", messageSuccess.SUCCESSFUL_LINK);
+        return cb(null, user);
       }
     }
   }
