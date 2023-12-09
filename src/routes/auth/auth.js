@@ -4,15 +4,21 @@ var AuthController = require("../../http/controllers/auth/auth.controller");
 const passport = require("passport");
 const guestMiddleware = require("../../http/middlewares/guest.middleware");
 const twoFAMiddleware = require("../../http/middlewares/twoFA.middleware");
-const googlePassportMiddleware = require("../../http/middlewares/googlePassport.middleware");
 
 const authMiddleware = require("../../http/middlewares/auth.middleware");
 const createTokenUtil = require("../../utils/createToken.util");
 const authController = require("../../http/controllers/auth/auth.controller");
+const {
+  validateLoginAccount,
+  validateForgetPassword,
+  validateTwoFA,
+  validateResetPassword,
+} = require("../../http/middlewares/validate.middeware");
 /* GET home page. */
 router.get("/login", guestMiddleware, AuthController.login);
 router.post(
   "/login",
+  validateLoginAccount(),
   passport.authenticate("local", {
     failureRedirect: "/auth/login",
     failureFlash: true,
@@ -21,13 +27,21 @@ router.post(
   AuthController.handleLogin
 );
 router.get("/twoFA", twoFAMiddleware, AuthController.twoFA);
-router.post("/twoFA", AuthController.handleTwoFA);
+router.post("/twoFA", validateTwoFA(), AuthController.handleTwoFA);
 router.get("/logout", AuthController.logout);
 router.get("/resendOtp", twoFAMiddleware, AuthController.resendOtp);
 router.get("/forgetPw", guestMiddleware, AuthController.forgetFw);
-router.post("/forgetPw", AuthController.handleForgetPw);
+router.post(
+  "/forgetPw",
+  validateForgetPassword(),
+  AuthController.handleForgetPw
+);
 router.get("/resetPw/:token", AuthController.resetPw);
-router.post("/resetPw/:token", AuthController.handleResetPw);
+router.post(
+  "/resetPw/:token",
+  validateResetPassword(),
+  AuthController.handleResetPw
+);
 
 router.get("/google/redirect", passport.authenticate("google"));
 router.get(
@@ -62,6 +76,16 @@ router.get(
     failureFlash: true,
   }),
   authController.passportRedirect
+);
+router.get(
+  "/change-first-password",
+  twoFAMiddleware,
+  authController.changeFirstPw
+);
+router.post(
+  "/change-first-password",
+  validateResetPassword(),
+  authController.handleChangeFirstPw
 );
 
 module.exports = router;

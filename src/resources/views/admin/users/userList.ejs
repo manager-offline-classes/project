@@ -1,0 +1,37 @@
+<h2 class="text-center font-weight-bold mb-3">Danh sách người dùng</h2>
+<table class="table table-bordered">
+  <thead>
+    <tr class="">
+      <th>STT</th>
+      <th>Tên</th>
+      <th>Email</th>
+      <th>Số điện thoại</th>
+      <th>Chức vụ</th>
+      <th>Địa chỉ</th>
+      <th>Trạng thái</th>
+    </tr>
+  </thead>
+  <tbody>
+    <% userList.forEach((user, index)=>{ %>
+    <tr>
+      <th class="font-weight-normal"><%= index + 1 %></th>
+      <th class="font-weight-normal"><%= user.name %></th>
+      <th class="font-weight-normal"><%= user.email %></th>
+      <th class="font-weight-normal"><%= user.phone %></th>
+      <% if(user.typeId === 1 ){%>
+      <th class="font-weight-normal"><%= messageInfo.STUDENT %></th>
+      <% } else if (user.typeId === 2){%>
+      <th class="font-weight-normal"><%= messageInfo.TEACHER %></th>
+      <% } else if(user.typeId === 3){ %>
+      <th class="font-weight-normal"><%= messageInfo.ADMIN %></th>
+      <% } %>
+
+      <th class="font-weight-normal"><%= user.address %></th>
+      <th class="font-weight-normal">
+        <%= user.firstLogin === 0 ? "Chưa kích hoạt": "Đã kích hoạt" %>
+      </th>
+    </tr>
+
+    <% }) %>
+  </tbody>
+</table>

@@ -14,17 +14,17 @@ module.exports = {
      */
     return queryInterface.bulkInsert("Types", [
       {
-        name: "student",
+        name: "Học viên",
         createdAt: new Date(),
         updatedAt: new Date(),
       },
       {
-        name: "teacher",
+        name: "Giảng viên",
         createdAt: new Date(),
         updatedAt: new Date(),
       },
       {
-        name: "admin",
+        name: "Admin",
         createdAt: new Date(),
         updatedAt: new Date(),
       },

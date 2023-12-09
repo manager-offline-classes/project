@@ -10,7 +10,6 @@ module.exports = async (email) => {
     port: process.env.MAIL_PORT,
     secure: process.env.MAIL_SECURE,
     auth: {
-      // TODO: replace `user` and `pass` values from <https://forwardemail.net>
       user: process.env.MAIL_USER,
       pass: process.env.MAIL_PASS,
     },

@@ -7,6 +7,6 @@ module.exports = async (id, email) => {
   await UserOtp.create({
     otp: otp,
     userId: id,
-    expires: new Date(Date.now() + 5 * 60 * 1000),
+    expires: new Date(Date.now() + 1 * 60 * 1000),
   });
 };

@@ -19,6 +19,8 @@ const {
   renderPath,
   redirectPath,
 } = require("../../../constants/constants.path");
+
+const { validationResult } = require("express-validator");
 module.exports = {
   login: async (req, res) => {
     // console.log(`login hihihih`);
@@ -33,8 +35,15 @@ module.exports = {
     });
   },
   handleLogin: async (req, res) => {
-    const id = req.user.id;
     const { email } = req.body;
+    const user = req.user;
+    const id = user.id;
+    const firstLogin = user.firstLogin;
+    if (firstLogin === 0) {
+      console.log(55);
+      return res.redirect(redirectPath.CHANGE_FIRST_PASSWORD_AUTH);
+    }
+    console.log(44);
     createOtpService(id, email);
     return res.redirect(redirectPath.TWOFA_AUTH);
   },
@@ -57,36 +66,56 @@ module.exports = {
     });
   },
   handleTwoFA: async (req, res) => {
-    console.log(`handle TwoFA`);
-    console.log(req.user);
     const id = req.user.id;
-    const { otp } = req.body;
-    const userOtp = await UserOtp.findOne({
-      where: {
-        userId: id,
-      },
-    });
-    const currentTime = new Date();
-    if (userOtp.expires > currentTime) {
-      if (otp === userOtp.otp) {
-        // set cookie
-        const token = await createTokenUtil(id);
-        res.cookie("loginToken", token, { maxAge: 900000, httpOnly: true });
-        if (req.user.typeId === 1) {
-          return res.redirect(redirectPath.HOME_STUDENT);
-        } else if (req.user.typeId === 2) {
-          return res.redirect(redirectPath.HOME_TEACHER);
-        } else if (req.user.typeId === 3) {
-          return res.redirect(redirectPath.HOME_ADMIN);
-        }
+    const errors = validationResult(req);
+    console.log(989898);
+    console.log(errors);
+    if (errors.isEmpty()) {
+      const token = await createTokenUtil(id);
+      res.cookie("loginToken", token, { maxAge: 900000, httpOnly: true });
+      if (req.user.typeId === 1) {
+        return res.redirect(redirectPath.HOME_STUDENT);
+      } else if (req.user.typeId === 2) {
+        return res.redirect(redirectPath.HOME_TEACHER);
+      } else if (req.user.typeId === 3) {
+        return res.redirect(redirectPath.HOME_ADMIN);
       }
-
-      req.flash("msgErr", messageError.INVALID_OTP);
-      res.redirect(redirectPath.TWOFA_AUTH);
     } else {
-      req.flash("msgErr", messageInfo.EXPIRED_OTP);
+      const msgErr = errors.array()[0].msg;
+      req.flash("msgErr", msgErr);
       res.redirect(redirectPath.TWOFA_AUTH);
     }
+
+    // console.log(`handle TwoFA`);
+    // console.log(req.user);
+    // const id = req.user.id;
+    // const { otp } = req.body;
+    // const userOtp = await UserOtp.findOne({
+    //   where: {
+    //     userId: id,
+    //   },
+    // });
+    // const currentTime = new Date();
+    // if (userOtp.expires > currentTime) {
+    //   if (otp === userOtp.otp) {
+    //     // set cookie
+    //     const token = await createTokenUtil(id);
+    //     res.cookie("loginToken", token, { maxAge: 900000, httpOnly: true });
+    //     if (req.user.typeId === 1) {
+    //       return res.redirect(redirectPath.HOME_STUDENT);
+    //     } else if (req.user.typeId === 2) {
+    //       return res.redirect(redirectPath.HOME_TEACHER);
+    //     } else if (req.user.typeId === 3) {
+    //       return res.redirect(redirectPath.HOME_ADMIN);
+    //     }
+    //   }
+
+    //   req.flash("msgErr", messageError.INVALID_OTP);
+    //   res.redirect(redirectPath.TWOFA_AUTH);
+    // } else {
+    //   req.flash("msgErr", messageInfo.EXPIRED_OTP);
+    //   res.redirect(redirectPath.TWOFA_AUTH);
+    // }
   },
   resendOtp: async (req, res) => {
     const id = req.user.id;
@@ -120,17 +149,16 @@ module.exports = {
   },
   handleForgetPw: async (req, res) => {
     const { email } = req.body;
-    console.log(464048068);
-    const user = await User.findOne({ where: { email: email } });
-    console.log(user);
-    if (!user) {
-      req.flash("msgErr", messageError.NO_EMAILS);
+    const errors = validationResult(req);
+    if (errors.isEmpty()) {
+      forgetPwUtil(email);
+      req.flash("msgSuccess", messageInfo.CHECK_EMAIL);
+      res.redirect(redirectPath.FORGET_PASSWORD);
+    } else {
+      const msgErr = errors.array()[0].msg;
+      req.flash("msgErr", msgErr);
       return res.redirect(redirectPath.FORGET_PASSWORD);
     }
-    forgetPwUtil(email);
-
-    req.flash("msgSuccess", messageInfo.CHECK_EMAIL);
-    res.redirect(redirectPath.FORGET_PASSWORD);
   },
   resetPw: async (req, res) => {
     const token = req.params.token;
@@ -153,13 +181,9 @@ module.exports = {
   },
   handleResetPw: async (req, res) => {
     const token = req.params.token;
-    const { password, rePassword } = req.body;
-
-    if (password !== rePassword) {
-      console.log(60464);
-      req.flash("msgErr", messageError.PASSWORD_SAME);
-      res.redirect(`${redirectPath.RESET_PASSWORD}${token}`);
-    } else {
+    const errors = validationResult(req);
+    console.log(errors);
+    if (errors.isEmpty()) {
       jwt.verify(token, process.env.JWT_KEY, async function (err, decoded) {
         if (err) {
           return res.send("Liên kết hết hạn!");
@@ -171,6 +195,10 @@ module.exports = {
       });
       req.flash("msgSuccess", messageSuccess.CHANGE_PASSWORD);
       res.redirect(redirectPath.LOGIN_AUTH);
+    } else {
+      const msgErr = errors.array()[0].msg;
+      req.flash("msgErr", msgErr);
+      res.redirect(`${redirectPath.RESET_PASSWORD}${token}`);
     }
   },
   passportRedirect: async (req, res) => {
@@ -233,5 +261,41 @@ module.exports = {
     });
     req.flash("success", messageSuccess.DELETE_LINK);
     res.redirect(redirectPath.SETTINGS_ADMIN);
+  },
+  changeFirstPw: async (req, res) => {
+    console.log(`change first password`);
+    console.log(887);
+    console.log(req.user);
+    const msgErr = req.flash("msgErr");
+    return res.render(renderPath.CHANGE_FIRST_PASSWORD_AUTH, {
+      layout: "layouts/auth.layout.ejs",
+      msgErr,
+      redirectPath,
+    });
+  },
+  handleChangeFirstPw: async (req, res) => {
+    const user = req.user;
+    const id = user.id;
+    const { rePassword } = req.body;
+    const errors = validationResult(req);
+    if (errors.isEmpty()) {
+      await User.update(
+        { password: hashUtil.make(rePassword), firstLogin: 1 },
+        { where: { email: user.email } }
+      );
+      const token = await createTokenUtil(id);
+      res.cookie("loginToken", token, { maxAge: 900000, httpOnly: true });
+      if (req.user.typeId === 1) {
+        return res.redirect(redirectPath.HOME_STUDENT);
+      } else if (req.user.typeId === 2) {
+        return res.redirect(redirectPath.HOME_TEACHER);
+      } else if (req.user.typeId === 3) {
+        return res.redirect(redirectPath.HOME_ADMIN);
+      }
+    } else {
+      const msgErr = errors.array()[0].msg;
+      req.flash("msgErr", msgErr);
+      res.redirect(redirectPath.CHANGE_FIRST_PASSWORD_AUTH);
+    }
   },
 };

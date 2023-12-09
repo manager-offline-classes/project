@@ -127,62 +127,43 @@
           aria-labelledby="vert-tabs-profile-tab"
         >
           <div class="mb-3 row">
-            <i class="fab fa-facebook col-sm-2 align-items-center d-flex"
-              >Liên kết facebook</i
+            <i class="fab fa-facebook col-sm-4 align-items-center d-flex"
+              ><span class="ml-2">Liên kết facebook</span></i
             >
-            <% if (socials.includes("facebook")) {%>
-            <a
-              class="btn btn-dark ml-5"
-              href="<%= redirectPath.DISABLE_FACEBOOK %>"
-              >Tắt</a
-            >
-            <% } else { %>
-
-            <a
-              class="btn btn-primary ml-5"
-              href="<%= redirectPath.LOGIN_FACEBOOK %>"
-              >Bật
-            </a>
-            <% } %>
+            
+            <label class="switch">
+              <a href="<%= socials.includes("facebook") ? redirectPath.DISABLE_FACEBOOK : redirectPath.LOGIN_FACEBOOK%>">
+                <input type="checkbox" <%= socials.includes("facebook") ? "checked":
+                "" %>/>
+                <span class="slider round"></span>
+              </a>
+            </label>
           </div>
           <div class="mb-3 row">
-            <i class="fab fa-google col-sm-2 align-items-center d-flex"
-              >Liên kết google</i
+            <i class="fab fa-google col-sm-4 align-items-center d-flex"
+              ><span class="ml-2">Liên kết google</span></i
             >
-            <% if (socials.includes("google")) {%>
-            <a
-              class="btn btn-dark ml-5"
-              href="<%= redirectPath.DISABLE_GOOGLE %>"
-              >Tắt</a
-            >
-            <% } else { %>
-
-            <a
-              class="btn btn-primary ml-5"
-              href="<%= redirectPath.LOGIN_GOOGLE %>"
-              >Bật
-            </a>
-            <% } %>
+            
+            <label class="switch">
+              <a href="<%= socials.includes("google") ? redirectPath.DISABLE_GOOGLE : redirectPath.LOGIN_GOOGLE%>">
+                <input type="checkbox" <%= socials.includes("google") ? "checked":
+                "" %>/>
+                <span class="slider round"></span>
+              </a>
+            </label>
           </div>
 
           <div class="mb-3 row">
-            <i class="fab fa-github col-sm-2 align-items-center d-flex"
-              >Liên kết github</i
+            <i class="fab fa-github col-sm-4 align-items-center d-flex"
+              ><span class="ml-2">Liên kết github</span></i
             >
-            <% if (socials.includes("github")) {%>
-            <a
-              class="btn btn-dark ml-5"
-              href="<%= redirectPath.DISABLE_GITHUB %>"
-              >Tắt</a
-            >
-            <% } else { %>
-
-            <a
-              class="btn btn-primary ml-5"
-              href="<%= redirectPath.LOGIN_GITHUB %>"
-              >Bật
-            </a>
-            <% } %>
+            <label class="switch">
+              <a href="<%= socials.includes("github") ? redirectPath.DISABLE_GITHUB : redirectPath.LOGIN_GITHUB%>">
+                <input type="checkbox" <%= socials.includes("github") ? "checked":
+                "" %>/>
+                <span class="slider round"></span>
+              </a>
+            </label>
           </div>
         </div>
         <div
@@ -204,3 +185,21 @@
     </div>
   </div>
 </div>
+
+<script>
+  const tagAs = document.querySelectorAll(".nav-link[href^='#vert-tabs-']");
+
+  tagAs.forEach((tag) => {
+    tag.onclick = (e) => {
+      e.preventDefault();
+      const id = e.target.getAttribute("href");
+      localStorage.setItem("vert-tabs", id);
+    };
+  });
+  window.onload = () => {
+    const idVert = localStorage.getItem("vert-tabs");
+    const tagA = document.querySelector(`.nav-link[href='${idVert}']`);
+    tagAs.forEach((tag) => tag.classList.remove("active"));
+    tagA.click();
+  };
+</script>

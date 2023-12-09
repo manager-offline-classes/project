@@ -1,6 +1,6 @@
 const { LoginToken } = require("../../models/index");
 module.exports = async (req, res, next) => {
-  console.log(`auth middleware`);
+  console.log(111111111111111111111111111111111111111111111111111111111);
   if (!req.user) {
     return res.redirect("/auth/login");
   } else {

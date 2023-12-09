@@ -1,7 +1,5 @@
 module.exports = (req, res, next) => {
   console.log(`guest middleware`);
-  console.log(req.user);
-  console.log(`guest middleware`);
 
   if (req.user) {
     console.log(`guest middleware`);
