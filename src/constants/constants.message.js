@@ -38,6 +38,8 @@ const messageSuccess = {
   UPDATE_SUCCESS: "Cập nhật dữ liệu thành công",
   DELETE_LINK: "Xóa liên kết thành công",
   CREATE_USER: "Tạo tài khoản thành công",
+  UPDATE_USER: "Sửa tài khoản thành công",
+  DELETE_USER: "Xóa tài khoản thành công",
 };
 
 const messageInfo = {

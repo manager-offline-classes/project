@@ -1,0 +1,89 @@
+<h2 class="text-center font-weight-bold mb-3">Sửa người dùng</h2>
+
+<%- msgErr.length ? `
+<p class="alert alert-danger">${msgErr}</p>
+` : ""%> <%- msgSuccess.length ? `
+<p class="alert alert-success">${msgSuccess}</p>
+` : ""%>
+<form action="" method="post">
+  <div class="form-group row d-flex justify-content-center">
+    <label for="name" class="col-sm-2 col-form-label">Tên người dùng</label>
+    <div class="col-sm-6">
+      <input
+        type="text"
+        name="name"
+        placeholder="Nhập tên ..."
+        class="form-control"
+        value="<%= userUpdate.name %>"
+      />
+    </div>
+  </div>
+  <span class="text-danger d-flex justify-content-center mb-3"
+    ><%= validateUtil.getError(errors, "name") %></span
+  >
+  <div class="form-group row d-flex justify-content-center">
+    <label for="email" class="col-sm-2 col-form-label">Email</label>
+    <div class="col-sm-6">
+      <input
+        type="text"
+        name="email"
+        placeholder="Nhập tên email ..."
+        class="form-control"
+        value="<%= userUpdate.email %>"
+      />
+    </div>
+  </div>
+  <span class="text-danger d-flex justify-content-center mb-3"
+    ><%= validateUtil.getError(errors, "email") %></span
+  >
+  <div class="form-group row d-flex justify-content-center">
+    <label for="phone" class="col-sm-2 col-form-label">Số điện thoại</label>
+    <div class="col-sm-6">
+      <input
+        type="text"
+        name="phone"
+        placeholder="Nhập tên số điện thoại ..."
+        class="form-control"
+        value="<%= userUpdate.phone %>"
+      />
+    </div>
+  </div>
+  <span class="text-danger d-flex justify-content-center mb-3"
+    ><%= validateUtil.getError(errors, "phone") %></span
+  >
+  <div class="form-group row d-flex justify-content-center">
+    <label for="address" class="col-sm-2 col-form-label">Địa chỉ</label>
+    <div class="col-sm-6">
+      <input
+        type="text"
+        name="address"
+        placeholder="Nhập tên address ..."
+        class="form-control w-100"
+        value="<%= userUpdate.address %>"
+      />
+    </div>
+  </div>
+  <span class="text-danger d-flex justify-content-center mb-3"
+    ><%= validateUtil.getError(errors, "address") %></span
+  >
+
+  <div class="form-group row d-flex justify-content-center">
+    <label for="" class="col-sm-2 col-form-label">Chức vụ</label>
+    <select name="typeId" class="col-sm-6 form-control" id="">
+      <option value="0">Chọn chức vụ</option>
+      <% types.forEach(({id, name}) => { %>
+      <option value="<%= id %>" <%= id == userUpdate.typeId ? 'selected': '' %>><%= name %></option>
+      <% }) %>
+    </select>
+  </div>
+  <span class="text-danger d-flex justify-content-center mb-3"
+    ><%= validateUtil.getError(errors, "typeId") %></span
+  >
+
+  <div class="d-flex justify-content-center">
+    <a href="<%= redirectPath.USER_LIST_ADMIN %>" class="btn btn-danger mr-5"
+      >Hủy</a
+    >
+    <button class="btn btn-primary" type="submit">Lưu</button>
+  </div>
+</form>

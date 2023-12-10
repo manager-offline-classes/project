@@ -30,6 +30,8 @@ const redirectPath = {
   SETTINGS_PASSWORD_ADMIN: "/admin/setting/edit-password",
   USER_LIST_ADMIN: "/admin/user-list",
   USER_CREATE_ADMIN: "/admin/user-create",
+  USER_UPDATE_ADMIN: "/admin/user-update/",
+  USER_DELETE_ADMIN: "/admin/user-delete/"
 };
 
 const renderPath = {
@@ -52,6 +54,7 @@ const renderPath = {
   SETTINGS_ADMIN_PASSWORD: "admin/settings/editPassword",
   USER_LIST_ADMIN: "admin/users/userList",
   USER_CREATE_ADMIN: "admin/users/userCreate",
+  USER_UPDATE_ADMIN: "admin/users/userUpdate",
 };
 
 module.exports = {

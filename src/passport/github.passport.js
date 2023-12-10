@@ -21,17 +21,13 @@ module.exports = new GitHubStrategy(
       where: { providerId: id },
     });
     // console.log(userSocial);
-    console.log(id);
-    console.log(req.isAuthenticated());
     // Status : not logged in yet
     if (!req.isAuthenticated()) {
-      console.log(`chua lk`);
       const user = await User.findByPk(userSocial?.userId);
       if (user) {
         // mxh đã lk với user này
         return cb(null, user);
       } else {
-        console.log(`chua lk 1`);
         return cb(null, false, {
           message: messageError.ACCOUNT_NOT_LINK,
         });

@@ -7,6 +7,7 @@ var logger = require("morgan");
 const expressLayouts = require("express-ejs-layouts");
 const session = require("express-session");
 const flash = require("connect-flash");
+const methodOverride = require("method-override");
 const { User, UserSocial } = require("./models/index");
 
 const authMiddleware = require("./http/middlewares/auth.middleware");
@@ -55,6 +56,17 @@ app.use(express.json());
 app.use(express.urlencoded({ extended: false }));
 app.use(cookieParser());
 app.use(express.static(path.join(__dirname, "../public")));
+
+app.use(
+  methodOverride(function (req, res) {
+    if (req.body && typeof req.body === "object" && "_method" in req.body) {
+      // look in urlencoded POST bodies and delete it
+      var method = req.body._method;
+      delete req.body._method;
+      return method;
+    }
+  })
+);
 app.use(expressLayouts);
 // app.set("authLayout", "layouts/auth.layout.ejs"); //set layout default
 app.set("layout", "layouts/master.layout.ejs"); //set layout default

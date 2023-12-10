@@ -153,21 +153,52 @@ const validateAddUser = () => {
 
     body("email", messageError.FORMAT_EMAIL).isEmail(),
     body("email", messageError.LENGTH_EMAIL).isLength({ max: 100 }),
-    body("email").custom(async (value) => {
-      const user = await User.findOne({
-        where: { email: value },
-      });
+    body("email").custom(async (value, { req }) => {
+      const idUpdate = req.params.id;
+      let user;
+      // form Update
+      if (idUpdate) {
+        user = await User.findOne({
+          where: {
+            email: value,
+            id: {
+              [Op.not]: idUpdate,
+            },
+          },
+        });
+      } else {
+        user = await User.findOne({
+          where: { email: value },
+        });
+      }
       if (user) {
         throw new Error(messageError.DUPLICATE_EMAIL);
       }
     }),
-    body("phone").custom(async (value) => {
+    body("phone").custom(async (value, { req }) => {
+      const idUpdate = req.params.id;
       if (value === "") {
         throw new Error(messageError.EMPTY_PHONE);
       }
-      const user = await User.findOne({
-        where: { phone: value },
-      });
+      let user;
+      // form Update
+      if (idUpdate) {
+        console.log(666);
+        user = await User.findOne({
+          where: {
+            phone: value,
+            id: {
+              [Op.not]: idUpdate,
+            },
+          },
+        });
+        console.log(user);
+      } else {
+        console.log(999);
+        user = await User.findOne({
+          where: { phone: value },
+        });
+      }
       if (user) {
         throw new Error(messageError.DUPLICATE_PHONE);
       }

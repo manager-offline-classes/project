@@ -28,5 +28,12 @@ router.post(
 router.get("/user-list", HomeController.userList);
 router.get("/user-create", HomeController.userCreate);
 router.post("/user-create", validateAddUser(), HomeController.handleUserCreate);
+router.get("/user-update/:id", HomeController.userUpdate);
+router.post(
+  "/user-update/:id",
+  validateAddUser(),
+  HomeController.handleUserUpdate
+);
+router.delete("/user-delete/:id", HomeController.userDelete);
 
 module.exports = router;
