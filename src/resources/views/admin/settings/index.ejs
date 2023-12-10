@@ -1,0 +1,205 @@
+<div class="card-body">
+  <%- msgErr.length ? `
+  <p class="alert alert-danger">${msgErr}</p>
+  ` : ""%> <%- msgSuccess.length ? `
+  <p class="alert alert-success">${msgSuccess}</p>
+  ` : ""%>
+  <div class="row">
+    <div class="col-5 col-sm-3">
+      <div
+        class="nav flex-column nav-tabs h-100"
+        id="vert-tabs-tab"
+        role="tablist"
+        aria-orientation="vertical"
+      >
+        <a
+          class="nav-link active"
+          id="vert-tabs-home-tab"
+          data-toggle="pill"
+          href="#vert-tabs-home"
+          role="tab"
+          aria-controls="vert-tabs-home"
+          aria-selected="true"
+          ><i class="fas fa-user mr-2"></i>Thông tin người dùng</a
+        >
+        <a
+          class="nav-link"
+          id="vert-tabs-profile-tab"
+          data-toggle="pill"
+          href="#vert-tabs-profile"
+          role="tab"
+          aria-controls="vert-tabs-profile"
+          aria-selected="false"
+          ><i class="fas fa-shield-alt mr-2"></i>Bảo mật và đăng nhập</a
+        >
+        <a
+          class="nav-link"
+          id="vert-tabs-messages-tab"
+          data-toggle="pill"
+          href="#vert-tabs-messages"
+          role="tab"
+          aria-controls="vert-tabs-messages"
+          aria-selected="false"
+          ><i class="fas fa-key mr-2"></i>Mật khẩu</a
+        >
+      </div>
+    </div>
+    <div class="col-7 col-sm-9">
+      <div class="tab-content" id="vert-tabs-tabContent">
+        <div
+          class="tab-pane text-left fade show active"
+          id="vert-tabs-home"
+          role="tabpanel"
+          aria-labelledby="vert-tabs-home-tab"
+        >
+          <div class="form-group row d-flex justify-content-center">
+            <label for="name" class="col-sm-2 col-form-label"
+              >Tên người dùng</label
+            >
+            <div class="col-sm-6">
+              <input
+                type="text"
+                name="name"
+                id="name"
+                placeholder="Nhập tên ..."
+                class="form-control"
+                value="<%= user.name %>"
+                readonly="readonly"
+              />
+            </div>
+          </div>
+          <div class="form-group row d-flex justify-content-center">
+            <label for="email" class="col-sm-2 col-form-label">Email</label>
+            <div class="col-sm-6">
+              <input
+                type="text"
+                name="email"
+                id="email"
+                placeholder="Nhập tên email ..."
+                class="form-control"
+                value="<%= user.email %>"
+                readonly="readonly"
+              />
+            </div>
+          </div>
+          <div class="form-group row d-flex justify-content-center">
+            <label for="phone" class="col-sm-2 col-form-label"
+              >Số điện thoại</label
+            >
+            <div class="col-sm-6">
+              <input
+                type="text"
+                name="phone"
+                id="phone"
+                placeholder="Nhập tên số điện thoại ..."
+                class="form-control"
+                value="<%= user.phone %>"
+                readonly="readonly"
+              />
+            </div>
+          </div>
+          <div class="form-group row d-flex justify-content-center">
+            <label for="address" class="col-sm-2 col-form-label">Địa chỉ</label>
+            <div class="col-sm-6">
+              <input
+                type="text"
+                name="address"
+                id="address"
+                placeholder="Nhập tên address ..."
+                class="form-control"
+                value="<%= user.address %>"
+                readonly="readonly"
+              />
+            </div>
+          </div>
+          <div class="d-flex justify-content-center">
+            <a
+              href="<%= redirectPath.SETTINGS_INFO_ADMIN %>"
+              class="btn btn-primary"
+              >Đổi thông tin</a
+            >
+          </div>
+        </div>
+        <div
+          class="tab-pane fade"
+          id="vert-tabs-profile"
+          role="tabpanel"
+          aria-labelledby="vert-tabs-profile-tab"
+        >
+          <div class="mb-3 row">
+            <i class="fab fa-facebook col-sm-4 align-items-center d-flex"
+              ><span class="ml-2">Liên kết facebook</span></i
+            >
+            
+            <label class="switch">
+              <a href="<%= socials.includes("facebook") ? redirectPath.DISABLE_FACEBOOK : redirectPath.LOGIN_FACEBOOK%>">
+                <input type="checkbox" <%= socials.includes("facebook") ? "checked":
+                "" %>/>
+                <span class="slider round"></span>
+              </a>
+            </label>
+          </div>
+          <div class="mb-3 row">
+            <i class="fab fa-google col-sm-4 align-items-center d-flex"
+              ><span class="ml-2">Liên kết google</span></i
+            >
+            
+            <label class="switch">
+              <a href="<%= socials.includes("google") ? redirectPath.DISABLE_GOOGLE : redirectPath.LOGIN_GOOGLE%>">
+                <input type="checkbox" <%= socials.includes("google") ? "checked":
+                "" %>/>
+                <span class="slider round"></span>
+              </a>
+            </label>
+          </div>
+
+          <div class="mb-3 row">
+            <i class="fab fa-github col-sm-4 align-items-center d-flex"
+              ><span class="ml-2">Liên kết github</span></i
+            >
+            <label class="switch">
+              <a href="<%= socials.includes("github") ? redirectPath.DISABLE_GITHUB : redirectPath.LOGIN_GITHUB%>">
+                <input type="checkbox" <%= socials.includes("github") ? "checked":
+                "" %>/>
+                <span class="slider round"></span>
+              </a>
+            </label>
+          </div>
+        </div>
+        <div
+          class="tab-pane fade"
+          id="vert-tabs-messages"
+          role="tabpanel"
+          aria-labelledby="vert-tabs-messages-tab"
+        >
+          <div class="d-flex justify-content-center">
+            <a
+              class="btn btn-primary col-6"
+              href="/admin/setting/edit-password"
+            >
+              Đổi Mật Khẩu
+            </a>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<script>
+  const tagAs = document.querySelectorAll(".nav-link[href^='#vert-tabs-']");
+
+  tagAs.forEach((tag) => {
+    tag.onclick = (e) => {
+      e.preventDefault();
+      const id = e.target.getAttribute("href");
+      localStorage.setItem("vert-tabs", id);
+    };
+  });
+  window.onload = () => {
+    const idVert = localStorage.getItem("vert-tabs");
+    const tagA = document.querySelector(`.nav-link[href='${idVert}']`);
+    tagAs.forEach((tag) => tag.classList.remove("active"));
+    tagA.click();
+  };
+</script>

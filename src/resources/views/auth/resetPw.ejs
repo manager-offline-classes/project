@@ -1,0 +1,28 @@
+<%- msgErr.length ? `
+<p class="alert alert-danger">${msgErr}</p>
+` : ""%>
+
+<p class="login-box-msg">Nhập mật khẩu</p>
+
+<form action="" method="post">
+  <div class="mb-3">
+    <input
+      type="password"
+      name="password"
+      class="form-control"
+      placeholder="Nhập mật khẩu ..."
+    />
+  </div>
+
+  <div class="mb-3">
+    <input
+      type="password"
+      name="rePassword"
+      class="form-control"
+      placeholder="Nhập lại mật khẩu ..."
+    />
+  </div>
+  <div class="d-grid">
+    <button type="submit" class="btn btn-primary">Đổi mật khẩu</button>
+  </div>
+</form>

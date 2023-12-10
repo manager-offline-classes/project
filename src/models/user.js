@@ -17,6 +17,7 @@ module.exports = (sequelize, DataTypes) => {
       });
       User.hasMany(models.UserSocial, {
         foreignKey: "userId",
+        // onDelete: "CASCADE",
       });
       User.belongsToMany(models.Role, {
         through: "UserRoles",
