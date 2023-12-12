@@ -1,15 +1,7 @@
-<h2 class="text-center font-weight-bold mb-3">Danh sách người dùng</h2>
+<h2 class="text-center font-weight-bold mb-3">Danh sách <%= type.name %></h2>
 
-
-<form action="" class="mb-2"> 
-  <div class="row d-flex justify-content-center mb-3 ">
-    <div class="col-3 row">
-      <select name="status" class="form-select border border-dark">
-        <option value="all">Tất cả các trạng thái</option>
-        <option value="active" <%= req.query.status === 'active' ? 'selected': ''%>>Kích hoạt</option>
-        <option value="inactive" <%= req.query.status === 'inactive' ? 'selected': ''%>>Chưa kích hoạt</option>
-      </select>
-    </div>
+<form action="" class="mb-2">
+  <div class="row d-flex justify-content-center mb-3">
     <div class="col-7">
       <input
         type="search"
@@ -24,68 +16,73 @@
     </div>
   </div>
 </form>
-  
-  <table class="table table-bordered">
-    <thead>
-      <tr class="">
-        <th>STT</th>
-        <th>Tên</th>
-        <th>Email</th>
-        <th>Số điện thoại</th>
-        <th>Chức vụ</th>
-        <th>Địa chỉ</th>
-        <th>Trạng thái</th>
-        <th>Sửa</th>
-        <th>Xóa</th>
-      </tr>
-    </thead>
-    <tbody>
-      <% userList.forEach((user, index)=>{ %>
-      <tr>
-        <th class="font-weight-normal"><%= index + 1 %></th>
-        <th class="font-weight-normal"><%= user.name %></th>
-        <th class="font-weight-normal"><%= user.email %></th>
-        <th class="font-weight-normal"><%= user.phone %></th>
-        <% if(user.typeId === 1 ){%>
-        <th class="font-weight-normal"><%= messageInfo.STUDENT %></th>
-        <% } else if (user.typeId === 2){%>
-        <th class="font-weight-normal"><%= messageInfo.TEACHER %></th>
-        <% } else if(user.typeId === 3){ %>
-        <th class="font-weight-normal"><%= messageInfo.ADMIN %></th>
-        <% } %>
-  
-        <th class="font-weight-normal"><%= user.address %></th>
-        <th class="font-weight-normal">
-          <%= user.firstLogin === 0 ? "Chưa kích hoạt": "Đã kích hoạt" %>
+
+<table class="table table-bordered">
+  <thead>
+    <tr class="">
+      <th>STT</th>
+      <th>Tên</th>
+      <th>Email</th>
+      <th>Số điện thoại</th>
+      <th>Địa chỉ</th>
+      <th>Sửa</th>
+      <th>Xóa</th>
+    </tr>
+  </thead>
+  <tbody>
+    <% userList.forEach((user, index)=>{ offset = ++offset %>
+    <tr>
+      <th class="font-weight-normal"><%= offset %></th>
+      <th class="font-weight-normal"><%= user.name %></th>
+      <th class="font-weight-normal"><%= user.email %></th>
+      <th class="font-weight-normal"><%= user.phone %></th>
+
+      <th class="font-weight-normal"><%= user.address %></th>
+      <th>
+        <a
+          href="<%= `${redirectPath.USER_UPDATE}${user.id}` %>"
+          class="btn btn-warning bg-warning d-flex justify-content-center align-items-center"
+          >Sửa</a
+        >
+      </th>
+
+      <form
+        action="<%= `${redirectPath.USER_DELETE_ADMIN}${user.id}` %>"
+        method="post"
+      >
+        <th>
+          <button
+            class="btn btn-danger bg-dabtn-danger d-flex justify-content-center align-items-center"
+          >
+            Xóa
+          </button>
         </th>
-        <th ><a href="<%= `${redirectPath.USER_UPDATE_ADMIN}${user.id}` %>" class="btn btn-warning bg-warning d-flex justify-content-center align-items-center">Sửa</a></th>
-        
-        <form action="<%= `${redirectPath.USER_DELETE_ADMIN}${user.id}` %>" method="post">
-          <th><button class="btn btn-danger bg-dabtn-danger d-flex justify-content-center align-items-center">Xóa</button></th>
-          <input type="hidden" name="_method" value="DELETE">
-        </form>  
-      
-      
-      </tr>
-  
-      <% }) %>
-    </tbody>
-  </table>
+        <input type="hidden" name="_method" value="DELETE" />
+      </form>
+    </tr>
+
+    <% }) %>
+  </tbody>
+</table>
 
 <% if(totalPages > 1){ %>
-  <nav class="d-flex justify-content-end">
-    <ul class="pagination">
-      <% if(page >1){ %>
-      <li class="page-item"><a class="page-link" href="?<%= getPaginateUrl(req, page - 1) %>">Trước</a></li>
-        <% } %>
-      <% for(let i=1; i<= totalPages; i++){ %>
-      <li class="page-item <%= +page === +i ? 'active': ''  %>"><a class="page-link" href="?<%= getPaginateUrl(req, i) %>"><%= i %></a></li>
-      <% } %>
-  
-      <% if(page < totalPages){ %>
-      <li class="page-item"><a class="page-link" href="?<%= getPaginateUrl(req, +page + 1) %>">Sau</a></li>
-      <% } %>
-  
-    </ul>
-  </nav>
-  <% } %>
+<nav class="d-flex justify-content-end">
+  <ul class="pagination">
+    <% if(page >1){ %>
+    <li class="page-item">
+      <a class="page-link" href="?<%= getPaginateUrl(req, page - 1) %>"
+        >Trước</a
+      >
+    </li>
+    <% } %> <% for(let i=1; i<= totalPages; i++){ %>
+    <li class="page-item <%= +page === +i ? 'active': '' %>">
+      <a class="page-link" href="?<%= getPaginateUrl(req, i) %>"><%= i %></a>
+    </li>
+    <% } %> <% if(page < totalPages){ %>
+    <li class="page-item">
+      <a class="page-link" href="?<%= getPaginateUrl(req, +page + 1) %>">Sau</a>
+    </li>
+    <% } %>
+  </ul>
+</nav>
+<% } %>

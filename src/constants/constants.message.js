@@ -37,7 +37,8 @@ const messageSuccess = {
   SUCCESSFUL_LINK: "Liên kết thành công.",
   UPDATE_SUCCESS: "Cập nhật dữ liệu thành công",
   DELETE_LINK: "Xóa liên kết thành công",
-  CREATE_USER: "Tạo tài khoản thành công",
+  CREATE_USER:
+    "Tạo tài khoản thành công! Đã gửi mật khẩu đến email người dùng.",
   UPDATE_USER: "Sửa tài khoản thành công",
   DELETE_USER: "Xóa tài khoản thành công",
 };

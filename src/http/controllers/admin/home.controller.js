@@ -15,6 +15,7 @@ const validateUtil = require("../../../utils/validate.util");
 const sendMailUtil = require("../../../utils/sendMail.util");
 const generator = require("generate-password");
 const { getPaginateUrl } = require("../../../utils/url.util");
+const redirectUtil = require("../../../utils/redirect.util");
 module.exports = {
   index: async (req, res) => {
     const user = req.user;
@@ -114,14 +115,102 @@ module.exports = {
       res.redirect(redirectPath.SETTINGS_PASSWORD_ADMIN);
     }
   },
-  userList: async (req, res) => {
+  userAdminList: async (req, res) => {
     const { status, keyword } = req.query;
+
+    const person = "Admin";
+    const type = await Type.findOne({
+      where: {
+        name: person,
+      },
+    });
 
     const filters = {
       where: {
-        typeId: {
-          [Op.ne]: 3,
+        typeId: type.id,
+      },
+    };
+    if (status === "active" || status === "inactive") {
+      filters.where.firstLogin = status === "active" ? 1 : 0;
+    }
+    if (keyword) {
+      filters.where[Op.or] = [
+        {
+          name: {
+            [Op.like]: `%${keyword}%`,
+          },
         },
+        {
+          email: {
+            [Op.like]: `%${keyword}%`,
+          },
+        },
+        {
+          phone: {
+            [Op.like]: `%${keyword}%`,
+          },
+        },
+        {
+          address: {
+            [Op.like]: `%${keyword}%`,
+          },
+        },
+      ];
+    }
+    const user = req.user;
+    //  paginate
+    const CountUser = await User.findAndCountAll({
+      where: filters.where,
+    });
+    console.log(CountUser.count);
+    const perPage = +process.env.PER_PAGE;
+    const totalCount = CountUser.count;
+    const totalPages = Math.ceil(totalCount / perPage);
+    let { page } = req.query;
+    if (page < 1 || page > totalPages || !page) {
+      page = 1;
+    }
+    let offset = (page - 1) * perPage;
+
+    console.log(6666);
+    const userList = await User.findAll({
+      where: filters.where,
+      order: [["createdAt"]],
+      offset: offset,
+      limit: perPage,
+    });
+
+    console.log(8888);
+
+    const msgErr = req.flash("error");
+    const msgSuccess = req.flash("success");
+    res.render(renderPath.USER_LIST, {
+      type,
+      user,
+      msgErr,
+      msgSuccess,
+      redirectPath,
+      userList,
+      offset,
+      messageInfo,
+      totalPages,
+      page,
+      getPaginateUrl,
+      req,
+    });
+  },
+  userTeacherList: async (req, res) => {
+    const { status, keyword } = req.query;
+
+    const person = "Giảng viên";
+    const type = await Type.findOne({
+      where: {
+        name: person,
+      },
+    });
+    const filters = {
+      where: {
+        typeId: type.id,
       },
     };
 
@@ -152,18 +241,12 @@ module.exports = {
         },
       ];
     }
-    console.log(123456);
-    console.log(filters);
-    console.log(filters.where);
-
-    console.log(status, keyword);
 
     const user = req.user;
     //  paginate
     const CountUser = await User.findAndCountAll({
       where: filters.where,
     });
-    console.log(CountUser.count);
     const perPage = +process.env.PER_PAGE;
     const totalCount = CountUser.count;
     const totalPages = Math.ceil(totalCount / perPage);
@@ -171,9 +254,8 @@ module.exports = {
     if (page < 1 || page > totalPages || !page) {
       page = 1;
     }
-    const offset = (page - 1) * perPage;
+    let offset = (page - 1) * perPage;
 
-    console.log(6666);
     const userList = await User.findAll({
       where: filters.where,
       order: [["createdAt"]],
@@ -181,16 +263,96 @@ module.exports = {
       limit: perPage,
     });
 
-    console.log(8888);
-
     const msgErr = req.flash("error");
     const msgSuccess = req.flash("success");
-    res.render(renderPath.USER_LIST_ADMIN, {
+    res.render(renderPath.USER_LIST, {
+      type,
       user,
       msgErr,
       msgSuccess,
       redirectPath,
       userList,
+      offset,
+      messageInfo,
+      totalPages,
+      page,
+      getPaginateUrl,
+      req,
+    });
+  },
+  userStudentList: async (req, res) => {
+    const { status, keyword } = req.query;
+    const person = "Học viên";
+    const type = await Type.findOne({
+      where: {
+        name: person,
+      },
+    });
+    const filters = {
+      where: {
+        typeId: type.id,
+      },
+    };
+
+    if (status === "active" || status === "inactive") {
+      filters.where.firstLogin = status === "active" ? 1 : 0;
+    }
+    if (keyword) {
+      filters.where[Op.or] = [
+        {
+          name: {
+            [Op.like]: `%${keyword}%`,
+          },
+        },
+        {
+          email: {
+            [Op.like]: `%${keyword}%`,
+          },
+        },
+        {
+          phone: {
+            [Op.like]: `%${keyword}%`,
+          },
+        },
+        {
+          address: {
+            [Op.like]: `%${keyword}%`,
+          },
+        },
+      ];
+    }
+
+    const user = req.user;
+    //  paginate
+    const CountUser = await User.findAndCountAll({
+      where: filters.where,
+    });
+    const perPage = +process.env.PER_PAGE;
+    const totalCount = CountUser.count;
+    const totalPages = Math.ceil(totalCount / perPage);
+    let { page } = req.query;
+    if (page < 1 || page > totalPages || !page) {
+      page = 1;
+    }
+    let offset = (page - 1) * perPage;
+
+    const userList = await User.findAll({
+      where: filters.where,
+      order: [["createdAt"]],
+      offset: offset,
+      limit: perPage,
+    });
+
+    const msgErr = req.flash("error");
+    const msgSuccess = req.flash("success");
+    res.render(renderPath.USER_LIST, {
+      type,
+      user,
+      msgErr,
+      msgSuccess,
+      redirectPath,
+      userList,
+      offset,
       messageInfo,
       totalPages,
       page,
@@ -203,14 +365,8 @@ module.exports = {
     const msgErr = req.flash("msgErr");
     const errors = req.flash("errors");
     const msgSuccess = req.flash("success");
-    const types = await Type.findAll({
-      where: {
-        name: {
-          [Op.not]: "admin",
-        },
-      },
-    });
-    res.render(renderPath.USER_CREATE_ADMIN, {
+    const types = await Type.findAll();
+    res.render(renderPath.USER_CREATE, {
       user,
       msgErr,
       msgSuccess,
@@ -241,11 +397,11 @@ module.exports = {
       password = hashUtil.make(password);
       await User.create({ name, email, phone, address, typeId, password });
       req.flash("success", messageSuccess.CREATE_USER);
-      return res.redirect(redirectPath.USER_CREATE_ADMIN);
+      return res.redirect(redirectPath.USER_CREATE);
     } else {
       req.flash("msgErr", messageError.ERROR_INFO);
       req.flash("errors", errors.array());
-      res.redirect(redirectPath.USER_CREATE_ADMIN);
+      res.redirect(redirectPath.USER_CREATE);
     }
   },
   userUpdate: async (req, res) => {
@@ -253,21 +409,18 @@ module.exports = {
     const msgErr = req.flash("msgErr");
     const errors = req.flash("errors");
     const msgSuccess = req.flash("success");
-    const types = await Type.findAll({
-      where: {
-        name: {
-          [Op.not]: "admin",
-        },
-      },
-    });
+    const types = await Type.findAll();
     const idUpdate = req.params.id;
     const userUpdate = await User.findByPk(idUpdate);
-    // console.log(userUpdate.Type.name);
-    res.render(renderPath.USER_UPDATE_ADMIN, {
+    console.log(userUpdate);
+    const redirectCancel = redirectUtil.redirectUserList(userUpdate.typeId);
+    console.log(redirectCancel);
+    res.render(renderPath.USER_UPDATE, {
       user,
       msgErr,
       msgSuccess,
       redirectPath,
+      redirectCancel,
       types,
       errors,
       validateUtil,
@@ -281,19 +434,22 @@ module.exports = {
     if (errors.isEmpty()) {
       await User.update(req.body, { where: { id: idUpdate } });
       req.flash("success", messageSuccess.UPDATE_USER);
-      return res.redirect(`${redirectPath.USER_UPDATE_ADMIN}${idUpdate}`);
+      return res.redirect(`${redirectPath.USER_UPDATE}${idUpdate}`);
     } else {
       req.flash("msgErr", messageError.ERROR_INFO);
       req.flash("errors", errors.array());
-      res.redirect(`${redirectPath.USER_UPDATE_ADMIN}${idUpdate}`);
+      res.redirect(`${redirectPath.USER_UPDATE}${idUpdate}`);
     }
   },
   userDelete: async (req, res) => {
     console.log(79799779);
     const idDelete = req.params.id;
+    const userDelete = await User.findByPk(idDelete);
+    const typeIdDelete = userDelete.typeId;
     // await LoginToken.destroy({ where: { userId: idDelete } });
     await User.destroy({ where: { id: idDelete }, cascade: true });
     req.flash("msgSuccess", messageSuccess.DELETE_USER);
-    res.redirect(redirectPath.USER_LIST_ADMIN);
+    const redirectDelete = redirectUtil.redirectUserList(typeIdDelete);
+    res.redirect(redirectDelete);
   },
 };

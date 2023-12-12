@@ -28,10 +28,12 @@ const redirectPath = {
   SETTINGS_ADMIN: "/admin/setting",
   SETTINGS_INFO_ADMIN: "/admin/setting/edit-info",
   SETTINGS_PASSWORD_ADMIN: "/admin/setting/edit-password",
-  USER_LIST_ADMIN: "/admin/user-list",
-  USER_CREATE_ADMIN: "/admin/user-create",
-  USER_UPDATE_ADMIN: "/admin/user-update/",
-  USER_DELETE_ADMIN: "/admin/user-delete/"
+  USER_LIST_ADMIN: "/admin/users-admin-list",
+  USER_LIST_TEACHER: "/admin/users-teacher-list",
+  USER_LIST_STUDENT: "/admin/users-student-list",
+  USER_CREATE: "/admin/users-create",
+  USER_UPDATE: "/admin/users-update/",
+  USER_DELETE_ADMIN: "/admin/users-admin-delete/",
 };
 
 const renderPath = {
@@ -52,9 +54,11 @@ const renderPath = {
   SETTINGS_ADMIN: "admin/settings/index",
   SETTINGS_ADMIN_INFO: "admin/settings/editInfo",
   SETTINGS_ADMIN_PASSWORD: "admin/settings/editPassword",
-  USER_LIST_ADMIN: "admin/users/userList",
-  USER_CREATE_ADMIN: "admin/users/userCreate",
-  USER_UPDATE_ADMIN: "admin/users/userUpdate",
+  USER_CREATE: "admin/users/userCreate",
+  USER_LIST: "admin/users/userList",
+  // USER_LIST_ADMIN: "admin/users/admin/userList",
+  // USER_LIST_STUDENT: "admin/users/student/userList",
+  USER_UPDATE: "admin/users/userUpdate",
 };
 
 module.exports = {
