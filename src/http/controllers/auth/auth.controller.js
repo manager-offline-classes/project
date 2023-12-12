@@ -25,6 +25,8 @@ module.exports = {
   login: async (req, res) => {
     // console.log(`login hihihih`);
     // console.log(req.isAuthenticated());
+    console.log(999999);
+    console.log(464464);
     const msgErr = req.flash("error");
     const msgSuccess = req.flash("msgSuccess");
     return res.render(renderPath.LOGIN_AUTH, {
@@ -220,14 +222,14 @@ module.exports = {
       } else if (req.user.typeId === 3) {
         return res.redirect(redirectPath.HOME_ADMIN);
       }
-    }
-
-    if (req.user.typeId === 1) {
-      return res.redirect(redirectPath.SETTINGS_STUDENT);
-    } else if (req.user.typeId === 2) {
-      return res.redirect(redirectPath.SETTINGS_TEACHER);
-    } else if (req.user.typeId === 3) {
-      return res.redirect(redirectPath.SETTINGS_ADMIN);
+    } else {
+      if (req.user.typeId === 1) {
+        return res.redirect(redirectPath.SETTINGS_STUDENT);
+      } else if (req.user.typeId === 2) {
+        return res.redirect(redirectPath.SETTINGS_TEACHER);
+      } else if (req.user.typeId === 3) {
+        return res.redirect(redirectPath.SETTINGS_ADMIN);
+      }
     }
   },
   disableGoogle: async (req, res) => {

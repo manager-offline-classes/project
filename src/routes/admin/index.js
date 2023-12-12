@@ -8,6 +8,7 @@ const {
   validateChangePassword,
   validateAddUser,
 } = require("../../http/middlewares/validate.middeware");
+const homeController = require("../../http/controllers/admin/home.controller");
 router.use(authMiddleware);
 
 // router.use(adminMiddleware);
@@ -25,15 +26,22 @@ router.post(
   validateChangePassword(),
   HomeController.handleEditPassword
 );
-router.get("/user-list", HomeController.userList);
-router.get("/user-create", HomeController.userCreate);
-router.post("/user-create", validateAddUser(), HomeController.handleUserCreate);
-router.get("/user-update/:id", HomeController.userUpdate);
+// user
+router.get("/users-create", HomeController.userCreate);
 router.post(
-  "/user-update/:id",
+  "/users-create",
+  validateAddUser(),
+  HomeController.handleUserCreate
+);
+router.get("/users-admin-list", HomeController.userAdminList);
+router.get("/users-teacher-list", HomeController.userTeacherList);
+router.get("/users-student-list", homeController.userStudentList);
+router.get("/users-update/:id", HomeController.userUpdate);
+router.post(
+  "/users-update/:id",
   validateAddUser(),
   HomeController.handleUserUpdate
 );
-router.delete("/user-delete/:id", HomeController.userDelete);
+router.delete("/users-admin-delete/:id", HomeController.userDelete);
 
 module.exports = router;
