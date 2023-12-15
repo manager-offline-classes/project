@@ -1,0 +1,103 @@
+<%- msgErr.length ? `
+<p class="alert alert-danger">${msgErr}</p>
+` : ""%> <%- msgSuccess.length ? `
+<p class="alert alert-success">${msgSuccess}</p>
+` : ""%>
+<h2 class="text-center font-weight-bold mb-3">Danh sách khóa học</h2>
+
+<form action="" class="mb-2">
+  <div class="row d-flex justify-content-start mb-3">
+    <div class="col-7">
+      <input
+        type="search"
+        name="keyword"
+        class="form-control"
+        placeholder="Tìm kiếm khóa học hoặc giáo viên ..."
+        value="<%= req.query.keyword %>"
+      />
+    </div>
+    <div class="col-2 row">
+      <button type="submit" class="btn btn-primary">Tìm kiếm</button>
+    </div>
+  </div>
+</form>
+
+<table class="table table-bordered">
+  <thead>
+    <tr class="">
+      <th>STT</th>
+      <th>Tên Khóa Học</th>
+      <th>Giá</th>
+      <th>Giáo Viên</th>
+      <th>Học Thử</th>
+      <th>Số Lượng Học Viên</th>
+      <th>Thời Lượng Học</th>
+      <th>Sửa</th>
+      <th>Xóa</th>
+    </tr>
+  </thead>
+  <tbody>
+    <% courses.forEach((course, index)=>{ %>
+    <tr>
+      <th class="font-weight-normal"><%= index %></th>
+      <th class="font-weight-normal"><%= course.name %></th>
+      <th class="font-weight-normal"><%= course.price %></th>
+      <th class="font-weight-normal"><%= course.User.name %></th>
+
+      <th class="font-weight-normal">
+        <%= course.tryLearn > 0 ? course.tryLearn + " Buổi" : "Không" %>
+      </th>
+      <th class="font-weight-normal"><%= course.quantity %> Học Viên</th>
+      <th class="font-weight-normal"><%= course.duration %> Buổi</th>
+
+      <th>
+        <a
+          href="<%= `${redirectPath.USER_UPDATE}${courses.id}` %>"
+          class="btn btn-warning bg-warning d-flex justify-content-center align-items-center"
+          >Sửa</a
+        >
+      </th>
+
+      <form
+        action="<%= `${redirectPath.USER_DELETE_ADMIN}${courses.id}` %>"
+        method="post"
+      >
+        <th>
+          <button
+            class="btn btn-danger bg-dabtn-danger d-flex justify-content-center align-items-center"
+          >
+            Xóa
+          </button>
+        </th>
+        <input type="hidden" name="_method" value="DELETE" />
+      </form>
+    </tr>
+
+    <% }) %>
+  </tbody>
+</table>
+<% if (paginate.hasPreviousPages || paginate.hasNextPages(pageCount)) { %>
+<nav class="navigation">
+  <ul class="pagination justify-content-center">
+    <% if (paginate.hasPreviousPages) { %>
+    <li class="page-item">
+      <a class="page-link" href="<%= paginate.href(true) %>">
+        <span aria-hidden="true">&laquo;</span>
+        <span class="sr-only">Trước</span>
+      </a>
+    </li>
+    <% } %> <% if (pages) { %> <% pages.forEach(page => { %>
+    <li class="page-item <% if (page.isActive) { %>active<% } %>">
+      <a class="page-link" href="<%= page.url %>"><%= page.number %></a>
+    </li>
+    <% }) %> <% } %> <% if (paginate.hasNextPages(pageCount)) { %>
+    <li class="page-item">
+      <a class="page-link" href="<%= paginate.href() %>">
+        <span aria-hidden="true">&raquo;</span>
+        <span class="sr-only">Sau</span>
+      </a>
+    </li>
+    <% } %>
+  </ul>
+</nav>
+<% } %>

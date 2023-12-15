@@ -1,5 +1,11 @@
 const { Op } = require("sequelize");
-const { UserSocial, User, Type, LoginToken } = require("../../../models/index");
+const {
+  UserSocial,
+  User,
+  Type,
+  LoginToken,
+  Course,
+} = require("../../../models/index");
 const {
   messageError,
   messageSuccess,
@@ -16,6 +22,9 @@ const sendMailUtil = require("../../../utils/sendMail.util");
 const generator = require("generate-password");
 const { getPaginateUrl } = require("../../../utils/url.util");
 const redirectUtil = require("../../../utils/redirect.util");
+
+const paginate = require("express-paginate");
+
 module.exports = {
   index: async (req, res) => {
     const user = req.user;
@@ -116,6 +125,7 @@ module.exports = {
     }
   },
   userAdminList: async (req, res) => {
+    const user = req.user;
     const { status, keyword } = req.query;
 
     const person = "Admin";
@@ -128,6 +138,9 @@ module.exports = {
     const filters = {
       where: {
         typeId: type.id,
+        email: {
+          [Op.not]: user.email,
+        },
       },
     };
     if (status === "active" || status === "inactive") {
@@ -157,7 +170,6 @@ module.exports = {
         },
       ];
     }
-    const user = req.user;
     //  paginate
     const CountUser = await User.findAndCountAll({
       where: filters.where,
@@ -171,16 +183,12 @@ module.exports = {
       page = 1;
     }
     let offset = (page - 1) * perPage;
-
-    console.log(6666);
     const userList = await User.findAll({
       where: filters.where,
       order: [["createdAt"]],
       offset: offset,
       limit: perPage,
     });
-
-    console.log(8888);
 
     const msgErr = req.flash("error");
     const msgSuccess = req.flash("success");
@@ -200,6 +208,7 @@ module.exports = {
     });
   },
   userTeacherList: async (req, res) => {
+    const user = req.user;
     const { status, keyword } = req.query;
 
     const person = "Giảng viên";
@@ -211,6 +220,9 @@ module.exports = {
     const filters = {
       where: {
         typeId: type.id,
+        email: {
+          [Op.not]: user.email,
+        },
       },
     };
 
@@ -242,7 +254,6 @@ module.exports = {
       ];
     }
 
-    const user = req.user;
     //  paginate
     const CountUser = await User.findAndCountAll({
       where: filters.where,
@@ -281,6 +292,7 @@ module.exports = {
     });
   },
   userStudentList: async (req, res) => {
+    const user = req.user;
     const { status, keyword } = req.query;
     const person = "Học viên";
     const type = await Type.findOne({
@@ -291,6 +303,9 @@ module.exports = {
     const filters = {
       where: {
         typeId: type.id,
+        email: {
+          [Op.not]: user.email,
+        },
       },
     };
 
@@ -322,7 +337,6 @@ module.exports = {
       ];
     }
 
-    const user = req.user;
     //  paginate
     const CountUser = await User.findAndCountAll({
       where: filters.where,
@@ -442,14 +456,98 @@ module.exports = {
     }
   },
   userDelete: async (req, res) => {
-    console.log(79799779);
+    const user = req.user;
     const idDelete = req.params.id;
     const userDelete = await User.findByPk(idDelete);
     const typeIdDelete = userDelete.typeId;
+    if (userDelete.email === user.email) {
+      res.json({
+        message: "Không tự xóa được chính mình",
+      });
+    }
     // await LoginToken.destroy({ where: { userId: idDelete } });
     await User.destroy({ where: { id: idDelete }, cascade: true });
-    req.flash("msgSuccess", messageSuccess.DELETE_USER);
+    req.flash("success", messageSuccess.DELETE_USER);
     const redirectDelete = redirectUtil.redirectUserList(typeIdDelete);
     res.redirect(redirectDelete);
   },
+
+  // Course
+  courseList: async (req, res) => {
+    const user = req.user;
+    const msgErr = req.flash("msgErr");
+    const msgSuccess = req.flash("success");
+    const { keyword } = req.query;
+    let filters = {
+      where: {},
+    };
+    console.log(keyword);
+    if (keyword) {
+      filters.where = {
+        [Op.or]: [
+          {
+            name: {
+              [Op.like]: `%${keyword}%`,
+            },
+          },
+          {
+            "$User.name$": {
+              [Op.like]: `%${keyword}%`,
+            },
+          },
+        ],
+      };
+    }
+    console.log(filters);
+    const { count, rows: courses } = await Course.findAndCountAll({
+      include: {
+        model: User,
+      },
+      where: filters.where,
+      limit: req.query.limit,
+      offset: req.skip,
+    });
+
+    const itemCount = count;
+    const pageCount = Math.ceil(itemCount / req.query.limit);
+    const pages = paginate.getArrayPages(req)(3, pageCount, req.query.page);
+
+    console.log(46460);
+    console.log(pages);
+    console.log(itemCount);
+    console.log(req.query.limit);
+    console.log(req.query.page);
+    console.log(pageCount);
+    console.log(paginate.hasPreviousPages);
+    console.log(paginate.hasNextPages(pageCount));
+
+    res.render(renderPath.COURSE_LIST, {
+      user,
+      req,
+      msgErr,
+      msgSuccess,
+      courses,
+      redirectPath,
+      paginate,
+      itemCount,
+      pageCount,
+      pages,
+    });
+  },
+  courseCreate: async (req, res) => {
+    const user = req.user;
+    const msgErr = req.flash("msgErr");
+    const msgSuccess = req.flash("success");
+    const errors = req.flash("errors");
+
+    res.render(renderPath.COURSE_CREATE, {
+      user,
+      msgErr,
+      msgSuccess,
+      errors,
+      validateUtil,
+      redirectPath,
+    });
+  },
+  handleCourseCreate: async (req, res) => {},
 };

@@ -33,6 +33,7 @@ module.exports = {
         references: {
           model: "Courses",
         },
+        onDelete: "CASCADE",
       },
       createdAt: {
         allowNull: false,

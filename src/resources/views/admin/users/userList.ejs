@@ -1,3 +1,8 @@
+<%- msgErr.length ? `
+<p class="alert alert-danger">${msgErr}</p>
+` : ""%> <%- msgSuccess.length ? `
+<p class="alert alert-success">${msgSuccess}</p>
+` : ""%>
 <h2 class="text-center font-weight-bold mb-3">Danh sách <%= type.name %></h2>
 
 <form action="" class="mb-2">
@@ -6,7 +11,7 @@
       <input
         type="search"
         name="keyword"
-        class="form-control border border-dark"
+        class="form-control"
         placeholder="Từ khóa tìm kiếm ..."
         value="<%= req.query.keyword %>"
       />

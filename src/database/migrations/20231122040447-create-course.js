@@ -22,6 +22,7 @@ module.exports = {
           model: "Users",
           key: "id",
         },
+        onDelete: "CASCADE",
       },
       tryLearn: {
         type: Sequelize.INTEGER,

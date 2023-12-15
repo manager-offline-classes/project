@@ -212,6 +212,12 @@ const validateAddUser = () => {
     }),
   ];
 };
+
+const validateAddCourse = () => {
+  body("name", messageError.EMPTY_NAME).notEmpty(),
+    body("name", messageError.LENGTH_NAME).isLength({ max: 200 }),
+    body("price", messageError.EMPTY_PRICE).notEmpty();
+};
 module.exports = {
   validateLoginAccount,
   validateForgetPassword,
@@ -220,4 +226,5 @@ module.exports = {
   validateInfo,
   validateChangePassword,
   validateAddUser,
+  validateAddCourse,
 };

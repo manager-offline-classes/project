@@ -18,6 +18,7 @@ module.exports = {
           model: "CourseModules",
           key: "id",
         },
+        onDelete: "CASCADE",
       },
       createdAt: {
         allowNull: false,

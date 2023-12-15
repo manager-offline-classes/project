@@ -17,7 +17,7 @@ const messageError = {
   LENGTH_EMAIL: "Email không quá 100 ký tự!",
 
   EMPTY_NAME: "Tên bắt buộc phải nhập!",
-  LENGTH_NAME: "Độ dài của tên không quá 50 ký tự",
+  LENGTH_NAME: "Độ dài của tên vượt quá giới hạn!",
 
   LENGTH_PHONE: "Không tồn tại số điện thoại này!",
   DUPLICATE_PHONE: "Số điện thoại đã được sử dụng!",
@@ -26,6 +26,7 @@ const messageError = {
   LENGTH_ADDRESS: "Vượt quá kí tự cho phép!",
   EMTPY_TYPE: "Vui lòng chọn chức vụ!",
 
+  EMPTY_PRICE: "Vui lòng nhập giá tiền",
   //   user
   ACCOUNT_LINKED:
     "Liên kết thất bại! Tài khoản này đã được liên kết với một tài khoản khác.",

@@ -34,6 +34,8 @@ const redirectPath = {
   USER_CREATE: "/admin/users-create",
   USER_UPDATE: "/admin/users-update/",
   USER_DELETE_ADMIN: "/admin/users-admin-delete/",
+  COURSE_LIST: "/admin/course-list",
+  COURSE_CREATE: "/admin/course-create",
 };
 
 const renderPath = {
@@ -59,6 +61,10 @@ const renderPath = {
   // USER_LIST_ADMIN: "admin/users/admin/userList",
   // USER_LIST_STUDENT: "admin/users/student/userList",
   USER_UPDATE: "admin/users/userUpdate",
+
+  // Course
+  COURSE_LIST: "admin/courses/courseList",
+  COURSE_CREATE: "admin/courses/courseCreate",
 };
 
 module.exports = {

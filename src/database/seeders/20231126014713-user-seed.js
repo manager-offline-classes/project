@@ -13,32 +13,39 @@ module.exports = {
      *   isBetaMember: false
      * }], {});
      */
-    return queryInterface.bulkInsert("Users", [
+    let users = [];
+    users.push(
       {
-        name: "nguyen van an",
-        email: "1@gmail.com",
+        name: "Admin",
+        email: "admin@gmail.com",
         password: hash.make("1"),
-        typeId: 1,
-        createdAt: new Date(),
-        updatedAt: new Date(),
-      },
-      {
-        name: "nguyen van ban",
-        email: "2@gmail.com",
-        password: hash.make("2"),
-        typeId: 2,
-        createdAt: new Date(),
-        updatedAt: new Date(),
-      },
-      {
-        name: "nguyen van can",
-        email: "3@gmail.com",
-        password: hash.make("3"),
         typeId: 3,
         createdAt: new Date(),
         updatedAt: new Date(),
       },
-    ]);
+      {
+        name: "nguyen thanh nam",
+        email: "nam2002bv@gmail.com",
+        password: hash.make("1"),
+        typeId: 3,
+        createdAt: new Date(),
+        updatedAt: new Date(),
+      }
+    );
+    for (let i = 0; i < 100; i++) {
+      let user = {
+        name: `nguyen van ${i}`,
+        email: `nguyenvan${i}@gmail.com`,
+        password: hash.make(`${i}`),
+        phone: `09${Math.floor(Math.random() * 90000000 + 10000000)}`,
+        typeId: Math.ceil(Math.random() * 3),
+        createdAt: new Date(),
+        updatedAt: new Date(),
+      };
+      users.push(user);
+    }
+
+    return queryInterface.bulkInsert("Users", users);
   },
 
   async down(queryInterface, Sequelize) {

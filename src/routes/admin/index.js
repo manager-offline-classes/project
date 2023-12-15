@@ -9,6 +9,7 @@ const {
   validateAddUser,
 } = require("../../http/middlewares/validate.middeware");
 const homeController = require("../../http/controllers/admin/home.controller");
+const paginate = require("express-paginate");
 router.use(authMiddleware);
 
 // router.use(adminMiddleware);
@@ -26,7 +27,7 @@ router.post(
   validateChangePassword(),
   HomeController.handleEditPassword
 );
-// user
+// users
 router.get("/users-create", HomeController.userCreate);
 router.post(
   "/users-create",
@@ -43,5 +44,13 @@ router.post(
   HomeController.handleUserUpdate
 );
 router.delete("/users-admin-delete/:id", HomeController.userDelete);
+// courses
+router.get(
+  "/course-list",
+  paginate.middleware(2, 50),
+  HomeController.courseList
+);
+router.get("/course-create", HomeController.courseCreate);
+router.post("/course-create", HomeController.handleCourseCreate);
 
 module.exports = router;

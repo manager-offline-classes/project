@@ -15,6 +15,7 @@ module.exports = {
           model: "Users",
           key: "id",
         },
+        onDelete: "CASCADE",
       },
       token: {
         type: Sequelize.STRING(100),

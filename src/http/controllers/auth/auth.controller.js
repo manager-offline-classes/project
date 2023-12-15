@@ -23,10 +23,6 @@ const {
 const { validationResult } = require("express-validator");
 module.exports = {
   login: async (req, res) => {
-    // console.log(`login hihihih`);
-    // console.log(req.isAuthenticated());
-    console.log(999999);
-    console.log(464464);
     const msgErr = req.flash("error");
     const msgSuccess = req.flash("msgSuccess");
     return res.render(renderPath.LOGIN_AUTH, {
