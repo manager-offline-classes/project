@@ -214,9 +214,24 @@ const validateAddUser = () => {
 };
 
 const validateAddCourse = () => {
-  body("name", messageError.EMPTY_NAME).notEmpty(),
-    body("name", messageError.LENGTH_NAME).isLength({ max: 200 }),
-    body("price", messageError.EMPTY_PRICE).notEmpty();
+  return [
+    body(
+      ["name", "tryLearn", "price", "quantity", "duration", "teacherId"],
+      messageError.EMPTY
+    ).notEmpty(),
+    body("name", messageError.LENGTH).isLength({ max: 200 }),
+    body(
+      ["tryLearn", "price", "quantity", "duration", "teacherId"],
+      messageError.LENGTH
+    ).isLength({ max: 11 }),
+    body(["tryLearn", "price", "quantity", "duration"]).custom(
+      async (value) => {
+        if (value < 0) {
+          throw new Error(messageError.LENGTH);
+        }
+      }
+    ),
+  ];
 };
 module.exports = {
   validateLoginAccount,

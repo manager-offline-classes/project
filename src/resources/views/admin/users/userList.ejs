@@ -22,7 +22,7 @@
   </div>
 </form>
 
-<table class="table table-bordered">
+<table class="table table-bordered mb-3">
   <thead>
     <tr class="">
       <th>STT</th>
@@ -69,6 +69,15 @@
     <% }) %>
   </tbody>
 </table>
+
+<div class="d-flex justify-content-start">
+  <a
+    href="<%= req.query.keyword ? `${redirectPath.USER_EXPORT}?typeId=${type.id}&keyword=${req.query.keyword}`: `${redirectPath.USER_EXPORT}?typeId=${type.id}` %>"
+    class="btn btn-outline-dark"
+  >
+    <i class="fas fa-file-export"></i> Xuất file excel</a
+  >
+</div>
 
 <% if(totalPages > 1){ %>
 <nav class="d-flex justify-content-end">

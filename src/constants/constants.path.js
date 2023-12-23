@@ -29,13 +29,20 @@ const redirectPath = {
   SETTINGS_INFO_ADMIN: "/admin/setting/edit-info",
   SETTINGS_PASSWORD_ADMIN: "/admin/setting/edit-password",
   USER_LIST_ADMIN: "/admin/users-admin-list",
+  USER_EXPORT: "/admin/export-users-excel",
   USER_LIST_TEACHER: "/admin/users-teacher-list",
   USER_LIST_STUDENT: "/admin/users-student-list",
   USER_CREATE: "/admin/users-create",
   USER_UPDATE: "/admin/users-update/",
   USER_DELETE_ADMIN: "/admin/users-admin-delete/",
+  // courses
   COURSE_LIST: "/admin/course-list",
+  COURSES_EXPORT: "/admin/export-courses-excel",
   COURSE_CREATE: "/admin/course-create",
+  COURSE_UPDATE: "/admin/course-update/",
+  COURSE_DELETE: "/admin/course-delete/",
+  // class
+  CLASS_LIST: "/admin/class-list",
 };
 
 const renderPath = {
@@ -65,6 +72,10 @@ const renderPath = {
   // Course
   COURSE_LIST: "admin/courses/courseList",
   COURSE_CREATE: "admin/courses/courseCreate",
+  COURSE_UPDATE: "admin/courses/courseUpdate",
+
+  // class
+  CLASS_LIST: "admin/classes/classList",
 };
 
 module.exports = {

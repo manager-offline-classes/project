@@ -22,7 +22,7 @@
   </div>
 </form>
 
-<table class="table table-bordered">
+<table class="table table-bordered mb-3">
   <thead>
     <tr class="">
       <th>STT</th>
@@ -37,7 +37,7 @@
     </tr>
   </thead>
   <tbody>
-    <% courses.forEach((course, index)=>{ %>
+    <% courseList.forEach((course, index)=>{ %>
     <tr>
       <th class="font-weight-normal"><%= index %></th>
       <th class="font-weight-normal"><%= course.name %></th>
@@ -52,14 +52,14 @@
 
       <th>
         <a
-          href="<%= `${redirectPath.USER_UPDATE}${courses.id}` %>"
+          href="<%= `${redirectPath.COURSE_UPDATE}${course.id}` %>"
           class="btn btn-warning bg-warning d-flex justify-content-center align-items-center"
           >Sửa</a
         >
       </th>
 
       <form
-        action="<%= `${redirectPath.USER_DELETE_ADMIN}${courses.id}` %>"
+        action="<%= `${redirectPath.COURSE_DELETE}${course.id}` %>"
         method="post"
       >
         <th>
@@ -76,26 +76,32 @@
     <% }) %>
   </tbody>
 </table>
-<% if (paginate.hasPreviousPages || paginate.hasNextPages(pageCount)) { %>
-<nav class="navigation">
-  <ul class="pagination justify-content-center">
-    <% if (paginate.hasPreviousPages) { %>
+
+<div class="d-flex justify-content-start">
+  <a
+    href="<%= req.query.keyword ? `${redirectPath.COURSES_EXPORT}?keyword=${req.query.keyword}`: `${redirectPath.COURSES_EXPORT}` %>"
+    class="btn btn-outline-dark"
+  >
+    <i class="fas fa-file-export"></i> Xuất file excel</a
+  >
+</div>
+
+<% if(totalPages > 1){ %>
+<nav class="d-flex justify-content-end">
+  <ul class="pagination">
+    <% if(page >1){ %>
     <li class="page-item">
-      <a class="page-link" href="<%= paginate.href(true) %>">
-        <span aria-hidden="true">&laquo;</span>
-        <span class="sr-only">Trước</span>
-      </a>
+      <a class="page-link" href="?<%= getPaginateUrl(req, page - 1) %>"
+        >Trước</a
+      >
     </li>
-    <% } %> <% if (pages) { %> <% pages.forEach(page => { %>
-    <li class="page-item <% if (page.isActive) { %>active<% } %>">
-      <a class="page-link" href="<%= page.url %>"><%= page.number %></a>
+    <% } %> <% for(let i=1; i<= totalPages; i++){ %>
+    <li class="page-item <%= +page === +i ? 'active': '' %>">
+      <a class="page-link" href="?<%= getPaginateUrl(req, i) %>"><%= i %></a>
     </li>
-    <% }) %> <% } %> <% if (paginate.hasNextPages(pageCount)) { %>
+    <% } %> <% if(page < totalPages){ %>
     <li class="page-item">
-      <a class="page-link" href="<%= paginate.href() %>">
-        <span aria-hidden="true">&raquo;</span>
-        <span class="sr-only">Sau</span>
-      </a>
+      <a class="page-link" href="?<%= getPaginateUrl(req, +page + 1) %>">Sau</a>
     </li>
     <% } %>
   </ul>

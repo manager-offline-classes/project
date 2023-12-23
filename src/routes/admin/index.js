@@ -7,9 +7,9 @@ const {
   validateInfo,
   validateChangePassword,
   validateAddUser,
+  validateAddCourse,
 } = require("../../http/middlewares/validate.middeware");
 const homeController = require("../../http/controllers/admin/home.controller");
-const paginate = require("express-paginate");
 router.use(authMiddleware);
 
 // router.use(adminMiddleware);
@@ -37,20 +37,32 @@ router.post(
 router.get("/users-admin-list", HomeController.userAdminList);
 router.get("/users-teacher-list", HomeController.userTeacherList);
 router.get("/users-student-list", homeController.userStudentList);
+router.get("/export-users-excel", HomeController.exportUsersExcel);
 router.get("/users-update/:id", HomeController.userUpdate);
-router.post(
+router.patch(
   "/users-update/:id",
   validateAddUser(),
   HomeController.handleUserUpdate
 );
 router.delete("/users-admin-delete/:id", HomeController.userDelete);
 // courses
-router.get(
-  "/course-list",
-  paginate.middleware(2, 50),
-  HomeController.courseList
-);
+router.get("/course-list", HomeController.courseList);
+router.get("/export-courses-excel", HomeController.exportCoursesExcel);
 router.get("/course-create", HomeController.courseCreate);
-router.post("/course-create", HomeController.handleCourseCreate);
+router.post(
+  "/course-create",
+  validateAddCourse(),
+  HomeController.handleCourseCreate
+);
+router.get("/course-update/:id", HomeController.courseUpdate);
+router.patch(
+  "/course-update/:id",
+  validateAddCourse(),
+  HomeController.handleCourseUpdate
+);
+router.delete("/course-delete/:id", HomeController.courseDelete);
+
+// class
+router.get("/class-list", HomeController.classList);
 
 module.exports = router;

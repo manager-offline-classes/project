@@ -1,5 +1,6 @@
 const messageError = {
   //auth
+  SERVER_ERROR: "Lỗi server!",
   ERROR_INFO: "Vui lòng nhập lại thông tin",
   NO_USERS: "Không tồn tại tài khoản",
   INVALID_PASSWORD: "Mật khẩu không chính xác",
@@ -27,12 +28,17 @@ const messageError = {
   EMTPY_TYPE: "Vui lòng chọn chức vụ!",
 
   EMPTY_PRICE: "Vui lòng nhập giá tiền",
+  LENGTH_PRICE: "Giá tiền vượt quá giới hạn",
+
+  EMPTY: "Vui lòng nhập trường trên !",
+  LENGTH: "Vượt quá giới hạn cho phép !",
   //   user
   ACCOUNT_LINKED:
     "Liên kết thất bại! Tài khoản này đã được liên kết với một tài khoản khác.",
 };
 const messageSuccess = {
   //auth
+  DELETE: "Xóa thành công!",
   CHANGE_PASSWORD: "Đổi mật khẩu thành công!",
   //   user
   SUCCESSFUL_LINK: "Liên kết thành công.",
@@ -40,6 +46,7 @@ const messageSuccess = {
   DELETE_LINK: "Xóa liên kết thành công",
   CREATE_USER:
     "Tạo tài khoản thành công! Đã gửi mật khẩu đến email người dùng.",
+  CREATE_COURSE: "Thêm khóa học thành công!",
   UPDATE_USER: "Sửa tài khoản thành công",
   DELETE_USER: "Xóa tài khoản thành công",
 };
