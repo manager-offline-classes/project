@@ -23,7 +23,7 @@ module.exports = {
         type: Sequelize.DATE,
       },
       schedule: {
-        type: Sequelize.TINYINT(1),
+        type: Sequelize.STRING(50),
       },
       timeLearn: {
         type: Sequelize.STRING(50),

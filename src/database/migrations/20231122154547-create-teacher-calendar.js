@@ -25,7 +25,10 @@ module.exports = {
         },
         onDelete: "CASCADE",
       },
-      scheduleDate: {
+      scheduleStartDate: {
+        type: Sequelize.DATE,
+      },
+      scheduleEndDate: {
         type: Sequelize.DATE,
       },
       createdAt: {

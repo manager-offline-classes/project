@@ -26,7 +26,8 @@ module.exports = (sequelize, DataTypes) => {
       },
       teacherId: DataTypes.INTEGER,
       classId: DataTypes.INTEGER,
-      scheduleDate: DataTypes.DATE,
+      scheduleStartDate: DataTypes.DATE,
+      scheduleEndDate: DataTypes.DATE,
     },
     {
       sequelize,

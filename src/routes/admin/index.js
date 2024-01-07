@@ -8,6 +8,7 @@ const {
   validateChangePassword,
   validateAddUser,
   validateAddCourse,
+  validateAddClass,
 } = require("../../http/middlewares/validate.middeware");
 const homeController = require("../../http/controllers/admin/home.controller");
 router.use(authMiddleware);
@@ -63,6 +64,12 @@ router.patch(
 router.delete("/course-delete/:id", HomeController.courseDelete);
 
 // class
+router.get("/class-create", HomeController.classCreate);
+router.post(
+  "/class-create",
+  validateAddClass(),
+  HomeController.handleClassCreate
+);
 router.get("/class-list", HomeController.classList);
 
 module.exports = router;

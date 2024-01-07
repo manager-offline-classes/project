@@ -42,6 +42,7 @@ const redirectPath = {
   COURSE_UPDATE: "/admin/course-update/",
   COURSE_DELETE: "/admin/course-delete/",
   // class
+  CLASS_CREATE: "/admin/class-create",
   CLASS_LIST: "/admin/class-list",
 };
 
@@ -75,6 +76,7 @@ const renderPath = {
   COURSE_UPDATE: "admin/courses/courseUpdate",
 
   // class
+  CLASS_CREATE: "admin/classes/classCreate",
   CLASS_LIST: "admin/classes/classList",
 };
 

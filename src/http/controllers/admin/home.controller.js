@@ -6,6 +6,7 @@ const {
   LoginToken,
   Course,
   Class,
+  TeacherCalendar,
 } = require("../../../models/index");
 const {
   messageError,
@@ -20,6 +21,7 @@ const hashUtil = require("../../../utils/hash.util");
 const { validationResult, body } = require("express-validator");
 const validateUtil = require("../../../utils/validate.util");
 const sendMailUtil = require("../../../utils/sendMail.util");
+const adminUtil = require("../../../utils/admin.util");
 const generator = require("generate-password");
 const { getPaginateUrl } = require("../../../utils/url.util");
 const redirectUtil = require("../../../utils/redirect.util");
@@ -27,6 +29,8 @@ const fs = require("fs");
 var excel = require("excel4node");
 const usersServices = require("../../services/admin/users.services");
 const coursesService = require("../../services/admin/courses.services");
+const classesService = require("../../services/admin/classes.services");
+const moment = require("moment");
 module.exports = {
   index: async (req, res) => {
     const user = req.user;
@@ -668,14 +672,12 @@ module.exports = {
     ws.cell(1, 7).string("Thời lượng học").style(style);
     let row = 2;
     courses.forEach((course) => {
-      console.log(course);
       let i = 1;
       ws.cell(row, i).string(`${row - 1}`);
       i++;
       ws.cell(row, i).string(course.name);
       i++;
       ws.cell(row, i).number(course.price);
-      console.log(course.price);
       i++;
       ws.cell(row, i).string(course.User.name);
       i++;
@@ -782,6 +784,73 @@ module.exports = {
   },
 
   // Class
+  classCreate: async (req, res) => {
+    const user = req.user;
+    const msgErr = req.flash("msgErr");
+    const msgSuccess = req.flash("success");
+    const errors = req.flash("errors");
+    const courses = await Course.findAll();
+
+    console.log(courses);
+    res.render(renderPath.CLASS_CREATE, {
+      user,
+      msgErr,
+      msgSuccess,
+      errors,
+      redirectPath,
+      validateUtil,
+      courses,
+    });
+  },
+  handleClassCreate: async (req, res) => {
+    let { courseId, name, startDate, schedule, timeLearn } = req.body;
+    console.log(req.body);
+    const errors = validationResult(req);
+    console.log(errors);
+    if (errors.isEmpty()) {
+      const course = await Course.findByPk(courseId);
+      const dateCount = Math.ceil((course.quantity / schedule.length) * 7);
+      const endDate = moment(startDate).add(dateCount, "days").calendar();
+
+      let classItem = await classesService.createClass(
+        name,
+        0,
+        startDate,
+        endDate,
+        schedule.toString(),
+        timeLearn.toString(),
+        courseId
+      );
+      classItem = await classesService.getClassById(classItem.id, {
+        include: {
+          model: Course,
+        },
+      });
+      const selectedDays = adminUtil.getArrayTimeLearn(
+        schedule,
+        startDate,
+        endDate,
+        timeLearn
+      );
+      console.log(6540658);
+      console.log(selectedDays);
+      for (let i = 0; i < selectedDays.length; i += 2) {
+        await classesService.createTeacherCalendar(
+          classItem.Course.teacherId,
+          classItem.id,
+          selectedDays[i],
+          selectedDays[i + 1]
+        );
+      }
+      req.flash("success", messageSuccess.CREATE_CLASS);
+      res.redirect(redirectPath.CLASS_CREATE);
+    } else {
+      req.flash("errors", errors.array());
+      req.flash("msgErr", messageError.ERROR_INFO);
+      res.redirect(redirectPath.CLASS_CREATE);
+    }
+  },
+
   classList: async (req, res) => {
     const user = req.user;
     const msgErr = req.flash("msgErr");
@@ -798,21 +867,18 @@ module.exports = {
               [Op.like]: `%${keyword}%`,
             },
           },
-          {
-            "$User.name$": {
-              [Op.like]: `%${keyword}%`,
-            },
-          },
         ],
       };
     }
-    const classes = await Class.findAll();
+    const classes = await Class.findAll({ where: filters.where });
     res.render(renderPath.CLASS_LIST, {
       user,
       msgErr,
       msgSuccess,
       redirectPath,
       classes,
+      moment,
+      req,
     });
   },
 };

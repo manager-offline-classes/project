@@ -15,8 +15,8 @@ module.exports = {
 
     return queryInterface.bulkInsert("Classes", [
       {
-        name: "full-stack-k1",
-        classId: 9,
+        name: "full-k1",
+        courseId: 9,
         createdAt: new Date(),
         updatedAt: new Date(),
       },
