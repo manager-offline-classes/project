@@ -14,6 +14,7 @@ module.exports = {
         references: {
           model: "Classes",
         },
+        onDelete: "CASCADE",
       },
       title: {
         type: Sequelize.STRING(200),

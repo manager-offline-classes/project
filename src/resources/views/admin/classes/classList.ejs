@@ -1,0 +1,87 @@
+<%- msgErr.length ? `
+<p class="alert alert-danger">${msgErr}</p>
+` : ""%> <%- msgSuccess.length ? `
+<p class="alert alert-success">${msgSuccess}</p>
+` : ""%>
+<h2 class="text-center font-weight-bold mb-3">Danh sách lớp học</h2>
+
+<form action="" class="mb-2">
+  <div class="row d-flex justify-content-start mb-3">
+    <div class="col-7">
+      <input
+        type="search"
+        name="keyword"
+        class="form-control"
+        placeholder="Tìm kiếm khóa học hoặc giáo viên ..."
+        value="<%= req.query.keyword %>"
+      />
+    </div>
+    <div class="col-2 row">
+      <button type="submit" class="btn btn-primary">Tìm kiếm</button>
+    </div>
+  </div>
+</form>
+<table class="table table-bordered mb-3">
+  <thead>
+    <tr class="">
+      <th>STT</th>
+      <th>Tên lớp học</th>
+      <th>Sĩ số thực tế</th>
+      <th>Ngày khai giảng</th>
+      <th>Ngày bế giảng</th>
+      <th>Lịch học</th>
+      <th>Sửa</th>
+      <th>Xóa</th>
+    </tr>
+  </thead>
+  <tbody>
+    <% classes.forEach((classItem, index)=>{ %>
+    <tr>
+      <th class="font-weight-normal"><%= index %></th>
+      <th class="font-weight-normal"><%= classItem.name %></th>
+      <th class="font-weight-normal"><%= classItem.quantity%></th>
+      <th class="font-weight-normal">
+        <%= moment(classItem.startDate).format("MM/DD/YYYY") %>
+      </th>
+
+      <th class="font-weight-normal">
+        <%= moment(classItem.endDate).format("MM/DD/YYYY") %>
+      </th>
+      <% let scheduleItem = classItem.schedule.split(","); let timeLearnItem =
+      classItem.timeLearn.split(","); const arraySchedule = []; for(let i = 0; i
+      < scheduleItem.length; i++ ) { scheduleItem[i] === `0` ? scheduleItem[i] =
+      "Chủ nhật" : scheduleItem[i] = `Thứ ${+(scheduleItem[i])+1}`
+      arraySchedule.push(`${scheduleItem[i]} - (${timeLearnItem[i * 2]} -
+      ${timeLearnItem[i * 2+1]})`) } %>
+
+      <th class="font-weight-normal">
+        <% arraySchedule.forEach((schedule) => { %> <%= schedule %><br />
+        <% }) %>
+      </th>
+
+      <th>
+        <a
+          href="<%= `${redirectPath.COURSE_UPDATE}${classItem.id}` %>"
+          class="btn btn-warning bg-warning d-flex justify-content-center align-items-center"
+          >Sửa</a
+        >
+      </th>
+
+      <form
+        action="<%= `${redirectPath.COURSE_DELETE}${classItem.id}` %>"
+        method="post"
+      >
+        <th>
+          <button
+            class="btn btn-danger bg-dabtn-danger d-flex justify-content-center align-items-center"
+          >
+            Xóa
+          </button>
+        </th>
+        <input type="hidden" name="_method" value="DELETE" />
+      </form>
+    </tr>
+
+    <% }) %>
+  </tbody>
+</table>

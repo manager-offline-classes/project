@@ -80,7 +80,10 @@ app.use("/admin", adminRouter);
 app.use("/student", studentsRouter);
 app.use("/teacher", teachersRouter);
 app.use("/", (req, res) => {
-  return res.json("Không tồn tại trang");
+  // return res.redirect("/admin");
+  return res.send(
+    "Trang không tồn tại! Vui lòng truy cập http://127.0.0.1:3000/auth/login "
+  );
 });
 // catch 404 and forward to error handler
 app.use(function (req, res, next) {

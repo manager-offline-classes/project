@@ -31,6 +31,7 @@ module.exports = {
           model: "Types",
           key: "id",
         },
+        onDelete: "CASCADE",
       },
       firstLogin: {
         type: Sequelize.TINYINT(1),

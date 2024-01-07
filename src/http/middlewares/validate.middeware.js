@@ -1,8 +1,9 @@
 const { check, body } = require("express-validator");
 const { messageError } = require("../../constants/constants.message");
-const { User, UserOtp } = require("../../models/index");
+const { User, UserOtp, Class } = require("../../models/index");
 const hashUtil = require("../../utils/hash.util");
 const { Op } = require("sequelize");
+const moment = require("moment");
 const validateLoginAccount = () => {
   return [
     check("email", messageError.EMPTY_EMAIL).notEmpty(),
@@ -212,6 +213,76 @@ const validateAddUser = () => {
     }),
   ];
 };
+
+const validateAddCourse = () => {
+  return [
+    body(
+      ["name", "tryLearn", "price", "quantity", "duration", "teacherId"],
+      messageError.EMPTY
+    ).notEmpty(),
+    body("name", messageError.LENGTH).isLength({ max: 200 }),
+    body(
+      ["tryLearn", "price", "quantity", "duration", "teacherId"],
+      messageError.LENGTH
+    ).isLength({ max: 11 }),
+    body(["tryLearn", "price", "quantity", "duration"]).custom(
+      async (value) => {
+        if (value < 0) {
+          throw new Error(messageError.LENGTH);
+        }
+      }
+    ),
+  ];
+};
+const validateAddClass = () => {
+  return [
+    body(
+      ["courseId", "name", "startDate", "schedule", "timeLearn"],
+      messageError.EMPTY
+    ).notEmpty(),
+    body("name", messageError.LENGTH).isLength({ max: 200 }),
+    body("name").custom(async (value) => {
+      classItem = await Class.findOne({
+        where: {
+          name: value,
+        },
+      });
+      if (classItem) {
+        throw new Error(messageError.DUPLICATE_NAME);
+      }
+    }),
+    body("timeLearn").custom(async (value) => {
+      const format = "HH:mm";
+      for (let i = 0; i < value.length - 1; i += 2) {
+        const today = moment().format("YYYY-MM-DD");
+        const timeStart = moment(
+          `${today} ${value[i]}`,
+          `YYYY-MM-DD ${format}`
+        );
+        const timeEnd = moment(
+          `${today} ${value[i + 1]}`,
+          `YYYY-MM-DD ${format}`
+        );
+        if (timeStart.isSameOrAfter(timeEnd)) {
+          throw new Error(messageError.TIME_COMPARE);
+        }
+      }
+    }),
+    body("schedule").custom(async (value, { req }) => {
+      let { startDate } = req.body;
+      console.log(3045640654);
+      console.log(startDate);
+      console.log(value);
+      let currentDate = moment(startDate).startOf("day");
+      console.log(currentDate);
+      const dayOfWeek = currentDate.day().toString();
+      console.log(dayOfWeek);
+      if (!value.includes(dayOfWeek)) {
+        throw new Error(messageError.TIME_SCHEDULE);
+      }
+    }),
+  ];
+};
 module.exports = {
   validateLoginAccount,
   validateForgetPassword,
@@ -220,4 +291,6 @@ module.exports = {
   validateInfo,
   validateChangePassword,
   validateAddUser,
+  validateAddCourse,
+  validateAddClass,
 };

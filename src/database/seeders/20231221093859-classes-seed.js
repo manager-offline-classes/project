@@ -1,5 +1,4 @@
 "use strict";
-const hash = require("../../utils/hash.util");
 
 /** @type {import('sequelize-cli').Migration} */
 module.exports = {
@@ -13,12 +12,11 @@ module.exports = {
      *   isBetaMember: false
      * }], {});
      */
-    return queryInterface.bulkInsert("Users", [
+
+    return queryInterface.bulkInsert("Classes", [
       {
-        name: "nguyen thanh nam",
-        email: "nam2002bv@gmail.com",
-        password: hash.make("1"),
-        typeId: 1,
+        name: "full-k1",
+        courseId: 9,
         createdAt: new Date(),
         updatedAt: new Date(),
       },
@@ -26,13 +24,12 @@ module.exports = {
   },
 
   async down(queryInterface, Sequelize) {
-    return queryInterface.bulkDelete("Users", null, {});
-
     /**
      * Add commands to revert seed here.
      *
      * Example:
      * await queryInterface.bulkDelete('People', null, {});
      */
+    return queryInterface.bulkDelete("Classes", null, {});
   },
 };

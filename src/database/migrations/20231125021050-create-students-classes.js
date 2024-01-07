@@ -15,6 +15,7 @@ module.exports = {
           model: "Users",
           key: "id",
         },
+        onDelete: "CASCADE",
       },
       classId: {
         type: Sequelize.INTEGER,
@@ -22,6 +23,7 @@ module.exports = {
           model: "Classes",
           key: "id",
         },
+        onDelete: "CASCADE",
       },
       statusId: {
         type: Sequelize.INTEGER,
@@ -29,6 +31,7 @@ module.exports = {
           model: "LearningStatuses",
           key: "id",
         },
+        onDelete: "CASCADE",
       },
       completedDate: {
         type: Sequelize.DATE,

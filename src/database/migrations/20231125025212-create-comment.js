@@ -15,6 +15,7 @@ module.exports = {
           model: "Classes",
           key: "id",
         },
+        onDelete: "CASCADE",
       },
       title: {
         type: Sequelize.STRING(200),
@@ -31,6 +32,7 @@ module.exports = {
           model: "Users",
           key: "id",
         },
+        onDelete: "CASCADE",
       },
       attachment: {
         type: Sequelize.STRING(200),

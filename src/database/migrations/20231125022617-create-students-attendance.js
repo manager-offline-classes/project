@@ -21,6 +21,7 @@ module.exports = {
           model: "Users",
           key: "id",
         },
+        onDelete: "CASCADE",
       },
       classId: {
         type: Sequelize.INTEGER,
@@ -28,6 +29,7 @@ module.exports = {
           model: "Classes",
           key: "id",
         },
+        onDelete: "CASCADE",
       },
       status: {
         type: Sequelize.TINYINT(1),

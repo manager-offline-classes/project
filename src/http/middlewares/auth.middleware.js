@@ -1,4 +1,5 @@
 const { LoginToken } = require("../../models/index");
+const { messageError } = require("../../constants/constants.message");
 module.exports = async (req, res, next) => {
   if (!req.user) {
     return res.redirect("/auth/login");
@@ -13,6 +14,7 @@ module.exports = async (req, res, next) => {
       // return;
     } else {
       console.log(4464454);
+      req.flash("error", messageError.ONE_DEVICES);
       req.logout((err) => {
         if (err) {
           next(err);

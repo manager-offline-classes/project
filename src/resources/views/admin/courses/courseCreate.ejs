@@ -1,0 +1,108 @@
+<h2 class="text-center font-weight-bold mb-3">Thêm khóa học</h2>
+
+<%- msgErr.length ? `
+<p class="alert alert-danger">${msgErr}</p>
+` : ""%> <%- msgSuccess.length ? `
+<p class="alert alert-success">${msgSuccess}</p>
+` : ""%>
+
+<form action="" method="post">
+  <div class="form-group row d-flex justify-content-center">
+    <label for="name" class="col-sm-2 col-form-label">Tên khóa học</label>
+    <div class="col-sm-6">
+      <input
+        type="text"
+        name="name"
+        placeholder="Nhập tên khóa học ..."
+        class="form-control"
+        value=""
+      />
+    </div>
+  </div>
+  <span class="text-danger d-flex justify-content-center mb-3"
+    ><%= validateUtil.getError(errors, "name") %></span
+  >
+  <div class="form-group row d-flex justify-content-center">
+    <label for="price" class="col-sm-2 col-form-label">Giá</label>
+    <div class="col-sm-6">
+      <input
+        type="number"
+        name="price"
+        placeholder="Nhập giá ..."
+        class="form-control"
+        value=""
+      />
+    </div>
+  </div>
+  <span class="text-danger d-flex justify-content-center mb-3"
+    ><%= validateUtil.getError(errors, "price") %></span
+  >
+  <div class="form-group row d-flex justify-content-center">
+    <label for="tryLearn" class="col-sm-2 col-form-label">Học thử</label>
+    <div class="col-sm-6">
+      <input
+        type="number"
+        name="tryLearn"
+        placeholder="Nhập số buổi học thử ..."
+        class="form-control"
+        value=""
+      />
+    </div>
+  </div>
+  <span class="text-danger d-flex justify-content-center mb-3"
+    ><%= validateUtil.getError(errors, "tryLearn") %></span
+  >
+
+  <div class="form-group row d-flex justify-content-center">
+    <label for="quantity" class="col-sm-2 col-form-label"
+      >Số lượng học viên</label
+    >
+    <div class="col-sm-6">
+      <input
+        type="number"
+        name="quantity"
+        placeholder="Nhập số lượng học viên ..."
+        class="form-control"
+        value=""
+      />
+    </div>
+  </div>
+  <span class="text-danger d-flex justify-content-center mb-3"
+    ><%= validateUtil.getError(errors, "quantity") %></span
+  >
+
+  <div class="form-group row d-flex justify-content-center">
+    <label for="duration" class="col-sm-2 col-form-label"
+      >Số lượng buổi học</label
+    >
+    <div class="col-sm-6">
+      <input
+        type="number"
+        name="duration"
+        placeholder="Số lượng buổi học ..."
+        class="form-control"
+        value=""
+      />
+    </div>
+  </div>
+  <span class="text-danger d-flex justify-content-center mb-3"
+    ><%= validateUtil.getError(errors, "duration") %></span
+  >
+
+  <div class="form-group row d-flex justify-content-center">
+    <label for="" class="col-sm-2 col-form-label">Giảng viên</label>
+    <select name="teacherId" class="col-sm-6 form-control" id="">
+      <option value="">Chọn Giảng Viên</option>
+      <% teachers.forEach(({id, name}) => { %>
+      <option value="<%= id %>"><%= name %></option>
+      <% }) %>
+    </select>
+  </div>
+  <span class="text-danger d-flex justify-content-center mb-3"
+    ><%= validateUtil.getError(errors, "teacherId") %></span
+  >
+
+  <div class="d-flex justify-content-center">
+    <button class="btn btn-primary" type="submit">Tạo tài khoản</button>
+  </div>
+</form>
