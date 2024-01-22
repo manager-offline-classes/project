@@ -1,11 +1,9 @@
-module.exports = (req, res) => {
-  res.locals.previousUrl = req.baseUrl;
-  console.log(res.locals.previousUrl);
-  //   console.log(989898);
-  //   console.log(`admin middleware`);
-  //   console.log(req.user);
-  //   if (req.user.typeId === 2 || req.user.typeId === 1) {
-  //     return res.redirect("/admin");
-  //   }
-  next();
+module.exports = (req, res, next) => {
+  if (req.user.typeId === 1) {
+    return res.redirect("/student");
+  } else if (req.user.typeId === 2) {
+    return res.redirect("/teacher");
+  } else if (req.user.typeId === 3) {
+    next();
+  }
 };

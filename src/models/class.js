@@ -16,6 +16,10 @@ module.exports = (sequelize, DataTypes) => {
         through: "ClassesTeacher",
         foreignKey: "classId",
       });
+      // Class.belongsToMany(models.User, {
+      //   through: "StudentsClasses",
+      //   foreignKey: "studentId",
+      // });
       Class.hasMany(models.TeacherCalendar, {
         foreignKey: "classId",
       });

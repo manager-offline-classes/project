@@ -35,6 +35,9 @@ const redirectPath = {
   USER_CREATE: "/admin/users-create",
   USER_UPDATE: "/admin/users-update/",
   USER_DELETE_ADMIN: "/admin/users-admin-delete/",
+  TEACHER_CALANDER: "/admin/users-teacher-list/calendar/",
+  TEACHER_CALANDER_ALL: "/admin/users-teacher-list/calendarAll",
+
   // courses
   COURSE_LIST: "/admin/course-list",
   COURSES_EXPORT: "/admin/export-courses-excel",
@@ -44,6 +47,9 @@ const redirectPath = {
   // class
   CLASS_CREATE: "/admin/class-create",
   CLASS_LIST: "/admin/class-list",
+  CLASS_UPDATE: "/admin/class-update/",
+  CLASS_ADD_STUDENT: "/admin/class-add-student/",
+  CLASS_DELETE: "/admin/class-delete/",
 };
 
 const renderPath = {
@@ -66,6 +72,10 @@ const renderPath = {
   SETTINGS_ADMIN_PASSWORD: "admin/settings/editPassword",
   USER_CREATE: "admin/users/userCreate",
   USER_LIST: "admin/users/userList",
+  TEACHER_LIST: "admin/teachers/teacherList",
+  STUDENT_LIST: "admin/students/studentList",
+  TEACHER_LIST_CALENDAR: "admin/teachers/teacherCalendar",
+
   // USER_LIST_ADMIN: "admin/users/admin/userList",
   // USER_LIST_STUDENT: "admin/users/student/userList",
   USER_UPDATE: "admin/users/userUpdate",
@@ -78,6 +88,8 @@ const renderPath = {
   // class
   CLASS_CREATE: "admin/classes/classCreate",
   CLASS_LIST: "admin/classes/classList",
+  CLASS_UPDATE: "admin/classes/classUpdate",
+  CLASS_ADD_STUDENT: "admin/classes/classAddStudent",
 };
 
 module.exports = {

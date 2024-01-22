@@ -5,8 +5,10 @@ const {
   Type,
   LoginToken,
   Course,
+
   Class,
   TeacherCalendar,
+  StudentsClasses,
 } = require("../../../models/index");
 const {
   messageError,
@@ -30,6 +32,7 @@ var excel = require("excel4node");
 const usersServices = require("../../services/admin/users.services");
 const coursesService = require("../../services/admin/courses.services");
 const classesService = require("../../services/admin/classes.services");
+const studentsClassesService = require("../../services/admin/studentsClasses.services");
 const moment = require("moment");
 module.exports = {
   index: async (req, res) => {
@@ -38,10 +41,10 @@ module.exports = {
       where: { userId: user.id },
     });
     const socials = userSocials.map((social) => social.dataValues.provider);
-    console.log(socials);
+    // console.log(socials);
     const msgErr = req.flash("error");
     const msgSuccess = req.flash("success");
-    console.log(msgSuccess);
+    // console.log(msgSuccess);
     return res.render(renderPath.HOME_ADMIN, {
       user,
       socials,
@@ -279,7 +282,7 @@ module.exports = {
 
     const msgErr = req.flash("error");
     const msgSuccess = req.flash("success");
-    res.render(renderPath.USER_LIST, {
+    res.render(renderPath.TEACHER_LIST, {
       type,
       user,
       msgErr,
@@ -294,6 +297,52 @@ module.exports = {
       req,
     });
   },
+  userTeacherCalendarAll: async (req, res) => {
+    const user = req.user;
+    const teacherCalendars = await classesService.getTeacherCalendarAll(
+      User,
+      Class
+    );
+    const calendarArray = [];
+    teacherCalendars.forEach((calendar) => {
+      calendarArray.push({
+        title: `${calendar.User.name}(${calendar.Class.name})`,
+        start: calendar.scheduleStartDate,
+      });
+    });
+
+    res.render(renderPath.TEACHER_LIST_CALENDAR, {
+      user,
+      redirectPath,
+      calendarArray,
+    });
+  },
+
+  userTeacherCalendar: async (req, res) => {
+    const user = req.user;
+    const teacherId = req.params.id;
+    const teacherCalendars = await classesService.getTeacherCalendarByTeacherId(
+      teacherId,
+      Class
+    );
+    const calendarArray = [];
+    teacherCalendars.forEach((calendar) => {
+      console.log(calendar.Class.name);
+      console.log(calendar.scheduleStartDate);
+      calendarArray.push({
+        title: calendar.Class.name,
+        start: calendar.scheduleStartDate,
+      });
+    });
+    console.log(4564654);
+    console.log(calendarArray);
+    res.render(renderPath.TEACHER_LIST_CALENDAR, {
+      user,
+      redirectPath,
+      calendarArray,
+    });
+  },
+
   userStudentList: async (req, res) => {
     const user = req.user;
     const { status, keyword } = req.query;
@@ -358,11 +407,38 @@ module.exports = {
       order: [["createdAt"]],
       offset: offset,
       limit: perPage,
+      include: {
+        model: StudentsClasses,
+      },
     });
+    console.log(4684864);
+    // const classIds = [];
+    // userList.StudentsClasses.forEach((studentclass) => {
+    //   classIds.push(studentclass.classId);
+    // });
+    let classes = [];
+    for (const user of userList) {
+      for (let studentClass of user.StudentsClasses) {
+        let classItem = await Class.findOne({
+          where: { id: studentClass.classId },
+          include: {
+            model: Course,
+          },
+        });
+        console.log(classItem.name);
+        classes.push({
+          id: studentClass.studentId,
+          class: classItem.name,
+          course: classItem.Course.name,
+        });
+        // classes.push(111);
+      }
+    }
+    console.log(classes);
 
     const msgErr = req.flash("error");
     const msgSuccess = req.flash("success");
-    res.render(renderPath.USER_LIST, {
+    res.render(renderPath.STUDENT_LIST, {
       type,
       user,
       msgErr,
@@ -375,6 +451,7 @@ module.exports = {
       page,
       getPaginateUrl,
       req,
+      classes,
     });
   },
   exportUsersExcel: async (req, res) => {
@@ -629,6 +706,7 @@ module.exports = {
       getPaginateUrl,
       totalPages,
       page,
+      offset,
     });
   },
   exportCoursesExcel: async (req, res) => {
@@ -804,9 +882,10 @@ module.exports = {
   },
   handleClassCreate: async (req, res) => {
     let { courseId, name, startDate, schedule, timeLearn } = req.body;
+
     console.log(req.body);
     const errors = validationResult(req);
-    console.log(errors);
+    // console.log(errors);
     if (errors.isEmpty()) {
       const course = await Course.findByPk(courseId);
       const dateCount = Math.ceil((course.quantity / schedule.length) * 7);
@@ -832,8 +911,8 @@ module.exports = {
         endDate,
         timeLearn
       );
-      console.log(6540658);
-      console.log(selectedDays);
+      // console.log(6540658);
+      // console.log(selectedDays);
       for (let i = 0; i < selectedDays.length; i += 2) {
         await classesService.createTeacherCalendar(
           classItem.Course.teacherId,
@@ -870,15 +949,163 @@ module.exports = {
         ],
       };
     }
-    const classes = await Class.findAll({ where: filters.where });
+    const countClass = await classesService.getClassAndCountByCondition(
+      filters.where
+    );
+    const perPage = +process.env.PER_PAGE;
+    const totalCount = countClass.count;
+    const totalPages = Math.ceil(totalCount / perPage);
+    let { page } = req.query;
+    if (page < 1 || page > totalPages || !page) {
+      page = 1;
+    }
+    let offset = (page - 1) * perPage;
+
+    const classList = await Class.findAll({
+      include: {
+        model: Course,
+      },
+      where: filters.where,
+      order: [["createdAt"]],
+      offset: offset,
+      limit: perPage,
+    });
     res.render(renderPath.CLASS_LIST, {
       user,
       msgErr,
       msgSuccess,
       redirectPath,
-      classes,
+      classList,
       moment,
+      offset,
       req,
+      totalPages,
+      page,
+      getPaginateUrl,
     });
+  },
+  classUpdate: async (req, res) => {
+    const user = req.user;
+    const msgErr = req.flash("msgErr");
+    const msgSuccess = req.flash("success");
+    const errors = req.flash("errors");
+    const idUpdate = req.params.id;
+    const classItem = await classesService.getClassById(idUpdate, {});
+    // console.log(classItem);
+    const courses = await coursesService.getCourses();
+    res.render(renderPath.CLASS_UPDATE, {
+      user,
+      msgErr,
+      msgSuccess,
+      errors,
+      redirectPath,
+      classItem,
+      courses,
+      validateUtil,
+      moment,
+    });
+  },
+  handleClassUpdate: async (req, res) => {
+    const classId = req.params.id;
+    let { courseId, name, startDate, schedule, timeLearn } = req.body;
+    console.log(45454);
+    console.log(req.body);
+    const errors = validationResult(req);
+    console.log(errors);
+    if (errors.isEmpty()) {
+      const course = await Course.findByPk(courseId);
+      const dateCount = Math.ceil((course.quantity / schedule.length) * 7);
+      const endDate = moment(startDate).add(dateCount, "days").calendar();
+      let classItem = await classesService.updateClass(
+        {
+          name: name,
+          startDate: startDate,
+          endDate: endDate,
+          schedule: schedule.toString(),
+          timeLearn: timeLearn.toString(),
+          courseId: courseId,
+        },
+        {
+          where: {
+            id: classId,
+          },
+        }
+      );
+
+      req.flash("success", messageSuccess.UPDATE_CLASS);
+      res.redirect(redirectPath.CLASS_LIST);
+    } else {
+      req.flash("errors", errors.array());
+      req.flash("msgErr", messageError.ERROR_INFO);
+      res.redirect(`${redirectPath.CLASS_UPDATE}${classId}`);
+    }
+  },
+  classDelete: async (req, res) => {
+    const idDelete = req.params.id;
+
+    classesService.destroyCLassById(idDelete);
+
+    req.flash("success", messageSuccess.DELETE);
+    res.redirect(redirectPath.CLASS_LIST);
+  },
+  classAddStudent: async (req, res) => {
+    const user = req.user;
+    const msgErr = req.flash("msgErr");
+    const msgSuccess = req.flash("success");
+    const errors = req.flash("errors");
+    const idAddStudent = req.params.id;
+    const classItem = await classesService.getClassById(idAddStudent, {
+      include: {
+        model: StudentsClasses,
+      },
+    });
+    const users = await usersServices.getUsersByCondition({ typeId: 1 });
+    // console.log(6546485);
+    const studentIds = [];
+    classItem.StudentsClasses.forEach((studentClass) => {
+      // console.log(studentClass.studentId);
+      studentIds.push(studentClass.studentId);
+    });
+    // console.log(studentIds);
+
+    res.render(renderPath.CLASS_ADD_STUDENT, {
+      user,
+      msgErr,
+      msgSuccess,
+      errors,
+      redirectPath,
+      req,
+      validateUtil,
+      classItem,
+      users,
+      studentIds,
+    });
+  },
+  hanldeClassAddStudent: async (req, res) => {
+    const classId = req.params.id;
+    const { value } = req.body;
+    const learningStatus = 1;
+    // console.log(classId);
+    await studentsClassesService.deleteStudentsClassesByClassId(classId);
+    for (let i = 0; i < value.length; i++) {
+      await studentsClassesService.createStudentsClasses(
+        value[i],
+        classId,
+        learningStatus,
+        null,
+        null,
+        null
+      );
+    }
+    await classesService.updateClassByCondition(
+      { quantity: value.length },
+      {
+        where: {
+          id: classId,
+        },
+      }
+    );
+    req.flash("success", messageSuccess.CREATE);
+    res.redirect(redirectPath.CLASS_LIST);
   },
 };

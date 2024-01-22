@@ -14,6 +14,11 @@ module.exports = {
       },
       statusId: {
         type: Sequelize.INTEGER,
+        references: {
+          model: "LearningStatuses",
+          key: "id",
+        },
+        onDelete: "CASCADE",
       },
       studentId: {
         type: Sequelize.INTEGER,

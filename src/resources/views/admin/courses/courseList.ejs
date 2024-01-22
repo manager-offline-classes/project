@@ -37,9 +37,9 @@
     </tr>
   </thead>
   <tbody>
-    <% courseList.forEach((course, index)=>{ %>
+    <% courseList.forEach((course, index)=>{ offset = ++offset%>
     <tr>
-      <th class="font-weight-normal"><%= index %></th>
+      <th class="font-weight-normal"><%= offset %></th>
       <th class="font-weight-normal"><%= course.name %></th>
       <th class="font-weight-normal"><%= course.price %></th>
       <th class="font-weight-normal"><%= course.User.name %></th>
@@ -53,7 +53,7 @@
       <th>
         <a
           href="<%= `${redirectPath.COURSE_UPDATE}${course.id}` %>"
-          class="btn btn-warning bg-warning d-flex justify-content-center align-items-center"
+          class="btn btn-warning bg-warning d-flex justify-content-center align-items-center w-100"
           >Sửa</a
         >
       </th>
@@ -64,7 +64,7 @@
       >
         <th>
           <button
-            class="btn btn-danger bg-dabtn-danger d-flex justify-content-center align-items-center"
+            class="btn btn-danger bg-dabtn-danger d-flex justify-content-center align-items-center w-100"
           >
             Xóa
           </button>

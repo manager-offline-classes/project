@@ -4,19 +4,19 @@
 module.exports = {
   async up(queryInterface, Sequelize) {
     /**
-     * Add seed commands here.
+     * Add seed commands here. 
      *
      * Example:
      * await queryInterface.bulkInsert('People', [{
      *   name: 'John Doe',
      *   isBetaMember: false
      * }], {});
-     */
+     */ 
 
-    return queryInterface.bulkInsert("Classes", [
+    return queryInterface.bulkInsert("Classes", [ 
       {
         name: "full-k1",
-        courseId: 9,
+        courseId: 1,
         createdAt: new Date(),
         updatedAt: new Date(),
       },

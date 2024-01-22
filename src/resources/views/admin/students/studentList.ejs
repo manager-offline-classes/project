@@ -1,0 +1,108 @@
+<%- msgErr.length ? `
+<p class="alert alert-danger">${msgErr}</p>
+` : ""%> <%- msgSuccess.length ? `
+<p class="alert alert-success">${msgSuccess}</p>
+` : ""%>
+<h2 class="text-center font-weight-bold mb-3">Danh sách <%= type.name %></h2>
+
+<form action="" class="mb-2">
+  <div class="row d-flex justify-content-center mb-3">
+    <div class="col-7">
+      <input
+        type="search"
+        name="keyword"
+        class="form-control"
+        placeholder="Từ khóa tìm kiếm ..."
+        value="<%= req.query.keyword %>"
+      />
+    </div>
+    <div class="col-2 row">
+      <button type="submit" class="btn btn-primary">Tìm kiếm</button>
+    </div>
+  </div>
+</form>
+
+<table class="table table-bordered mb-3">
+  <thead>
+    <tr class="">
+      <th>STT</th>
+      <th>Tên</th>
+      <th>Email</th>
+      <th>Số điện thoại</th>
+      <th>Địa chỉ</th>
+      <th>Lớp học</th>
+      <th>Sửa</th>
+      <th>Xóa</th>
+    </tr>
+  </thead>
+  <tbody>
+    <% userList.forEach((user, index)=>{ offset = ++offset %>
+    <tr>
+      <th class="font-weight-normal"><%= offset %></th>
+      <th class="font-weight-normal"><%= user.name %></th>
+      <th class="font-weight-normal"><%= user.email %></th>
+      <th class="font-weight-normal"><%= user.phone %></th>
+
+      <th class="font-weight-normal"><%= user.address %></th>
+      <th class="font-weight-normal">
+        <% classes.forEach((classItem)=> { if(classItem.id == user.id){%> <%=
+        `*${classItem.class} (${classItem.course})`%><br />
+        <%} }) %>
+      </th>
+      <th>
+        <a
+          href="<%= `${redirectPath.USER_UPDATE}${user.id}` %>"
+          class="btn btn-warning bg-warning d-flex justify-content-center align-items-center w-100"
+          >Sửa</a
+        >
+      </th>
+
+      <form
+        action="<%= `${redirectPath.USER_DELETE_ADMIN}${user.id}` %>"
+        method="post"
+      >
+        <th>
+          <button
+            class="btn btn-danger bg-dabtn-danger d-flex justify-content-center align-items-center w-100"
+          >
+            Xóa
+          </button>
+        </th>
+        <input type="hidden" name="_method" value="DELETE" />
+      </form>
+    </tr>
+
+    <% }) %>
+  </tbody>
+</table>
+
+<div class="d-flex justify-content-start">
+  <a
+    href="<%= req.query.keyword ? `${redirectPath.USER_EXPORT}?typeId=${type.id}&keyword=${req.query.keyword}`: `${redirectPath.USER_EXPORT}?typeId=${type.id}` %>"
+    class="btn btn-outline-dark"
+  >
+    <i class="fas fa-file-export"></i> Xuất file excel</a
+  >
+</div>
+
+<% if(totalPages > 1){ %>
+<nav class="d-flex justify-content-end">
+  <ul class="pagination">
+    <% if(page >1){ %>
+    <li class="page-item">
+      <a class="page-link" href="?<%= getPaginateUrl(req, page - 1) %>"
+        >Trước</a
+      >
+    </li>
+    <% } %> <% for(let i=1; i<= totalPages; i++){ %>
+    <li class="page-item <%= +page === +i ? 'active': '' %>">
+      <a class="page-link" href="?<%= getPaginateUrl(req, i) %>"><%= i %></a>
+    </li>
+    <% } %> <% if(page < totalPages){ %>
+    <li class="page-item">
+      <a class="page-link" href="?<%= getPaginateUrl(req, +page + 1) %>">Sau</a>
+    </li>
+    <% } %>
+  </ul>
+</nav>
+<% } %>

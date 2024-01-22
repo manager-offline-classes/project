@@ -12,6 +12,9 @@ module.exports = (sequelize, DataTypes) => {
       LearningStatus.hasOne(models.StudentsClasses, {
         foreignKey: "statusId",
       });
+      LearningStatus.hasMany(models.StudentsAttendance, {
+        foreignKey: "statusId",
+      });
     }
   }
   LearningStatus.init(
