@@ -18,4 +18,16 @@ module.exports = {
       throw new Error(messageError.SERVER_ERROR);
     }
   },
+  getCourses: async () => {
+    try {
+      const course = await Course.findAll();
+
+      if (course) {
+        return course;
+      }
+    } catch (err) {
+      console.log(err);
+      throw new Error(messageError.SERVER_ERROR);
+    }
+  },
 };

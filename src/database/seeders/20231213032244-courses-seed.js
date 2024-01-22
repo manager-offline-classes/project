@@ -16,7 +16,7 @@ module.exports = {
       {
         name: "Full-stack",
         price: 15000000,
-        teacherId: 105,
+        teacherId: 103,
         tryLearn: 3,
         quantity: 30,
         duration: 80,
@@ -36,7 +36,7 @@ module.exports = {
       {
         name: "Font-end",
         price: 12000000,
-        teacherId: 105,
+        teacherId: 104,
         tryLearn: 2,
         quantity: 20,
         duration: 35,
@@ -46,7 +46,7 @@ module.exports = {
       {
         name: "PHP",
         price: 11000000,
-        teacherId: 104,
+        teacherId: 107,
         quantity: 20,
 
         duration: 50,

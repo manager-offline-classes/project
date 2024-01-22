@@ -1,0 +1,158 @@
+<a href="<%= redirectPath.CLASS_LIST%>" class="text-dark"><i class="fas fa-2x fa-arrow-alt-circle-left"></i></a>
+<h2 class="text-center font-weight-bold mb-3">Sửa lớp học</h2>
+
+<%- msgErr.length ? `
+<p class="alert alert-danger">${msgErr}</p>
+` : ""%> <%- msgSuccess.length ? `
+<p class="alert alert-success">${msgSuccess}</p>
+` : ""%>
+
+<form action="" method="post">
+  <div class="form-group row d-flex justify-content-center">
+    <label for="" class="col-sm-2 col-form-label">Khóa học</label>
+    <select name="courseId" class="col-sm-6 form-control" id="">
+      <option value="">Chọn khóa học</option>
+      <% courses.forEach(({id, name}) => { %>
+      <option value="<%= id %>" <%= id === classItem.courseId ? "selected": "" %>><%= name %></option>
+      <% }) %>
+    </select>
+  </div>
+  <span class="text-danger d-flex justify-content-center mb-3"
+    ><%= validateUtil.getError(errors, "courseId") %></span
+  >
+
+  <div class="form-group row d-flex justify-content-center">
+    <label for="name" class="col-sm-2 col-form-label">Tên lớp học</label>
+    <div class="col-sm-6">
+      <input
+        type="text"
+        name="name"
+        placeholder="Nhập tên lớp học ..."
+        class="form-control"
+        value="<%= classItem.name %>"
+      />
+    </div>
+  </div>
+  <span class="text-danger d-flex justify-content-center mb-3"
+    ><%= validateUtil.getError(errors, "name") %></span
+  >
+  <div class="form-group row d-flex justify-content-center">
+    <label for="startDate" class="col-sm-2 col-form-label"
+      >Ngày khai giảng</label
+    >
+    <div class="col-sm-6">
+      <input
+        type="date"
+        name="startDate"
+        class="form-control"
+        value="<%= moment(classItem.startDate).format("YYYY-MM-DD")%>"
+      />
+    </div>
+  </div>
+  <span class="text-danger d-flex justify-content-center mb-3"
+    ><%= validateUtil.getError(errors, "startDate") %></span
+  >
+
+  <div class="form-group form-schedule row d-flex justify-content-center">
+    <label for="day" class="col-sm-2 col-form-label">Lịch học</label>
+    <div class="col-sm-6 schedule-container">
+
+      <% let scheduleItems = classItem.schedule.split(","); 
+      let timeLearnItems = classItem.timeLearn.split(","); 
+      for(let k = 0; k < scheduleItems.length; k++){%>
+
+        <div class="schedule-input mb-3">
+          <select name="schedule" class="form-control">
+            <% for(let i = 0; i < 7 ; i++){ %>
+            <option value="<%= i %>" <%= scheduleItems[k] == i ? "selected" : ""%>>
+              <%= i === 0 ? `Chủ nhật` : `Thứ ${i+1}` %>
+            </option>
+            <% } %>
+          </select>
+          <div class="">
+            <input name="timeLearn" type="time" class="" value="<%= timeLearnItems[k*2]%>"/>
+            <i class="fas fa-arrow-circle-right"></i>
+            <input name="timeLearn" type="time" class="" value="<%= timeLearnItems[k*2 + 1]%>"/>
+          </div>
+        </div>
+
+      <% }%>
+      
+      
+      <button
+        id="add-group-button"
+        class="btn btn-outline-secondary btn-rounded"
+      >
+        Thêm lịch
+      </button>
+    </div>
+  </div>
+  <span class="text-danger d-flex justify-content-center mb-3"
+    ><%= validateUtil.getError(errors, "timeLearn") %></span
+  >
+  <span class="text-danger d-flex justify-content-center mb-3"
+    ><%= validateUtil.getError(errors, "schedule") %></span
+  >
+
+  <div class="d-flex justify-content-center">
+    
+    <button class="btn btn-primary" type="submit">Lưu và sửa thông tin lớp học</button>
+    <input type="hidden" name="_method" value="PATCH" />
+  </div>
+</form>
+<script>
+  var addButton = document.getElementById("add-group-button");
+  var formSchedule = document.querySelector(".schedule-container");
+
+  addButton.addEventListener("click", function (event) {
+    event.preventDefault();
+
+    var scheduleInput = document.createElement("div");
+    scheduleInput.classList.add("mb-3");
+    scheduleInput.classList.add("schedule-input");
+
+    var select = document.createElement("select");
+    select.className = "form-control";
+    select.name = "schedule";
+    var options = [];
+    for (let k = 0; k < 7; k++) {
+      console.log(k);
+      k === 0 ? options.push(`Chủ nhật`) : options.push(`Thứ ${k + 1}`);
+    }
+    console.log(options);
+    for (var i = 0; i < options.length; i++) {
+      var option = document.createElement("option");
+      option.value = i;
+      option.innerText = options[i];
+      select.appendChild(option);
+    }
+
+    // colSelect.appendChild(select);
+
+    var colInput = document.createElement("div");
+
+    var input1 = document.createElement("input");
+    input1.type = "time";
+    input1.className = "";
+    input1.name = "timeLearn";
+    var iconArrow = document.createElement("i");
+    iconArrow.classList.add("fas");
+    iconArrow.classList.add("fa-arrow-circle-right");
+
+    iconArrow.style.margin = "0 5px"; // Thêm margin vào biểu tượng mũi tên
+
+    var input2 = document.createElement("input");
+    input2.type = "time";
+    input2.className = "";
+    input2.name = "timeLearn";
+
+    colInput.appendChild(input1);
+    colInput.appendChild(iconArrow);
+    colInput.appendChild(input2);
+
+    scheduleInput.appendChild(select);
+    scheduleInput.appendChild(colInput);
+
+    formSchedule.insertBefore(scheduleInput, addButton);
+  });
+</script>

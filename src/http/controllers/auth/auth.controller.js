@@ -180,6 +180,7 @@ module.exports = {
   handleResetPw: async (req, res) => {
     const token = req.params.token;
     const errors = validationResult(req);
+    const { rePassword } = req.body;
     console.log(errors);
     if (errors.isEmpty()) {
       jwt.verify(token, process.env.JWT_KEY, async function (err, decoded) {

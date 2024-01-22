@@ -44,6 +44,7 @@ const messageError = {
 };
 const messageSuccess = {
   //auth
+  CREATE: "Thêm thành công!",
   DELETE: "Xóa thành công!",
   CHANGE_PASSWORD: "Đổi mật khẩu thành công!",
   //   user
@@ -56,6 +57,7 @@ const messageSuccess = {
   UPDATE_USER: "Sửa tài khoản thành công",
   DELETE_USER: "Xóa tài khoản thành công",
   CREATE_CLASS: "Thêm lớp học thành công!",
+  UPDATE_CLASS: "Cập nhật học thành công!",
 };
 
 const messageInfo = {
