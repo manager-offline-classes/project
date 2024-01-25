@@ -51,10 +51,11 @@ module.exports = {
     }
   },
 
-  getClassAndCountByCondition: async (where) => {
+  getClassAndCountByCondition: async (where, include) => {
     try {
       const classAndCount = await Class.findAndCountAll({
         where: where,
+        include: include,
       });
       if (classAndCount) {
         return classAndCount;

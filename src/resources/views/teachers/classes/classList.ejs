@@ -1,0 +1,91 @@
+<%- msgErr.length ? `
+<p class="alert alert-danger">${msgErr}</p>
+` : ""%> <%- msgSuccess.length ? `
+<p class="alert alert-success">${msgSuccess}</p>
+` : ""%>
+<h2 class="text-center font-weight-bold mb-3">Danh sách lớp học phụ trách</h2>
+
+<form action="" class="mb-2">
+  <div class="row d-flex justify-content-start mb-3">
+    <div class="col-7">
+      <input
+        type="search"
+        name="keyword"
+        class="form-control"
+        placeholder="Tìm kiếm lớp học ..."
+        value="<%= req.query.keyword %>"
+      />
+    </div>
+    <div class="col-2 row">
+      <button type="submit" class="btn btn-primary">Tìm kiếm</button>
+    </div>
+  </div>
+</form>
+<table class="table table-bordered mb-3">
+  <thead>
+    <tr class="">
+      <th>STT</th>
+      <th>Tên lớp học</th>
+      <th>Tên khóa học</th>
+      <th>Sĩ số thực tế</th>
+      <th>Ngày khai giảng</th>
+      <th>Ngày bế giảng</th>
+      <th>Lịch học</th>
+    </tr>
+  </thead>
+  <tbody>
+    <% classList.forEach((classItem, index)=>{ offset = ++offset%>
+    <tr>
+      <th class="font-weight-normal"><%= offset %></th>
+      <th class="font-weight-normal"><%= classItem.name %></th>
+      <th class="font-weight-normal"><%= classItem.Course.name %></th>
+      <th class="font-weight-normal">
+        <a href="<%= `${redirectPath.VIEW_STUDENT_IN_CLASS}${classItem.id}` %>"
+          ><%= classItem.quantity%> học sinh (Xem)</a
+        >
+      </th>
+      <th class="font-weight-normal">
+        <%= moment(classItem.startDate).format("MM/DD/YYYY") %>
+      </th>
+
+      <th class="font-weight-normal">
+        <%= moment(classItem.endDate).format("MM/DD/YYYY") %>
+      </th>
+      <% let scheduleItem = classItem.schedule.split(","); let timeLearnItem =
+      classItem.timeLearn.split(","); const arraySchedule = []; for(let i = 0; i
+      < scheduleItem.length; i++ ) { scheduleItem[i] === `0` ? scheduleItem[i] =
+      "Chủ nhật" : scheduleItem[i] = `Thứ ${+(scheduleItem[i])+1}`
+      arraySchedule.push(`${scheduleItem[i]} - (${timeLearnItem[i * 2]} -
+      ${timeLearnItem[i * 2+1]})`) } %>
+
+      <th class="font-weight-normal">
+        <% arraySchedule.forEach((schedule) => { %> <%= schedule %><br />
+        <% }) %>
+      </th>
+    </tr>
+
+    <% }) %>
+  </tbody>
+</table>
+
+<% if(totalPages > 1){ %>
+<nav class="d-flex justify-content-end">
+  <ul class="pagination">
+    <% if(page >1){ %>
+    <li class="page-item">
+      <a class="page-link" href="?<%= getPaginateUrl(req, page - 1) %>"
+        >Trước</a
+      >
+    </li>
+    <% } %> <% for(let i=1; i<= totalPages; i++){ %>
+    <li class="page-item <%= +page === +i ? 'active': '' %>">
+      <a class="page-link" href="?<%= getPaginateUrl(req, i) %>"><%= i %></a>
+    </li>
+    <% } %> <% if(page < totalPages){ %>
+    <li class="page-item">
+      <a class="page-link" href="?<%= getPaginateUrl(req, +page + 1) %>">Sau</a>
+    </li>
+    <% } %>
+  </ul>
+</nav>
+<% } %>

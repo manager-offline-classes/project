@@ -15,6 +15,7 @@ const studentsRouter = require("./routes/students/index");
 const teachersRouter = require("./routes/teachers/index");
 const authRouter = require("./routes/auth/auth");
 const adminRouter = require("./routes/admin/index");
+const settingsRouter = require("./routes/settings/index");
 
 const localPassport = require("./passport/LocalPassport");
 const googlePassport = require("./passport/google.passport");
@@ -79,6 +80,7 @@ app.use("/auth", authRouter);
 app.use("/admin", adminRouter);
 app.use("/student", studentsRouter);
 app.use("/teacher", teachersRouter);
+app.use("/settings", settingsRouter);
 app.use("/", (req, res) => {
   // return res.redirect("/admin");
   return res.send(

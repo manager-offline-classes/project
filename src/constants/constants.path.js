@@ -23,11 +23,11 @@ const redirectPath = {
   HOME_TEACHER: "/teacher",
   SETTINGS_TEACHER: "/teacher/setting",
 
-  // Admin
   HOME_ADMIN: "/admin",
-  SETTINGS_ADMIN: "/admin/setting",
-  SETTINGS_INFO_ADMIN: "/admin/setting/edit-info",
-  SETTINGS_PASSWORD_ADMIN: "/admin/setting/edit-password",
+  SETTINGS: "/settings",
+  SETTINGS_INFO: "/settings/edit-info",
+  SETTINGS_PASSWORD: "/settings/edit-password",
+  // Admin
   USER_LIST_ADMIN: "/admin/users-admin-list",
   USER_EXPORT: "/admin/export-users-excel",
   USER_LIST_TEACHER: "/admin/users-teacher-list",
@@ -44,12 +44,17 @@ const redirectPath = {
   COURSE_CREATE: "/admin/course-create",
   COURSE_UPDATE: "/admin/course-update/",
   COURSE_DELETE: "/admin/course-delete/",
-  // class
+  // class admin
   CLASS_CREATE: "/admin/class-create",
   CLASS_LIST: "/admin/class-list",
   CLASS_UPDATE: "/admin/class-update/",
   CLASS_ADD_STUDENT: "/admin/class-add-student/",
   CLASS_DELETE: "/admin/class-delete/",
+
+  // teacher
+  TEACHER_CLASS_LIST: "/teacher/class-list",
+  VIEW_STUDENT_IN_CLASS: "/teacher/class-list/view-student/",
+  TEACHER_STUDENT_LIST: "/teacher/student-list",
 };
 
 const renderPath = {
@@ -64,12 +69,12 @@ const renderPath = {
 
   // Teacher
   HOME_TEACHER: "teachers/home/index",
-
+  // SETTINGS
+  SETTINGS_ADMIN: "settings/index",
+  SETTINGS_ADMIN_INFO: "settings/editInfo",
+  SETTINGS_ADMIN_PASSWORD: "settings/editPassword",
   // Admin
   HOME_ADMIN: "admin/home/index",
-  SETTINGS_ADMIN: "admin/settings/index",
-  SETTINGS_ADMIN_INFO: "admin/settings/editInfo",
-  SETTINGS_ADMIN_PASSWORD: "admin/settings/editPassword",
   USER_CREATE: "admin/users/userCreate",
   USER_LIST: "admin/users/userList",
   TEACHER_LIST: "admin/teachers/teacherList",
@@ -85,11 +90,16 @@ const renderPath = {
   COURSE_CREATE: "admin/courses/courseCreate",
   COURSE_UPDATE: "admin/courses/courseUpdate",
 
-  // class
+  // class admin
   CLASS_CREATE: "admin/classes/classCreate",
   CLASS_LIST: "admin/classes/classList",
   CLASS_UPDATE: "admin/classes/classUpdate",
   CLASS_ADD_STUDENT: "admin/classes/classAddStudent",
+
+  // class teacher
+  TEACHER_CLASS_LIST: "teachers/classes/classList",
+  VIEW_STUDENT_IN_CLASS: "teachers/classes/viewStudent",
+  TEACHER_STUDENT_LIST: "teachers/students/index",
 };
 
 module.exports = {
