@@ -53,86 +53,6 @@ module.exports = {
       redirectPath,
     });
   },
-  setting: async (req, res) => {
-    const user = req.user;
-    const userSocials = await UserSocial.findAll({
-      where: { userId: user.id },
-    });
-    const socials = userSocials.map((social) => social.dataValues.provider);
-    const msgErr = req.flash("error");
-    const msgSuccess = req.flash("success");
-    return res.render(renderPath.SETTINGS_ADMIN, {
-      user,
-      socials,
-      msgErr,
-      msgSuccess,
-      redirectPath,
-    });
-  },
-  editInfo: async (req, res) => {
-    const user = req.user;
-    const userSocials = await UserSocial.findAll({
-      where: { userId: user.id },
-    });
-    const socials = userSocials.map((social) => social.dataValues.provider);
-    const msgErr = req.flash("msgErr");
-
-    console.log(msgErr);
-    const msgSuccess = req.flash("success");
-    const errors = req.flash("errors");
-    return res.render(renderPath.SETTINGS_ADMIN_INFO, {
-      user,
-      socials,
-      errors,
-      msgErr,
-      msgSuccess,
-      redirectPath,
-      validateUtil,
-    });
-  },
-  handleEditInfo: async (req, res) => {
-    const { name, email, address, phone } = req.body;
-    console.log(99999999);
-    const errors = validationResult(req);
-    console.log(errors);
-    if (errors.isEmpty()) {
-      const id = req.user.id;
-      await User.update({ name, email, address, phone }, { where: { id } });
-      req.flash("success", messageSuccess.UPDATE_SUCCESS);
-      res.redirect(redirectPath.SETTINGS_ADMIN);
-    } else {
-      req.flash("errors", errors.array());
-      req.flash("msgErr", messageError.ERROR_INFO);
-      res.redirect(redirectPath.SETTINGS_INFO_ADMIN);
-    }
-  },
-  editPassword: async (req, res) => {
-    const user = req.user;
-    const msgErr = req.flash("msgErr");
-    const msgSuccess = req.flash("msgSuccess");
-    res.render(renderPath.SETTINGS_ADMIN_PASSWORD, {
-      redirectPath,
-      user,
-      msgErr,
-      msgSuccess,
-    });
-  },
-  handleEditPassword: async (req, res) => {
-    const user = req.user;
-    const errors = validationResult(req);
-    let { newPassword } = req.body;
-    console.log(errors);
-    if (errors.isEmpty()) {
-      newPassword = hashUtil.make(newPassword);
-      await User.update({ password: newPassword }, { where: { id: user.id } });
-
-      req.flash("msgSuccess", messageSuccess.CHANGE_PASSWORD);
-      return res.redirect(redirectPath.SETTINGS_PASSWORD_ADMIN);
-    } else {
-      req.flash("msgErr", errors.array()[0].msg);
-      res.redirect(redirectPath.SETTINGS_PASSWORD_ADMIN);
-    }
-  },
   userAdminList: async (req, res) => {
     const user = req.user;
     const { keyword } = req.query;
@@ -900,6 +820,8 @@ module.exports = {
         timeLearn.toString(),
         courseId
       );
+      const userItem = await User.findByPk(course.teacherId);
+      await classItem.addUser(userItem);
       classItem = await classesService.getClassById(classItem.id, {
         include: {
           model: Course,
@@ -962,14 +884,20 @@ module.exports = {
     let offset = (page - 1) * perPage;
 
     const classList = await Class.findAll({
-      include: {
-        model: Course,
-      },
+      include: [
+        {
+          model: User,
+        },
+        {
+          model: Course,
+        },
+      ],
       where: filters.where,
       order: [["createdAt"]],
       offset: offset,
       limit: perPage,
     });
+    // console.log(classList[0].Users[0].name);
     res.render(renderPath.CLASS_LIST, {
       user,
       msgErr,
@@ -1059,7 +987,21 @@ module.exports = {
         model: StudentsClasses,
       },
     });
-    const users = await usersServices.getUsersByCondition({ typeId: 1 });
+
+    const { keyword } = req.query;
+    let filters = {
+      where: {
+        typeId: 1,
+      },
+    };
+    if (keyword) {
+      filters.where = {
+        name: {
+          [Op.like]: `%${keyword}%`,
+        },
+      };
+    }
+    const users = await usersServices.getUsersByCondition(filters.where);
     // console.log(6546485);
     const studentIds = [];
     classItem.StudentsClasses.forEach((studentClass) => {

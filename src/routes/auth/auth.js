@@ -51,7 +51,6 @@ router.get(
     failureFlash: true,
     successFlash: true,
   }),
-  // googlePassportMiddleware,
   authController.passportRedirect
 );
 

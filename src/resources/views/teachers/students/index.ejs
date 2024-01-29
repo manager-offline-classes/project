@@ -1,0 +1,26 @@
+<form action="" class="mb-2 mt-2">
+  <div class="row d-flex justify-content-start mb-3">
+    <div class="col-7">
+      <input
+        type="search"
+        name="keyword"
+        class="form-control"
+        placeholder="Tìm kiếm học viên ..."
+        value="<%= req.query.keyword %>"
+      />
+    </div>
+    <div class="col-2 row">
+      <button type="submit" class="btn btn-primary">Tìm kiếm</button>
+    </div>
+  </div>
+</form>
+
+<table class="table table-bordered mb-3">
+  <thead>
+    <tr>
+      <th>STT</th>
+      <th>Tên học sinh</th>
+    </tr>
+  </thead>
+  <tbody></tbody>
+</table>

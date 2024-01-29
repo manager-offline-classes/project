@@ -27,6 +27,7 @@
       <th>STT</th>
       <th>Tên lớp học</th>
       <th>Tên khóa học</th>
+      <th>Tên giáo viên</th>
       <th>Sĩ số thực tế</th>
       <th>Ngày khai giảng</th>
       <th>Ngày bế giảng</th>
@@ -42,10 +43,8 @@
       <th class="font-weight-normal"><%= offset %></th>
       <th class="font-weight-normal"><%= classItem.name %></th>
       <th class="font-weight-normal"><%= classItem.Course.name %></th>
-      <th class="font-weight-normal"><%= classItem.quantity%>
-      
-      
-      </th>
+      <th class="font-weight-normal"><%= classItem.Users[0].name %></th>
+      <th class="font-weight-normal"><%= classItem.quantity%></th>
       <th class="font-weight-normal">
         <%= moment(classItem.startDate).format("MM/DD/YYYY") %>
       </th>
@@ -65,7 +64,11 @@
         <% }) %>
       </th>
       <th class="">
-        <a href="<%= `${redirectPath.CLASS_ADD_STUDENT}${classItem.id}`%>" class="btn btn-primary bg-primary d-flex justify-content-center align-items-center col-auto w-100">Thêm</a>
+        <a
+          href="<%= `${redirectPath.CLASS_ADD_STUDENT}${classItem.id}`%>"
+          class="btn btn-primary bg-primary d-flex justify-content-center align-items-center col-auto w-100"
+          >Thêm</a
+        >
       </th>
       <th>
         <a

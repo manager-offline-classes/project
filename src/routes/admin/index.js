@@ -18,19 +18,19 @@ router.use(authMiddleware);
 router.use(adminMiddleware);
 
 router.get("/", HomeController.index);
-router.get("/setting", HomeController.setting);
-router.get("/setting/edit-info", HomeController.editInfo);
-router.post(
-  "/setting/edit-info",
-  validateInfo(),
-  HomeController.handleEditInfo
-);
-router.get("/setting/edit-password", HomeController.editPassword);
-router.post(
-  "/setting/edit-password",
-  validateChangePassword(),
-  HomeController.handleEditPassword
-);
+// router.get("/setting", HomeController.setting);
+// router.get("/setting/edit-info", HomeController.editInfo);
+// router.post(
+//   "/setting/edit-info",
+//   validateInfo(),
+//   HomeController.handleEditInfo
+// );
+// router.get("/setting/edit-password", HomeController.editPassword);
+// router.post(
+//   "/setting/edit-password",
+//   validateChangePassword(),
+//   HomeController.handleEditPassword
+// );
 // users
 router.get("/users-create", HomeController.userCreate);
 router.post(

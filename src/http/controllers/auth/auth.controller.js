@@ -220,13 +220,7 @@ module.exports = {
         return res.redirect(redirectPath.HOME_ADMIN);
       }
     } else {
-      if (req.user.typeId === 1) {
-        return res.redirect(redirectPath.SETTINGS_STUDENT);
-      } else if (req.user.typeId === 2) {
-        return res.redirect(redirectPath.SETTINGS_TEACHER);
-      } else if (req.user.typeId === 3) {
-        return res.redirect(redirectPath.SETTINGS_ADMIN);
-      }
+      return res.redirect(redirectPath.SETTINGS);
     }
   },
   disableGoogle: async (req, res) => {
@@ -237,7 +231,7 @@ module.exports = {
       },
     });
     req.flash("success", messageSuccess.DELETE_LINK);
-    res.redirect(redirectPath.SETTINGS_ADMIN);
+    res.redirect(redirectPath.SETTINGS);
   },
 
   disableGithub: async (req, res) => {
@@ -248,7 +242,7 @@ module.exports = {
       },
     });
     req.flash("success", messageSuccess.DELETE_LINK);
-    res.redirect(redirectPath.SETTINGS_ADMIN);
+    res.redirect(redirectPath.SETTINGS);
   },
 
   disableFacebook: async (req, res) => {
@@ -259,7 +253,7 @@ module.exports = {
       },
     });
     req.flash("success", messageSuccess.DELETE_LINK);
-    res.redirect(redirectPath.SETTINGS_ADMIN);
+    res.redirect(redirectPath.SETTINGS);
   },
   changeFirstPw: async (req, res) => {
     console.log(`change first password`);

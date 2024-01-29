@@ -9,5 +9,9 @@ const roleMiddeware = require("../../http/middlewares/role.middleware");
 router.use(authMiddleware);
 router.use(teacherMiddleware);
 router.get("/", HomeController.index);
+router.get("/class-list", HomeController.classList);
+router.get("/class-list/view-student/:id", HomeController.viewStudent);
+
+router.get("/student-list", HomeController.studentList);
 
 module.exports = router;

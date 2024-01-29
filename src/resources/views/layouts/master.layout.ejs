@@ -129,8 +129,9 @@
       <!-- /.navbar -->
 
       <!-- Main Sidebar Container -->
-      <%- include('partials/sidebar') %>
-
+      <% if (user.typeId == 3) { %> <%- include('partials/sidebar') %> <% } else
+      if (user.typeId == 2) { %> <%- include('partials/sidebarTeacher') %> <% }
+      else {%> <%- include('partials/sidebarStudent') %> <%}%>
       <!-- Content Wrapper. Contains page content -->
       <div class="content-wrapper">
         <!-- Content Header (Page header) -->
