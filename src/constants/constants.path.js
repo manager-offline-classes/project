@@ -40,6 +40,13 @@ const redirectPath = {
 
   // courses
   COURSE_LIST: "/admin/course-list",
+  DOCUMENT: "/admin/course-list/document/",
+  DOCUMENT_CREATE_CHAPTER: "/admin/course-list/document/create-chapter/",
+  DOCUMENT_UPDATE_CHAPTER: "/admin/course-list/document/update-chapter/",
+  DOCUMENT_DELETE_CHAPTER: "/admin/course-list/document/delete-chapter/",
+  DOCUMENT_CREATE_SECTION: "/admin/course-list/document/create-section/",
+  DOCUMENT_UPDATE_SECTION: "/admin/course-list/document/update-section/",
+  DOCUMENT_DELETE_SECTION: "/admin/course-list/document/delete-section/",
   COURSES_EXPORT: "/admin/export-courses-excel",
   COURSE_CREATE: "/admin/course-create",
   COURSE_UPDATE: "/admin/course-update/",
@@ -87,6 +94,11 @@ const renderPath = {
 
   // Course
   COURSE_LIST: "admin/courses/courseList",
+  COURSE_DOCUMENT: "admin/courses/document",
+  DOCUMENT_CREATE_CHAPTER: "admin/courses/chapterCreate",
+  DOCUMENT_UPDATE_CHAPTER: "admin/courses/chapterUpdate",
+  DOCUMENT_CREATE_SECTION: "admin/courses/sectionCreate",
+  DOCUMENT_UPDATE_SECTION: "admin/courses/sectionUpdate",
   COURSE_CREATE: "admin/courses/courseCreate",
   COURSE_UPDATE: "admin/courses/courseUpdate",
 

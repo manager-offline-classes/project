@@ -32,6 +32,7 @@
       <th>Học Thử</th>
       <th>Số Lượng Học Viên</th>
       <th>Thời Lượng Học</th>
+      <th>Tài liệu</th>
       <th>Sửa</th>
       <th>Xóa</th>
     </tr>
@@ -49,6 +50,13 @@
       </th>
       <th class="font-weight-normal"><%= course.quantity %> Học Viên</th>
       <th class="font-weight-normal"><%= course.duration %> Buổi</th>
+      <th class="font-weight-normal">
+        <a
+          href="<%= `${redirectPath.DOCUMENT}${course.id}` %>"
+          class="btn btn-primary w-100"
+          ><i class="far fa-eye fa-lg ml-2"></i
+        ></a>
+      </th>
 
       <th>
         <a

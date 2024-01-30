@@ -9,12 +9,12 @@ const {
   renderPath,
   redirectPath,
 } = require("../../../constants/constants.path");
-const classesService = require("../../services/admin/classes.services");
+const classesService = require("../../services/classes.services");
 const moment = require("moment");
 
 const { getPaginateUrl } = require("../../../utils/url.util");
 const { Op } = require("sequelize");
-const StudentsClassesService = require("../../services/admin/studentsClasses.services");
+const StudentsClassesService = require("../../services/studentsClasses.services");
 module.exports = {
   index: async (req, res) => {
     const user = req.user;

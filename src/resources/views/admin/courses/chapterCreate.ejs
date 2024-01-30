@@ -1,0 +1,24 @@
+<a href="<%= `${redirectPath.DOCUMENT}${course.id}` %>" class="text-dark"
+  ><i class="fas fa-2x fa-arrow-alt-circle-left"></i
+></a>
+<%- msgErr.length ? `
+<p class="alert alert-danger">${msgErr}</p>
+` : ""%>
+<h2 class="mt-2">Thêm chương cho khóa học: <%= course.name%></h2>
+<form action="" method="post">
+  <div class="form-group row">
+    <label for="name" class="col-sm-12 col-form-label">Tên chương:</label>
+    <div class="col-sm-6">
+      <input
+        type="text"
+        name="name"
+        placeholder="Nhập tên tên chương ..."
+        class="form-control"
+      />
+    </div>
+  </div>
+  <span class="text-danger mb-3"
+    ><%= validateUtil.getError(errors, "name") %> </br></span
+  >
+  <button type="submit" class="btn btn-primary">Tạo</button>
+</form>

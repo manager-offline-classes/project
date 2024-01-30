@@ -9,6 +9,8 @@ const {
   Class,
   TeacherCalendar,
   StudentsClasses,
+  CourseModule,
+  ModuleDocument,
 } = require("../../../models/index");
 const {
   messageError,
@@ -29,10 +31,12 @@ const { getPaginateUrl } = require("../../../utils/url.util");
 const redirectUtil = require("../../../utils/redirect.util");
 const fs = require("fs");
 var excel = require("excel4node");
-const usersServices = require("../../services/admin/users.services");
-const coursesService = require("../../services/admin/courses.services");
-const classesService = require("../../services/admin/classes.services");
-const studentsClassesService = require("../../services/admin/studentsClasses.services");
+const usersServices = require("../../services/users.services");
+const coursesService = require("../../services/courses.services");
+const classesService = require("../../services/classes.services");
+const studentsClassesService = require("../../services/studentsClasses.services");
+const courseModuleService = require("../../services/courseModule.services");
+const moduleDocumentService = require("../../services/moduleDocument.services");
 const moment = require("moment");
 module.exports = {
   index: async (req, res) => {
@@ -629,6 +633,207 @@ module.exports = {
       offset,
     });
   },
+  document: async (req, res) => {
+    const user = req.user;
+    const courseId = req.params.id;
+    const course = await coursesService.getCoursesById(courseId, {
+      model: CourseModule,
+      include: {
+        model: ModuleDocument,
+      },
+    });
+    const msgSuccess = req.flash("success");
+    res.render(renderPath.COURSE_DOCUMENT, {
+      user,
+      redirectPath,
+      msgSuccess,
+      course,
+    });
+  },
+  documentCreateChapter: async (req, res) => {
+    const user = req.user;
+    const msgErr = req.flash("msgErr");
+    const errors = req.flash("errors");
+    const courseId = req.params.id;
+    const course = await coursesService.getCoursesById(courseId);
+    res.render(renderPath.DOCUMENT_CREATE_CHAPTER, {
+      user,
+      redirectPath,
+      msgErr,
+      course,
+      validateUtil,
+      errors,
+    });
+  },
+
+  handleDocumentCreateChapter: async (req, res) => {
+    const errors = validationResult(req);
+    const courseId = req.params.id;
+    if (errors.isEmpty()) {
+      const { name } = req.body;
+      await courseModuleService.createCourseModule(name, courseId);
+      req.flash("success", messageSuccess.CREATE);
+      res.redirect(`${redirectPath.DOCUMENT}${courseId}`);
+    } else {
+      req.flash("msgErr", messageError.ERROR_INFO);
+      req.flash("errors", errors.array());
+      res.redirect(`${redirectPath.DOCUMENT_CREATE_CHAPTER}${courseId}`);
+    }
+  },
+  documentUpdateChapter: async (req, res) => {
+    const user = req.user;
+    const msgErr = req.flash("msgErr");
+    const errors = req.flash("errors");
+    const courseModuleId = req.params.id;
+    const courseModule = await courseModuleService.getByPk(courseModuleId, {
+      model: Course,
+    });
+    res.render(renderPath.DOCUMENT_UPDATE_CHAPTER, {
+      user,
+      redirectPath,
+      msgErr,
+      errors,
+      validateUtil,
+      courseModule,
+    });
+  },
+  handleDocumentUpdateChapter: async (req, res) => {
+    const errors = validationResult(req);
+
+    const courseModuleId = req.params.id;
+    if (errors.isEmpty()) {
+      const { name } = req.body;
+      await courseModuleService.updateById({ name: name }, courseModuleId);
+      const courseModule = await courseModuleService.getByPk(courseModuleId, {
+        model: Course,
+      });
+      req.flash("success", messageSuccess.UPDATE);
+      res.redirect(`${redirectPath.DOCUMENT}${courseModule.Course.id}`);
+    } else {
+      req.flash("msgErr", messageError.ERROR_INFO);
+      req.flash("errors", errors.array());
+      res.redirect(`${redirectPath.DOCUMENT_UPDATE_CHAPTER}${courseModuleId}`);
+    }
+  },
+  documentDeleteChapter: async (req, res) => {
+    const courseModuleId = req.params.id;
+    const courseModule = await courseModuleService.getByPk(courseModuleId, {
+      model: Course,
+    });
+    await courseModuleService.destroyById(courseModuleId);
+    req.flash("success", messageSuccess.DELETE);
+    res.redirect(`${redirectPath.DOCUMENT}${courseModule.Course.id}`);
+  },
+  sectionCreate: async (req, res) => {
+    const user = req.user;
+    const msgErr = req.flash("msgErr");
+
+    const errors = req.flash("errors");
+    const courseModuleId = req.params.courseModuleId;
+    const courseModule = await courseModuleService.getByPk(courseModuleId, {
+      model: Course,
+    });
+    console.log(courseModuleId);
+    res.render(renderPath.DOCUMENT_CREATE_SECTION, {
+      user,
+      redirectPath,
+      msgErr,
+      validateUtil,
+      errors,
+      courseModule,
+    });
+  },
+  handleSectionCreate: async (req, res) => {
+    const errors = validationResult(req);
+    const courseModuleId = req.params.courseModuleId;
+    const courseModule = await courseModuleService.getByPk(courseModuleId, {
+      model: Course,
+    });
+    if (errors.isEmpty()) {
+      const { content, pathName } = req.body;
+      await moduleDocumentService.create(content, pathName, courseModuleId);
+      req.flash("success", messageSuccess.CREATE);
+      res.redirect(`${redirectPath.DOCUMENT}${courseModule.Course.id}`);
+    } else {
+      req.flash("msgErr", messageError.ERROR_INFO);
+      req.flash("errors", errors.array());
+
+      res.redirect(`${redirectPath.DOCUMENT_CREATE_SECTION}${courseModule.id}`);
+    }
+  },
+  sectionUpdate: async (req, res) => {
+    const user = req.user;
+    const msgErr = req.flash("msgErr");
+    const errors = req.flash("errors");
+    const moduleDocumentId = req.params.id;
+    const moduleDocument = await moduleDocumentService.getByPk(
+      moduleDocumentId,
+      {
+        model: CourseModule,
+        include: {
+          model: Course,
+        },
+      }
+    );
+    res.render(renderPath.DOCUMENT_UPDATE_SECTION, {
+      user,
+      redirectPath,
+      msgErr,
+      errors,
+      validateUtil,
+      moduleDocument,
+    });
+  },
+  handleSectionUpdate: async (req, res) => {
+    const errors = validationResult(req);
+    const moduleDocumentId = req.params.id;
+    if (errors.isEmpty()) {
+      const { content, pathName } = req.body;
+      await moduleDocumentService.updateById(
+        { content: content, pathName: pathName },
+        moduleDocumentId
+      );
+      const moduleDocument = await moduleDocumentService.getByPk(
+        moduleDocumentId,
+        {
+          model: CourseModule,
+          include: {
+            model: Course,
+          },
+        }
+      );
+      console.log(90798);
+      console.log(moduleDocument);
+      req.flash("success", messageSuccess.UPDATE);
+      res.redirect(
+        `${redirectPath.DOCUMENT}${moduleDocument.CourseModule.Course.id}`
+      );
+    } else {
+      req.flash("msgErr", messageError.ERROR_INFO);
+      req.flash("errors", errors.array());
+      res.redirect(
+        `${redirectPath.DOCUMENT_UPDATE_SECTION}${moduleDocumentId}`
+      );
+    }
+  },
+  sectionDelete: async (req, res) => {
+    const moduleDocumentId = req.params.id;
+    const moduleDocument = await moduleDocumentService.getByPk(
+      moduleDocumentId,
+      {
+        model: CourseModule,
+        include: {
+          model: Course,
+        },
+      }
+    );
+    await moduleDocumentService.deleteById(moduleDocumentId);
+    req.flash("success", messageSuccess.DELETE);
+    res.redirect(
+      `${redirectPath.DOCUMENT}${moduleDocument.CourseModule.Course.id}`
+    );
+  },
+
   exportCoursesExcel: async (req, res) => {
     const { keyword } = req.query;
     let filters = {

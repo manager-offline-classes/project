@@ -46,6 +46,7 @@ const messageSuccess = {
   //auth
   CREATE: "Thêm thành công!",
   DELETE: "Xóa thành công!",
+  UPDATE: "Cập nhật thành công!",
   CHANGE_PASSWORD: "Đổi mật khẩu thành công!",
   //   user
   SUCCESSFUL_LINK: "Liên kết thành công.",

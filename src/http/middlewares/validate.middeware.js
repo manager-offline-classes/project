@@ -290,16 +290,16 @@ const validateUpdateClass = () => {
       messageError.EMPTY
     ).notEmpty(),
     body("name", messageError.LENGTH).isLength({ max: 200 }),
-    body("name").custom(async (value, {req}) => {
-      const classId = req.params.id
+    body("name").custom(async (value, { req }) => {
+      const classId = req.params.id;
       console.log(6596455);
       console.log(classId);
       classItem = await Class.findOne({
         where: {
           name: value,
-          id:{
-            [Op.not]: classId
-          }
+          id: {
+            [Op.not]: classId,
+          },
         },
       });
       if (classItem) {
@@ -338,6 +338,18 @@ const validateUpdateClass = () => {
     }),
   ];
 };
+const validateCreateChapter = () => {
+  return [
+    body("name", messageError.EMPTY).notEmpty(),
+    body("name", messageError.LENGTH).isLength({ max: 200 }),
+  ];
+};
+const validateCreateSection = () => {
+  return [
+    body(["content", "pathName"], messageError.EMPTY).notEmpty(),
+    body("pathName", messageError.LENGTH).isLength({ max: 200 }),
+  ];
+};
 module.exports = {
   validateLoginAccount,
   validateForgetPassword,
@@ -347,5 +359,8 @@ module.exports = {
   validateChangePassword,
   validateAddUser,
   validateAddCourse,
-  validateAddClass,validateUpdateClass
+  validateAddClass,
+  validateUpdateClass,
+  validateCreateChapter,
+  validateCreateSection,
 };

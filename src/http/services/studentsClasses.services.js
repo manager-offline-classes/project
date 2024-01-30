@@ -1,5 +1,5 @@
-const { StudentsClasses, User, Class } = require("../../../models/index");
-const { messageError } = require("../../../constants/constants.message");
+const { StudentsClasses, User, Class } = require("../../models/index");
+const { messageError } = require("../../constants/constants.message");
 module.exports = {
   getStudentsClassesByClassId: async (classId, include) => {
     try {
