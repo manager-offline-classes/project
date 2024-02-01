@@ -65,6 +65,7 @@ const messageInfo = {
   STUDENT: "Học viên",
   TEACHER: "Giảng viên",
   ADMIN: "Admin",
+  CHECK_DELETE: "Bạn có chắc chắn muốn xóa ?",
   SUBJECT_CREATE_USER: "Cài Đặt Mật Khẩu Cho Tài Khoản của Bạn",
   WAIT_A_MINUTE: "Vui lòng chờ trong giây lát",
   CHECK_EMAIL: "Gửi email thành công! Vui lòng kiểm tra email",

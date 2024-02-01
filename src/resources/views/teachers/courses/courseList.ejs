@@ -1,0 +1,80 @@
+<%- msgSuccess.length ? `
+<p class="alert alert-success">${msgSuccess}</p>
+` : ""%>
+<h2 class="text-center font-weight-bold mb-3">
+  Danh sách khóa học của giáo viên <%= user.name%>
+</h2>
+
+<form action="" class="mb-2">
+  <div class="row d-flex justify-content-start mb-3">
+    <div class="col-7">
+      <input
+        type="search"
+        name="keyword"
+        class="form-control"
+        placeholder="Tìm kiếm khóa học ..."
+        value="<%= req.query.keyword %>"
+      />
+    </div>
+    <div class="col-2 row">
+      <button type="submit" class="btn btn-primary">Tìm kiếm</button>
+    </div>
+  </div>
+</form>
+
+<table class="table table-bordered mb-3">
+  <thead>
+    <tr class="">
+      <th>STT</th>
+      <th>Tên Khóa Học</th>
+      <th>Học Thử</th>
+      <th>Số Lượng Học Viên Tối Đa</th>
+      <th>Thời Lượng Học</th>
+      <th>Tài liệu</th>
+    </tr>
+  </thead>
+  <tbody>
+    <% courseList.forEach((course, index)=>{ offset = ++offset%>
+    <tr>
+      <th class="font-weight-normal"><%= offset %></th>
+      <th class="font-weight-normal"><%= course.name %></th>
+
+      <th class="font-weight-normal">
+        <%= course.tryLearn > 0 ? course.tryLearn + " Buổi" : "Không" %>
+      </th>
+      <th class="font-weight-normal"><%= course.quantity %> Học Viên</th>
+      <th class="font-weight-normal"><%= course.duration %> Buổi</th>
+      <th class="font-weight-normal">
+        <a
+          href="<%= `${redirectPath.TEACHER_DOCUMENT}${course.id}` %>"
+          class="btn btn-primary w-100"
+          ><i class="far fa-eye fa-lg ml-2"></i
+        ></a>
+      </th>
+    </tr>
+
+    <% }) %>
+  </tbody>
+</table>
+
+<% if(totalPages > 1){ %>
+<nav class="d-flex justify-content-end">
+  <ul class="pagination">
+    <% if(page >1){ %>
+    <li class="page-item">
+      <a class="page-link" href="?<%= getPaginateUrl(req, page - 1) %>"
+        >Trước</a
+      >
+    </li>
+    <% } %> <% for(let i=1; i<= totalPages; i++){ %>
+    <li class="page-item <%= +page === +i ? 'active': '' %>">
+      <a class="page-link" href="?<%= getPaginateUrl(req, i) %>"><%= i %></a>
+    </li>
+    <% } %> <% if(page < totalPages){ %>
+    <li class="page-item">
+      <a class="page-link" href="?<%= getPaginateUrl(req, +page + 1) %>">Sau</a>
+    </li>
+    <% } %>
+  </ul>
+</nav>
+<% } %>

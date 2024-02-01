@@ -42,6 +42,12 @@ module.exports = {
       recover: {
         type: Sequelize.DATE,
       },
+      reasonStatus: {
+        type: Sequelize.TEXT,
+      },
+      dateStatus: {
+        type: Sequelize.DATE,
+      },
       createdAt: {
         allowNull: false,
         type: Sequelize.DATE,

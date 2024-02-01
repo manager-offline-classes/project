@@ -4,6 +4,10 @@ const {
   Class,
   Course,
   StudentsClasses,
+  Type,
+  LearningStatus,
+  CourseModule,
+  ModuleDocument,
 } = require("../../../models/index");
 const {
   renderPath,
@@ -14,7 +18,15 @@ const moment = require("moment");
 
 const { getPaginateUrl } = require("../../../utils/url.util");
 const { Op } = require("sequelize");
-const StudentsClassesService = require("../../services/studentsClasses.services");
+const studentsClassesService = require("../../services/studentsClasses.services");
+const userService = require("../../services/users.services");
+const learningStatusService = require("../../services/learningStatus.services");
+const coursesService = require("../../services/courses.services");
+const {
+  messageSuccess,
+  messageInfo,
+  messageError,
+} = require("../../../constants/constants.message");
 module.exports = {
   index: async (req, res) => {
     const user = req.user;
@@ -122,11 +134,11 @@ module.exports = {
       };
     }
     const StudentsClasses =
-      await StudentsClassesService.getStudentsClassesByClassId(classId, {
+      await studentsClassesService.getStudentsClassesByClassId(classId, {
         model: User,
         where: filters.where,
       });
-    console.log(StudentsClasses[0].User.name);
+    // console.log(StudentsClasses[0].User.name);
     res.render(renderPath.VIEW_STUDENT_IN_CLASS, {
       user,
       redirectPath,
@@ -134,17 +146,263 @@ module.exports = {
       req,
     });
   },
+  courseList: async (req, res) => {
+    const user = req.user;
+    const msgSuccess = req.flash("success");
+    const { keyword } = req.query;
+    let filters = {
+      where: {},
+    };
+    if (keyword) {
+      filters.where = {
+        [Op.or]: [
+          {
+            name: {
+              [Op.like]: `%${keyword}%`,
+            },
+          },
+        ],
+      };
+    }
+    console.log(filters.where);
+
+    //  paginate
+    const teacherCount = await userService.getUser(
+      { id: user.id },
+      {
+        model: Course,
+        where: filters.where,
+      }
+    );
+    console.log(12313);
+    console.log(teacherCount);
+    // const countCourse = await Course.findAndCountAll({
+    //   include: {
+    //     model: User,
+    //   },
+    //   where: filters.where,
+    // });
+    const perPage = +process.env.PER_PAGE;
+    const totalCount = teacherCount.Courses.length;
+    console.log(totalCount);
+    const totalPages = Math.ceil(totalCount / perPage);
+    let { page } = req.query;
+    if (page < 1 || page > totalPages || !page) {
+      page = 1;
+    }
+    let offset = (page - 1) * perPage;
+
+    // const courseList = await Course.findAll({
+    //   include: {
+    //     model: User,
+    //   },
+    //   where: filters.where,
+    //   order: [["createdAt"]],
+    //   offset: offset,
+    //   limit: perPage,
+    // });
+
+    const teacher = await userService.getUser(
+      { id: user.id },
+      {
+        model: Course,
+        where: filters.where,
+        order: [["createdAt"]],
+        offset: offset,
+        limit: perPage,
+      }
+    );
+    const courseList = teacher.Courses;
+
+    res.render(renderPath.TEACHER_COURSE_LIST, {
+      user,
+      req,
+      msgSuccess,
+      courseList,
+      redirectPath,
+      getPaginateUrl,
+      totalPages,
+      page,
+      offset,
+    });
+  },
+  document: async (req, res) => {
+    const user = req.user;
+    const courseId = req.params.id;
+    const course = await coursesService.getCoursesById(courseId, {
+      model: CourseModule,
+      include: {
+        model: ModuleDocument,
+      },
+    });
+    console.log(course);
+    const msgSuccess = req.flash("success");
+    res.render(renderPath.TEACHER_COURSE_DOCUMENT, {
+      user,
+      redirectPath,
+      msgSuccess,
+      course,
+      messageInfo,
+    });
+  },
+  documentCreateChapter: async (req, res) => {
+    const user = req.user;
+    const msgErr = req.flash("msgErr");
+    const errors = req.flash("errors");
+    const courseId = req.params.id;
+    const course = await coursesService.getCoursesById(courseId);
+    res.render(renderPath.TEACHER_DOCUMENT_CREATE_CHAPTER, {
+      user,
+      redirectPath,
+      msgErr,
+      course,
+      validateUtil,
+      errors,
+    });
+  },
+  handleDocumentCreateChapter: async (req, res) => {
+    const errors = validationResult(req);
+    const courseId = req.params.id;
+    if (errors.isEmpty()) {
+      const { name } = req.body;
+      await courseModuleService.createCourseModule(name, courseId);
+      req.flash("success", messageSuccess.CREATE);
+      res.redirect(`${redirectPath.ADMIN_DOCUMENT}${courseId}`);
+    } else {
+      req.flash("msgErr", messageError.ERROR_INFO);
+      req.flash("errors", errors.array());
+      res.redirect(`${redirectPath.ADMIN_DOCUMENT_CREATE_CHAPTER}${courseId}`);
+    }
+  },
   studentList: async (req, res) => {
     const user = req.user;
-    const studentsclasses =
-      await StudentsClassesService.getStudentClassesByTeacherId(103);
+    const userId = user.id;
+    const { keyword } = req.query;
+    const filters = keyword
+      ? {
+          where: {
+            id: userId,
+            [Op.or]: [
+              {
+                "$Classes.StudentsClasses.User.name$": {
+                  [Op.like]: `%${keyword}%`,
+                },
+              },
+            ],
+          },
+        }
+      : { where: { id: userId } };
+    const teacher = await userService.getUser(filters.where, {
+      model: Class,
+      include: {
+        model: StudentsClasses,
+        include: [
+          {
+            model: Class,
+            include: {
+              model: Course,
+            },
+          },
+          {
+            model: User,
+          },
+          {
+            model: LearningStatus,
+          },
+        ],
+      },
+    });
+    // const teacher = await userService.getUserById(userId, {
+    //   model: Class,
+    //   include: {
+    //     model: StudentsClasses,
+    //     include: [
+    //       {
+    //         model: Class,
+    //         include: {
+    //           model: Course,
+    //         },
+    //       },
+    //       {
+    //         model: User,
+    //       },
+    //       {
+    //         model: LearningStatus,
+    //       },
+    //     ],
+    //   },
+    // });
     console.log(1);
-    console.log(studentsclasses);
-    console.log(studentsclasses.length);
+    console.log(teacher.Classes);
+    const students = {};
+    teacher.Classes.forEach((classItem) => {
+      classItem.StudentsClasses.forEach((stdcls) => {
+        if (students.hasOwnProperty(stdcls.User.name)) {
+          students[stdcls.User.name].push(stdcls);
+        } else {
+          students[stdcls.User.name] = [stdcls];
+        }
+      });
+    });
+    console.log(students);
+    const msgSuccess = req.flash("success");
     res.render(renderPath.TEACHER_STUDENT_LIST, {
       user,
       redirectPath,
       req,
+      students,
+      msgSuccess,
+      moment,
     });
+  },
+  updateLearningStatus: async (req, res) => {
+    const user = req.user;
+    const msgErr = req.flash("error");
+    const stdClsId = req.params.id;
+    const stdCls = await studentsClassesService.getById(stdClsId, [
+      {
+        model: Class,
+      },
+      {
+        model: User,
+      },
+    ]);
+    const learningStatus = await learningStatusService.getAll();
+
+    res.render(renderPath.TEACHER_LEARNING_STATUS_UPDATE, {
+      user,
+      redirectPath,
+      msgErr,
+      req,
+      learningStatus,
+      stdCls,
+      moment,
+    });
+  },
+  handleUpdateLearningStatus: async (req, res) => {
+    const stdClsId = req.params.id;
+    const user = req.user;
+    const { statusId, reasonStatus, dateStatus } = req.body;
+    if (statusId == 1 || statusId == 2) {
+      await studentsClassesService.updateById(
+        {
+          statusId: statusId,
+          reasonStatus: null,
+          dateStatus: null,
+        },
+        stdClsId
+      );
+    } else {
+      await studentsClassesService.updateById(
+        {
+          statusId: statusId,
+          reasonStatus: reasonStatus,
+          dateStatus: dateStatus,
+        },
+        stdClsId
+      );
+    }
+    req.flash("success", messageSuccess.UPDATE);
+    res.redirect(redirectPath.TEACHER_STUDENT_LIST);
   },
 };

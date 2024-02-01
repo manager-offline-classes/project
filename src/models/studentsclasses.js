@@ -33,6 +33,8 @@ module.exports = (sequelize, DataTypes) => {
       completedDate: DataTypes.DATE,
       dropDate: DataTypes.DATE,
       recover: DataTypes.DATE,
+      reasonStatus: DataTypes.TEXT,
+      dateStatus: DataTypes.DATE,
     },
     {
       sequelize,

@@ -7,7 +7,7 @@
 <div class="mt-2 mb-2">
   <h2>Tài liệu của khóa: <%= course.name %></h2>
   <a
-    href="<%= `${redirectPath.DOCUMENT_CREATE_CHAPTER}${course.id}`%>"
+    href="<%= `${redirectPath.ADMIN_DOCUMENT_CREATE_CHAPTER}${course.id}`%>"
     class="btn btn-primary"
     >Thêm<i class="fas fa-plus fa-lg ml-2"></i
   ></a>
@@ -39,13 +39,13 @@
             <h3 class="mt-1">Chương <%= index+1%>: <%= courseModule.name %></h3>
 
             <a
-              href="<%= `${redirectPath.DOCUMENT_UPDATE_CHAPTER}${courseModule.id}`%>"
+              href="<%= `${redirectPath.ADMIN_DOCUMENT_UPDATE_CHAPTER}${courseModule.id}`%>"
               class="d-flex justify-content-start ml-4"
               ><i class="fas fa-edit" style="color: #ffd43b"></i>
             </a>
             <form
-              action="<%=`${redirectPath.DOCUMENT_DELETE_CHAPTER}${courseModule.id}` %>"
-              onsubmit="return confirm('Bạn có chắc chắn muốn xóa người dùng ?')"
+              action="<%=`${redirectPath.ADMIN_DOCUMENT_DELETE_CHAPTER}${courseModule.id}` %>"
+              onsubmit="return confirm('<%= messageInfo.CHECK_DELETE%>')"
               method="post"
               class="ml-3"
             >
@@ -72,7 +72,7 @@
         class="card-block col-12 border-bottom d-flex justify-content-center"
       >
         <a
-          href="<%= `${redirectPath.DOCUMENT_CREATE_SECTION}${courseModule.id}`%>"
+          href="<%= `${redirectPath.ADMIN_DOCUMENT_CREATE_SECTION}${courseModule.id}`%>"
           class="mb-2 mt-2"
         >
           <i class="fas fa-plus-square fa-lg fa-3x"></i>
@@ -90,13 +90,13 @@
         </div>
         <div class="mt-2 d-flex justify-content-start">
           <a
-            href="<%= `${redirectPath.DOCUMENT_UPDATE_SECTION}${moduleDocument.id}`%>"
+            href="<%= `${redirectPath.ADMIN_DOCUMENT_UPDATE_SECTION}${moduleDocument.id}`%>"
             class="d-flex justify-content-start ml-4 mt-1"
             ><i class="fas fa-edit fa-lg" style="color: #ffd43b"></i>
           </a>
           <form
-            action="<%=`${redirectPath.DOCUMENT_DELETE_SECTION}${moduleDocument.id}` %>"
-            onsubmit="return confirm('Bạn có chắc chắn muốn xóa người dùng ?')"
+            action="<%=`${redirectPath.ADMIN_DOCUMENT_DELETE_SECTION}${moduleDocument.id}` %>"
+            onsubmit="return confirm('<%= messageInfo.CHECK_DELETE%>')"
             method="post"
             class="ml-3"
           >

@@ -1,0 +1,55 @@
+<a href="<%= `${redirectPath.TEACHER_STUDENT_LIST}` %>" class="text-dark"
+  ><i class="fas fa-2x fa-arrow-alt-circle-left"></i
+></a>
+<%- msgErr.length ? `
+<p class="alert alert-danger">${msgErr}</p>
+` : ""%>
+<h2 class="text-center">
+  Cập nhật trạng thái học cho học sinh: <%= stdCls.User.name %> <br />Lớp: <%=
+  stdCls.Class.name %>
+</h2>
+<form action="" method="post">
+  <div class="form-group row justify-content-center">
+    <label for="name" class="col-sm-2 col-form-label">Trạng thái học</label>
+    <div class="col-sm-6">
+      <select name="statusId" id="" class="form-control">
+        <% learningStatus.forEach((element)=> {%>
+        <option value="<%= element.id%>" <%= element.id == stdCls.statusId ? `selected`: "" %>> <%=element.name%> </option>
+        <% }) %>
+      </select>
+    </div>
+  </div>
+
+  <div class="form-group row justify-content-center">
+    <label for="" class="col-sm-2 col-form-label">Lí do (nếu có)</label>
+    <div class="col-sm-6">
+      <textarea
+        name="reasonStatus"
+        id=""
+        cols=""
+        rows="4"
+        placeholder="Nhập lí do thôi học hoặc bảo lưu ..."
+        class="form-control"
+        type="text"
+      ><%= stdCls.reasonStatus%></textarea>
+    </div>
+  </div>
+
+  
+  <div class="form-group row justify-content-center">
+    <label for="" class="col-sm-2 col-form-label">Thời gian thôi học hoặc bảo lưu</label>
+    <div class="col-sm-6">
+        <%let date; if(stdCls.statusId == 1 || stdCls.statusId == 2){
+            date = moment().format("YYYY-MM-DD");
+        } else {
+            date = moment(stdCls.dateStatus).format("YYYY-MM-DD");
+        }%>
+        <input name="dateStatus" type="date" value="<%= date %>" />
+    </div>
+  </div>
+  <div class="d-grid d-flex justify-content-center  ">
+    <button class="btn btn-primary">Cập nhật</button>
+    <input type="hidden" value="PATCH" name="_method">
+  </div>
+
+</form>

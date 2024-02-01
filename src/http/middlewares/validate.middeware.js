@@ -350,6 +350,12 @@ const validateCreateSection = () => {
     body("pathName", messageError.LENGTH).isLength({ max: 200 }),
   ];
 };
+const validateLearningStauts = () => {
+  return [
+    body(["content", "pathName"], messageError.EMPTY).notEmpty(),
+    body("pathName", messageError.LENGTH).isLength({ max: 200 }),
+  ];
+};
 module.exports = {
   validateLoginAccount,
   validateForgetPassword,
@@ -363,4 +369,5 @@ module.exports = {
   validateUpdateClass,
   validateCreateChapter,
   validateCreateSection,
+  validateLearningStauts,
 };

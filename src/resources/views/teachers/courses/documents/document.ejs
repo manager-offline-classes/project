@@ -1,0 +1,114 @@
+<a href="<%= redirectPath.TEACHER_COURSE_LIST %>" class="text-dark"
+  ><i class="fas fa-2x fa-arrow-alt-circle-left"></i
+></a>
+<%- msgSuccess.length ? `
+<p class="alert alert-success">${msgSuccess}</p>
+` : ""%>
+<div class="mt-2 mb-2">
+  <h2>Tài liệu của khóa: <%= course.name %></h2>
+  <a
+    href="<%= `${redirectPath.TEACHER_DOCUMENT_CREATE_CHAPTER}${course.id}`%>"
+    class="btn btn-primary"
+    >Thêm<i class="fas fa-plus fa-lg ml-2"></i
+  ></a>
+</div>
+<div id="accordion" role="tablist" aria-multiselectable="true">
+  <!-- Accordion Item 1 -->
+  <% course.CourseModules.forEach((courseModule, index)=> { %>
+  <div class="card">
+    <div
+      class="card-header"
+      role="tab"
+      id="<%= `accordionHeading${index}` %>"
+      style="background-color: #e4e2e2"
+    >
+      <div class="mb-0 row">
+        <div class="col-12 no-padding accordion-head">
+          <a
+            data-toggle="collapse"
+            data-parent="#accordion"
+            href="<%= `#accordionBody${index}`%>"
+            aria-expanded="false"
+            aria-controls="accordionBodyOne"
+            class="collapsed"
+          >
+            <i class="fa fa-angle-down" aria-hidden="true"></i>
+          </a>
+
+          <div class="d-flex justify-content-start">
+            <h3 class="mt-1">Chương <%= index+1%>: <%= courseModule.name %></h3>
+
+            <a
+              href="<%= `${redirectPath.ADMIN_DOCUMENT_UPDATE_CHAPTER}${courseModule.id}`%>"
+              class="d-flex justify-content-start ml-4"
+              ><i class="fas fa-edit" style="color: #ffd43b"></i>
+            </a>
+            <form
+              action="<%=`${redirectPath.ADMIN_DOCUMENT_DELETE_CHAPTER}${courseModule.id}` %>"
+              onsubmit="return confirm('<%= messageInfo.CHECK_DELETE%>')"
+              method="post"
+              class="ml-3"
+            >
+              <button type="submit" class="btn btn-link p-0">
+                <i class="fas fa-trash-alt" style="color: #ff0000"></i>
+              </button>
+              <input type="hidden" name="_method" value="DELETE" />
+            </form>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div
+      id="<%= `accordionBody${index}`%>"
+      class="collapse"
+      role="tabpanel"
+      aria-labelledby="<%= `accordionHeading${index}` %>"
+      aria-expanded="false"
+      data-parent="accordion"
+      style="background-color: #fcfcfc"
+    >
+      <div
+        class="card-block col-12 border-bottom d-flex justify-content-center"
+      >
+        <a
+          href="<%= `${redirectPath.ADMIN_DOCUMENT_CREATE_SECTION}${courseModule.id}`%>"
+          class="mb-2 mt-2"
+        >
+          <i class="fas fa-plus-square fa-lg fa-3x"></i>
+        </a>
+      </div>
+
+      <% courseModule.ModuleDocuments.forEach((moduleDocument, i)=> { %>
+      <div class="card-block col-12 border-bottom d-flex justify-content-start">
+        <div class="">
+          <h5>Phần <%= i + 1%>: <%= moduleDocument.content%></h5>
+          <p class="ml-2">
+            Tài liệu tại:
+            <a href="<%= moduleDocument.pathName%>">đây.</a>
+          </p>
+        </div>
+        <div class="mt-2 d-flex justify-content-start">
+          <a
+            href="<%= `${redirectPath.ADMIN_DOCUMENT_UPDATE_SECTION}${moduleDocument.id}`%>"
+            class="d-flex justify-content-start ml-4 mt-1"
+            ><i class="fas fa-edit fa-lg" style="color: #ffd43b"></i>
+          </a>
+          <form
+            action="<%=`${redirectPath.ADMIN_DOCUMENT_DELETE_SECTION}${moduleDocument.id}` %>"
+            onsubmit="return confirm('<%= messageInfo.CHECK_DELETE%>')"
+            method="post"
+            class="ml-3"
+          >
+            <button type="submit" class="btn btn-link p-0">
+              <i class="fas fa-trash-alt fa-lg" style="color: #ff0000"></i>
+            </button>
+            <input type="hidden" name="_method" value="DELETE" />
+          </form>
+        </div>
+      </div>
+      <%})%>
+    </div>
+  </div>
+  <% }) %>
+</div>

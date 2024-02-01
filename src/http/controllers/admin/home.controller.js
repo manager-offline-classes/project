@@ -643,11 +643,12 @@ module.exports = {
       },
     });
     const msgSuccess = req.flash("success");
-    res.render(renderPath.COURSE_DOCUMENT, {
+    res.render(renderPath.ADMIN_COURSE_DOCUMENT, {
       user,
       redirectPath,
       msgSuccess,
       course,
+      messageInfo,
     });
   },
   documentCreateChapter: async (req, res) => {
@@ -656,7 +657,7 @@ module.exports = {
     const errors = req.flash("errors");
     const courseId = req.params.id;
     const course = await coursesService.getCoursesById(courseId);
-    res.render(renderPath.DOCUMENT_CREATE_CHAPTER, {
+    res.render(renderPath.ADMIN_DOCUMENT_CREATE_CHAPTER, {
       user,
       redirectPath,
       msgErr,
@@ -673,11 +674,11 @@ module.exports = {
       const { name } = req.body;
       await courseModuleService.createCourseModule(name, courseId);
       req.flash("success", messageSuccess.CREATE);
-      res.redirect(`${redirectPath.DOCUMENT}${courseId}`);
+      res.redirect(`${redirectPath.ADMIN_DOCUMENT}${courseId}`);
     } else {
       req.flash("msgErr", messageError.ERROR_INFO);
       req.flash("errors", errors.array());
-      res.redirect(`${redirectPath.DOCUMENT_CREATE_CHAPTER}${courseId}`);
+      res.redirect(`${redirectPath.ADMIN_DOCUMENT_CREATE_CHAPTER}${courseId}`);
     }
   },
   documentUpdateChapter: async (req, res) => {
@@ -688,7 +689,7 @@ module.exports = {
     const courseModule = await courseModuleService.getByPk(courseModuleId, {
       model: Course,
     });
-    res.render(renderPath.DOCUMENT_UPDATE_CHAPTER, {
+    res.render(renderPath.ADMIN_DOCUMENT_UPDATE_CHAPTER, {
       user,
       redirectPath,
       msgErr,
@@ -708,11 +709,13 @@ module.exports = {
         model: Course,
       });
       req.flash("success", messageSuccess.UPDATE);
-      res.redirect(`${redirectPath.DOCUMENT}${courseModule.Course.id}`);
+      res.redirect(`${redirectPath.ADMIN_DOCUMENT}${courseModule.Course.id}`);
     } else {
       req.flash("msgErr", messageError.ERROR_INFO);
       req.flash("errors", errors.array());
-      res.redirect(`${redirectPath.DOCUMENT_UPDATE_CHAPTER}${courseModuleId}`);
+      res.redirect(
+        `${redirectPath.ADMIN_DOCUMENT_UPDATE_CHAPTER}${courseModuleId}`
+      );
     }
   },
   documentDeleteChapter: async (req, res) => {
@@ -722,7 +725,7 @@ module.exports = {
     });
     await courseModuleService.destroyById(courseModuleId);
     req.flash("success", messageSuccess.DELETE);
-    res.redirect(`${redirectPath.DOCUMENT}${courseModule.Course.id}`);
+    res.redirect(`${redirectPath.ADMIN_DOCUMENT}${courseModule.Course.id}`);
   },
   sectionCreate: async (req, res) => {
     const user = req.user;
@@ -734,7 +737,7 @@ module.exports = {
       model: Course,
     });
     console.log(courseModuleId);
-    res.render(renderPath.DOCUMENT_CREATE_SECTION, {
+    res.render(renderPath.ADMIN_DOCUMENT_CREATE_SECTION, {
       user,
       redirectPath,
       msgErr,
@@ -753,12 +756,14 @@ module.exports = {
       const { content, pathName } = req.body;
       await moduleDocumentService.create(content, pathName, courseModuleId);
       req.flash("success", messageSuccess.CREATE);
-      res.redirect(`${redirectPath.DOCUMENT}${courseModule.Course.id}`);
+      res.redirect(`${redirectPath.ADMIN_DOCUMENT}${courseModule.Course.id}`);
     } else {
       req.flash("msgErr", messageError.ERROR_INFO);
       req.flash("errors", errors.array());
 
-      res.redirect(`${redirectPath.DOCUMENT_CREATE_SECTION}${courseModule.id}`);
+      res.redirect(
+        `${redirectPath.ADMIN_DOCUMENT_CREATE_SECTION}${courseModule.id}`
+      );
     }
   },
   sectionUpdate: async (req, res) => {
@@ -775,7 +780,7 @@ module.exports = {
         },
       }
     );
-    res.render(renderPath.DOCUMENT_UPDATE_SECTION, {
+    res.render(renderPath.ADMIN_DOCUMENT_UPDATE_SECTION, {
       user,
       redirectPath,
       msgErr,
@@ -806,13 +811,13 @@ module.exports = {
       console.log(moduleDocument);
       req.flash("success", messageSuccess.UPDATE);
       res.redirect(
-        `${redirectPath.DOCUMENT}${moduleDocument.CourseModule.Course.id}`
+        `${redirectPath.ADMIN_DOCUMENT}${moduleDocument.CourseModule.Course.id}`
       );
     } else {
       req.flash("msgErr", messageError.ERROR_INFO);
       req.flash("errors", errors.array());
       res.redirect(
-        `${redirectPath.DOCUMENT_UPDATE_SECTION}${moduleDocumentId}`
+        `${redirectPath.ADMIN_DOCUMENT_UPDATE_SECTION}${moduleDocumentId}`
       );
     }
   },
@@ -830,7 +835,7 @@ module.exports = {
     await moduleDocumentService.deleteById(moduleDocumentId);
     req.flash("success", messageSuccess.DELETE);
     res.redirect(
-      `${redirectPath.DOCUMENT}${moduleDocument.CourseModule.Course.id}`
+      `${redirectPath.ADMIN_DOCUMENT}${moduleDocument.CourseModule.Course.id}`
     );
   },
 

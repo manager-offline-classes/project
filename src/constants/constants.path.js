@@ -38,15 +38,15 @@ const redirectPath = {
   TEACHER_CALANDER: "/admin/users-teacher-list/calendar/",
   TEACHER_CALANDER_ALL: "/admin/users-teacher-list/calendarAll",
 
-  // courses
+  // courses admin
   COURSE_LIST: "/admin/course-list",
-  DOCUMENT: "/admin/course-list/document/",
-  DOCUMENT_CREATE_CHAPTER: "/admin/course-list/document/create-chapter/",
-  DOCUMENT_UPDATE_CHAPTER: "/admin/course-list/document/update-chapter/",
-  DOCUMENT_DELETE_CHAPTER: "/admin/course-list/document/delete-chapter/",
-  DOCUMENT_CREATE_SECTION: "/admin/course-list/document/create-section/",
-  DOCUMENT_UPDATE_SECTION: "/admin/course-list/document/update-section/",
-  DOCUMENT_DELETE_SECTION: "/admin/course-list/document/delete-section/",
+  ADMIN_DOCUMENT: "/admin/course-list/document/",
+  ADMIN_DOCUMENT_CREATE_CHAPTER: "/admin/course-list/document/create-chapter/",
+  ADMIN_DOCUMENT_UPDATE_CHAPTER: "/admin/course-list/document/update-chapter/",
+  ADMIN_DOCUMENT_DELETE_CHAPTER: "/admin/course-list/document/delete-chapter/",
+  ADMIN_DOCUMENT_CREATE_SECTION: "/admin/course-list/document/create-section/",
+  ADMIN_DOCUMENT_UPDATE_SECTION: "/admin/course-list/document/update-section/",
+  ADMIN_DOCUMENT_DELETE_SECTION: "/admin/course-list/document/delete-section/",
   COURSES_EXPORT: "/admin/export-courses-excel",
   COURSE_CREATE: "/admin/course-create",
   COURSE_UPDATE: "/admin/course-update/",
@@ -62,6 +62,22 @@ const redirectPath = {
   TEACHER_CLASS_LIST: "/teacher/class-list",
   VIEW_STUDENT_IN_CLASS: "/teacher/class-list/view-student/",
   TEACHER_STUDENT_LIST: "/teacher/student-list",
+  TEACHER_LEARNING_STATUS_UPDATE:
+    "/teacher/student-list/update-learning-status/",
+  TEACHER_COURSE_LIST: "/teacher/course-list",
+  TEACHER_DOCUMENT: "/teacher/course-list/document/",
+  TEACHER_DOCUMENT_CREATE_CHAPTER:
+    "/admin/course-list/document/create-chapter/",
+  TEACHER_DOCUMENT_UPDATE_CHAPTER:
+    "/admin/course-list/document/update-chapter/",
+  TEACHER_DOCUMENT_DELETE_CHAPTER:
+    "/admin/course-list/document/delete-chapter/",
+  TEACHER_DOCUMENT_CREATE_SECTION:
+    "/admin/course-list/document/create-section/",
+  TEACHER_DOCUMENT_UPDATE_SECTION:
+    "/admin/course-list/document/update-section/",
+  TEACHER_DOCUMENT_DELETE_SECTION:
+    "/admin/course-list/document/delete-section/",
 };
 
 const renderPath = {
@@ -94,11 +110,11 @@ const renderPath = {
 
   // Course
   COURSE_LIST: "admin/courses/courseList",
-  COURSE_DOCUMENT: "admin/courses/document",
-  DOCUMENT_CREATE_CHAPTER: "admin/courses/chapterCreate",
-  DOCUMENT_UPDATE_CHAPTER: "admin/courses/chapterUpdate",
-  DOCUMENT_CREATE_SECTION: "admin/courses/sectionCreate",
-  DOCUMENT_UPDATE_SECTION: "admin/courses/sectionUpdate",
+  ADMIN_COURSE_DOCUMENT: "admin/courses/documents/document",
+  ADMIN_DOCUMENT_CREATE_CHAPTER: "admin/courses/documents/chapterCreate",
+  ADMIN_DOCUMENT_UPDATE_CHAPTER: "admin/courses/documents/chapterUpdate",
+  ADMIN_DOCUMENT_CREATE_SECTION: "admin/courses/documents/sectionCreate",
+  ADMIN_DOCUMENT_UPDATE_SECTION: "admin/courses/documents/sectionUpdate",
   COURSE_CREATE: "admin/courses/courseCreate",
   COURSE_UPDATE: "admin/courses/courseUpdate",
 
@@ -112,6 +128,13 @@ const renderPath = {
   TEACHER_CLASS_LIST: "teachers/classes/classList",
   VIEW_STUDENT_IN_CLASS: "teachers/classes/viewStudent",
   TEACHER_STUDENT_LIST: "teachers/students/index",
+  TEACHER_LEARNING_STATUS_UPDATE: "teachers/students/learningStatusUpdate",
+  TEACHER_COURSE_LIST: "teachers/courses/courseList",
+  TEACHER_COURSE_DOCUMENT: "teachers/courses/documents/document",
+  TEACHER_DOCUMENT_CREATE_CHAPTER: "admin/courses/documents/chapterCreate",
+  TEACHER_DOCUMENT_UPDATE_CHAPTER: "admin/courses/documents/chapterUpdate",
+  TEACHER_DOCUMENT_CREATE_SECTION: "admin/courses/documents/sectionCreate",
+  TEACHER_DOCUMENT_UPDATE_SECTION: "admin/courses/documents/sectionUpdate",
 };
 
 module.exports = {
