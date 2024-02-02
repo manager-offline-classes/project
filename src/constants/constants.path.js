@@ -67,17 +67,17 @@ const redirectPath = {
   TEACHER_COURSE_LIST: "/teacher/course-list",
   TEACHER_DOCUMENT: "/teacher/course-list/document/",
   TEACHER_DOCUMENT_CREATE_CHAPTER:
-    "/admin/course-list/document/create-chapter/",
+    "/teacher/course-list/document/create-chapter/",
   TEACHER_DOCUMENT_UPDATE_CHAPTER:
-    "/admin/course-list/document/update-chapter/",
+    "/teacher/course-list/document/update-chapter/",
   TEACHER_DOCUMENT_DELETE_CHAPTER:
-    "/admin/course-list/document/delete-chapter/",
+    "/teacher/course-list/document/delete-chapter/",
   TEACHER_DOCUMENT_CREATE_SECTION:
-    "/admin/course-list/document/create-section/",
+    "/teacher/course-list/document/create-section/",
   TEACHER_DOCUMENT_UPDATE_SECTION:
-    "/admin/course-list/document/update-section/",
+    "/teacher/course-list/document/update-section/",
   TEACHER_DOCUMENT_DELETE_SECTION:
-    "/admin/course-list/document/delete-section/",
+    "/teacher/course-list/document/delete-section/",
 };
 
 const renderPath = {
@@ -131,10 +131,10 @@ const renderPath = {
   TEACHER_LEARNING_STATUS_UPDATE: "teachers/students/learningStatusUpdate",
   TEACHER_COURSE_LIST: "teachers/courses/courseList",
   TEACHER_COURSE_DOCUMENT: "teachers/courses/documents/document",
-  TEACHER_DOCUMENT_CREATE_CHAPTER: "admin/courses/documents/chapterCreate",
-  TEACHER_DOCUMENT_UPDATE_CHAPTER: "admin/courses/documents/chapterUpdate",
-  TEACHER_DOCUMENT_CREATE_SECTION: "admin/courses/documents/sectionCreate",
-  TEACHER_DOCUMENT_UPDATE_SECTION: "admin/courses/documents/sectionUpdate",
+  TEACHER_DOCUMENT_CREATE_CHAPTER: "teachers/courses/documents/chapterCreate",
+  TEACHER_DOCUMENT_UPDATE_CHAPTER: "teachers/courses/documents/chapterUpdate",
+  TEACHER_DOCUMENT_CREATE_SECTION: "teachers/courses/documents/sectionCreate",
+  TEACHER_DOCUMENT_UPDATE_SECTION: "teachers/courses/documents/sectionUpdate",
 };
 
 module.exports = {
