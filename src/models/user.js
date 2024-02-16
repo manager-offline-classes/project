@@ -20,11 +20,11 @@ module.exports = (sequelize, DataTypes) => {
         // onDelete: "CASCADE",
       });
       User.belongsToMany(models.Role, {
-        through: "UserRoles",
+        through: "userroles",
         foreignKey: "userId",
       });
       User.belongsToMany(models.Permission, {
-        through: "UserPermissions",
+        through: "userpermissions",
         foreignKey: "userId",
       });
       User.hasOne(models.UserOtp, {
@@ -34,7 +34,7 @@ module.exports = (sequelize, DataTypes) => {
         foreignKey: "teacherId",
       });
       User.belongsToMany(models.Class, {
-        through: "ClassesTeacher",
+        through: "classesteacher",
         foreignKey: "teacherId",
       });
 
@@ -77,6 +77,7 @@ module.exports = (sequelize, DataTypes) => {
     {
       sequelize,
       modelName: "User",
+      tableName: "users",
     }
   );
   return User;

@@ -1,5 +1,5 @@
-const { StudentsClasses, User, Class } = require("../../../models/index");
-const { messageError } = require("../../../constants/constants.message");
+const { StudentsClasses, User, Class } = require("../../models/index");
+const { messageError } = require("../../constants/constants.message");
 module.exports = {
   getStudentsClassesByClassId: async (classId, include) => {
     try {
@@ -20,24 +20,15 @@ module.exports = {
   getStudentClassesByTeacherId: async (teacherId) => {
     try {
       const studentClasses = await StudentsClasses.findAll({
-        // include: [
-        //   {
-        //     model: Class,
-        //     include: [
-        //       {
-        //         model: User,
-        //         where: { id: teacherId },
-        //       },
-        //     ],
-        //   },
-        // ],
         include: [
           {
             model: Class,
-          },
-          {
-            model: User,
-            where: { id: teacherId },
+            include: [
+              {
+                model: User,
+                where: { id: teacherId },
+              },
+            ],
           },
         ],
       });
@@ -50,7 +41,19 @@ module.exports = {
       throw new Error(messageError.SERVER_ERROR);
     }
   },
-
+  getById: async (id, include) => {
+    try {
+      const stdCls = await StudentsClasses.findByPk(id, {
+        include: include,
+      });
+      if (stdCls) {
+        return stdCls;
+      }
+    } catch (err) {
+      console.log(err);
+      throw new Error(messageError.SERVER_ERROR);
+    }
+  },
   createStudentsClasses: async (
     studentId,
     classId,
@@ -81,6 +84,21 @@ module.exports = {
       const deleteStudentsClasses = await StudentsClasses.destroy({
         where: {
           classId: classId,
+        },
+      });
+      if (deleteStudentsClasses) {
+        return deleteStudentsClasses;
+      }
+    } catch (err) {
+      console.log(err);
+      throw new Error(messageError.SERVER_ERROR);
+    }
+  },
+  updateById: async (dataUpdate, id) => {
+    try {
+      const deleteStudentsClasses = await StudentsClasses.update(dataUpdate, {
+        where: {
+          id: id,
         },
       });
       if (deleteStudentsClasses) {

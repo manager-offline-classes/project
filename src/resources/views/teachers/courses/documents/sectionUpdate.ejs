@@ -1,0 +1,43 @@
+<a href="<%= `${redirectPath.TEACHER_DOCUMENT}${moduleDocument.CourseModule.courseId}` %>" class="text-dark"
+    ><i class="fas fa-2x fa-arrow-alt-circle-left"></i
+  ></a>
+  <%- msgErr.length ? `
+  <p class="alert alert-danger">${msgErr}</p>
+  ` : ""%>
+  <h2 class="mt-2 text-center">Sửa chi tiết cho chương: <%= moduleDocument.CourseModule.name%></br>Khóa học: <%= moduleDocument.CourseModule.Course.name%></h2>
+  <form action="" method="post">
+    <div class="form-group row">
+      <label for="name" class="col-sm-12 col-form-label">Tên phần:</label>
+      <div class="col-sm-6">
+        <input
+          type="text"
+          name="content"
+          placeholder="Nhập ..."
+          class="form-control"
+          value="<%= moduleDocument.content %>"
+        />
+      </div>
+    </div>
+    <span class="text-danger mb-3"
+      ><%= validateUtil.getError(errors, "content") %> </br></span
+    >
+    
+    <div class="form-group row">
+      <label for="" class="col-sm-12 col-form-label">Tài liệu:</label>
+      <div class="col-sm-6">
+        <input
+          type="text"
+          name="pathName"
+          placeholder="Nhập tài liệu ..."
+          class="form-control"
+          value="<%= moduleDocument.pathName %>"
+        />
+      </div>
+    </div>
+    <span class="text-danger mb-3"
+      ><%= validateUtil.getError(errors, "pathName") %> </br></span
+    >
+    <button type="submit" class="btn btn-primary">Cập nhật</button>
+    <input type="hidden" name="_method" value="PATCH">
+  </form>
+  

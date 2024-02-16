@@ -46,6 +46,7 @@ const messageSuccess = {
   //auth
   CREATE: "Thêm thành công!",
   DELETE: "Xóa thành công!",
+  UPDATE: "Cập nhật thành công!",
   CHANGE_PASSWORD: "Đổi mật khẩu thành công!",
   //   user
   SUCCESSFUL_LINK: "Liên kết thành công.",
@@ -58,12 +59,14 @@ const messageSuccess = {
   DELETE_USER: "Xóa tài khoản thành công",
   CREATE_CLASS: "Thêm lớp học thành công!",
   UPDATE_CLASS: "Cập nhật học thành công!",
+  ATTENDANCE: "Điểm danh thành công!",
 };
 
 const messageInfo = {
   STUDENT: "Học viên",
   TEACHER: "Giảng viên",
   ADMIN: "Admin",
+  CHECK_DELETE: "Bạn có chắc chắn muốn xóa ?",
   SUBJECT_CREATE_USER: "Cài Đặt Mật Khẩu Cho Tài Khoản của Bạn",
   WAIT_A_MINUTE: "Vui lòng chờ trong giây lát",
   CHECK_EMAIL: "Gửi email thành công! Vui lòng kiểm tra email",

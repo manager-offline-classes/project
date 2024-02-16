@@ -1,8 +1,8 @@
-'use strict';
+"use strict";
 
 /** @type {import('sequelize-cli').Migration} */
 module.exports = {
-  async up (queryInterface, Sequelize) {
+  async up(queryInterface, Sequelize) {
     /**
      * Add seed commands here.
      *
@@ -11,8 +11,8 @@ module.exports = {
      *   name: 'John Doe',
      *   isBetaMember: false
      * }], {});
-    */
-    return queryInterface.bulkInsert("LearningStatuses", [ 
+     */
+    return queryInterface.bulkInsert("LearningStatuses", [
       {
         name: "Đang Học",
         createdAt: new Date(),
@@ -22,11 +22,13 @@ module.exports = {
         name: "Hoàn Thành",
         createdAt: new Date(),
         updatedAt: new Date(),
-      },{
-        name: "Nghỉ Học",
+      },
+      {
+        name: "Thôi Học",
         createdAt: new Date(),
         updatedAt: new Date(),
-      },{
+      },
+      {
         name: "Bảo Lưu",
         createdAt: new Date(),
         updatedAt: new Date(),
@@ -34,7 +36,7 @@ module.exports = {
     ]);
   },
 
-  async down (queryInterface, Sequelize) {
+  async down(queryInterface, Sequelize) {
     /**
      * Add commands to revert seed here.
      *
@@ -42,5 +44,5 @@ module.exports = {
      * await queryInterface.bulkDelete('People', null, {});
      */
     return queryInterface.bulkDelete("LearningStatuses", null, {});
-  }
+  },
 };
