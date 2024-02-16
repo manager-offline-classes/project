@@ -1,0 +1,49 @@
+<a href="<%= redirectPath.TEACHER_CLASS_LIST%>" class="text-dark"
+  ><i class="fas fa-2x fa-arrow-alt-circle-left"></i
+></a>
+<%- msgSuccess.length ? `
+<p class="alert alert-success">${msgSuccess}</p>
+` : ""%>
+<h2>Điểm danh lớp : <%= classItem.name %></h2>
+<div class="" style="overflow-x: auto">
+  <form action="" method="post">
+    <table class="table table-bordered mb-3 mt-3">
+      <thead>
+        <tr>
+          <th>STT</th>
+  
+          <th>Họ Tên</th>
+          <% teacherCalendars.forEach((teacherCalendar)=> { %>
+          <th>
+            <%= moment(teacherCalendar.scheduleStartDate).format("DD/MM/YYYY") %>
+          </th>
+          <% }) %>
+        </tr>
+      </thead>
+      <tbody>
+        <% stlClses.forEach((stlCls, index) => {%>
+  
+        <tr>
+          <td><%= index + 1 %></td>
+          <td><%= stlCls.User.name %></td>
+  
+          <% teacherCalendars.forEach((teacherCalendar)=> { %>
+          <td>
+            <select name="attendance" id="">
+              <option value="">Chọn</option>
+              <option  <%= arrayAttendances.includes(`${moment(teacherCalendar.scheduleStartDate).format("YYYY-MM-DD")}||${stlCls.User.id}||${classItem.id}0`) ? "selected" : "" %> value="<%= moment(teacherCalendar.scheduleStartDate).format("YYYY-MM-DD") %>||<%= stlCls.User.id %>||0" >Nghỉ</option>
+              <option <%= arrayAttendances.includes(`${moment(teacherCalendar.scheduleStartDate).format("YYYY-MM-DD")}||${stlCls.User.id}||${classItem.id}1`) ? "selected" : "" %> value="<%= moment(teacherCalendar.scheduleStartDate).format("YYYY-MM-DD") %>||<%= stlCls.User.id %>||1" >Đến muộn</option>
+              <option <%= arrayAttendances.includes(`${moment(teacherCalendar.scheduleStartDate).format("YYYY-MM-DD")}||${stlCls.User.id}||${classItem.id}2`) ? "selected" : "" %> value="<%= moment(teacherCalendar.scheduleStartDate).format("YYYY-MM-DD") %>||<%= stlCls.User.id %>||2" >Đúng giờ</option>
+            </select>
+          </td>
+          <% }) %>
+        </tr>
+        <% }) %>
+      </tbody>
+    </table>
+    <div class="mb-5">
+      
+    <button class="btn btn-primary" type="submit">Lưu</button>
+    </div>
+  </form>
+</div>

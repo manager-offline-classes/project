@@ -70,7 +70,7 @@ module.exports = {
     console.log(errors);
     if (errors.isEmpty()) {
       const token = await createTokenUtil(id);
-      res.cookie("loginToken", token, { maxAge: 900000, httpOnly: true });
+      res.cookie("loginToken", token, { httpOnly: true });
       if (req.user.typeId === 1) {
         return res.redirect(redirectPath.HOME_STUDENT);
       } else if (req.user.typeId === 2) {
@@ -211,7 +211,7 @@ module.exports = {
     if (loginToken.token !== req.cookies.loginToken) {
       // not logged in yet
       const token = await createTokenUtil(req.user.id);
-      res.cookie("loginToken", token, { maxAge: 900000, httpOnly: true });
+      res.cookie("loginToken", token, { httpOnly: true });
       if (req.user.typeId === 1) {
         return res.redirect(redirectPath.HOME_STUDENT);
       } else if (req.user.typeId === 2) {
@@ -277,7 +277,7 @@ module.exports = {
         { where: { email: user.email } }
       );
       const token = await createTokenUtil(id);
-      res.cookie("loginToken", token, { maxAge: 900000, httpOnly: true });
+      res.cookie("loginToken", token, { httpOnly: true });
       if (req.user.typeId === 1) {
         return res.redirect(redirectPath.HOME_STUDENT);
       } else if (req.user.typeId === 2) {

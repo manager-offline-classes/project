@@ -39,9 +39,11 @@ module.exports = {
       throw new Error(messageError.SERVER_ERROR);
     }
   },
-  getClassById: async (id, option) => {
+  getClassById: async (id, include) => {
     try {
-      const classItem = await Class.findByPk(id, option);
+      const classItem = await Class.findByPk(id, {
+        include: include,
+      });
       if (classItem) {
         return classItem;
       }

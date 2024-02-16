@@ -59,6 +59,7 @@ const messageSuccess = {
   DELETE_USER: "Xóa tài khoản thành công",
   CREATE_CLASS: "Thêm lớp học thành công!",
   UPDATE_CLASS: "Cập nhật học thành công!",
+  ATTENDANCE: "Điểm danh thành công!",
 };
 
 const messageInfo = {

@@ -14,6 +14,9 @@ router.use(teacherMiddleware);
 router.get("/", HomeController.index);
 router.get("/class-list", HomeController.classList);
 router.get("/class-list/view-student/:id", HomeController.viewStudent);
+router.get("/class-list/calendar", HomeController.calendar);
+router.get("/class-list/attendance/:id", HomeController.attendance);
+router.post("/class-list/attendance/:id", HomeController.handleAttendance);
 
 router.get("/course-list", HomeController.courseList);
 router.get("/course-list/document/:id", HomeController.document);

@@ -35,7 +35,7 @@ const redirectPath = {
   USER_CREATE: "/admin/users-create",
   USER_UPDATE: "/admin/users-update/",
   USER_DELETE_ADMIN: "/admin/users-admin-delete/",
-  TEACHER_CALANDER: "/admin/users-teacher-list/calendar/",
+  USER_TEACHER_CALANDER: "/admin/users-teacher-list/calendar/",
   TEACHER_CALANDER_ALL: "/admin/users-teacher-list/calendarAll",
 
   // courses admin
@@ -61,6 +61,8 @@ const redirectPath = {
   // teacher
   TEACHER_CLASS_LIST: "/teacher/class-list",
   VIEW_STUDENT_IN_CLASS: "/teacher/class-list/view-student/",
+  TEACHER_CALANDER: "/teacher/class-list/calendar",
+  TEACHER_ATTENDANCE: "/teacher/class-list/attendance/",
   TEACHER_STUDENT_LIST: "/teacher/student-list",
   TEACHER_LEARNING_STATUS_UPDATE:
     "/teacher/student-list/update-learning-status/",
@@ -127,6 +129,8 @@ const renderPath = {
   // class teacher
   TEACHER_CLASS_LIST: "teachers/classes/classList",
   VIEW_STUDENT_IN_CLASS: "teachers/classes/viewStudent",
+  TEACHER_CALANDER: "teachers/classes/calendar",
+  TEACHER_ATTENDANCE: "teachers/classes/attendance",
   TEACHER_STUDENT_LIST: "teachers/students/index",
   TEACHER_LEARNING_STATUS_UPDATE: "teachers/students/learningStatusUpdate",
   TEACHER_COURSE_LIST: "teachers/courses/courseList",

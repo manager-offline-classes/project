@@ -18,7 +18,7 @@ module.exports = (sequelize, DataTypes) => {
     {
       id: {
         type: DataTypes.STRING,
-        primaryKey: true, 
+        primaryKey: true,
         autoIncrement: true,
       },
       content: DataTypes.TEXT,
@@ -26,9 +26,11 @@ module.exports = (sequelize, DataTypes) => {
       pathName: DataTypes.STRING(200),
       moduleId: DataTypes.INTEGER,
     },
-    { 
+    {
       sequelize,
       modelName: "ModuleDocument",
+
+      tableName: "moduledocuments",
     }
   );
   return ModuleDocument;

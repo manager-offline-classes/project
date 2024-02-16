@@ -1014,6 +1014,7 @@ module.exports = {
     let { courseId, name, startDate, schedule, timeLearn } = req.body;
 
     console.log(req.body);
+    console.log(startDate);
     const errors = validationResult(req);
     // console.log(errors);
     if (errors.isEmpty()) {
@@ -1033,9 +1034,7 @@ module.exports = {
       const userItem = await User.findByPk(course.teacherId);
       await classItem.addUser(userItem);
       classItem = await classesService.getClassById(classItem.id, {
-        include: {
-          model: Course,
-        },
+        model: Course,
       });
       const selectedDays = adminUtil.getArrayTimeLearn(
         schedule,
@@ -1128,7 +1127,7 @@ module.exports = {
     const msgSuccess = req.flash("success");
     const errors = req.flash("errors");
     const idUpdate = req.params.id;
-    const classItem = await classesService.getClassById(idUpdate, {});
+    const classItem = await classesService.getClassById(idUpdate);
     // console.log(classItem);
     const courses = await coursesService.getCourses();
     res.render(renderPath.CLASS_UPDATE, {
@@ -1193,9 +1192,7 @@ module.exports = {
     const errors = req.flash("errors");
     const idAddStudent = req.params.id;
     const classItem = await classesService.getClassById(idAddStudent, {
-      include: {
-        model: StudentsClasses,
-      },
+      model: StudentsClasses,
     });
 
     const { keyword } = req.query;

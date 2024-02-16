@@ -8,6 +8,7 @@ const {
   LearningStatus,
   CourseModule,
   ModuleDocument,
+  TeacherCalendar,
 } = require("../../../models/index");
 const {
   renderPath,
@@ -24,6 +25,7 @@ const learningStatusService = require("../../services/learningStatus.services");
 const coursesService = require("../../services/courses.services");
 const courseModuleService = require("../../services/courseModule.services");
 const moduleDocumentService = require("../../services/moduleDocument.services");
+const studentAttendanceService = require("../../services/studentAttendance.service");
 const {
   messageSuccess,
   messageInfo,
@@ -151,6 +153,92 @@ module.exports = {
       req,
     });
   },
+  calendar: async (req, res) => {
+    const user = req.user;
+    const teacherId = user.id;
+    const teacherCalendars = await classesService.getTeacherCalendarByTeacherId(
+      teacherId,
+      Class
+    );
+    const calendarArray = [];
+    teacherCalendars.forEach((calendar) => {
+      console.log(calendar.Class.name);
+      console.log(calendar.scheduleStartDate);
+      calendarArray.push({
+        title: calendar.Class.name,
+        start: calendar.scheduleStartDate,
+      });
+    });
+    console.log(4564654);
+    console.log(calendarArray);
+    res.render(renderPath.TEACHER_CALANDER, {
+      user,
+      redirectPath,
+      calendarArray,
+    });
+  },
+  attendance: async (req, res) => {
+    const user = req.user;
+    const msgSuccess = req.flash("success");
+    const classId = req.params.id;
+    const classItem = await classesService.getClassById(classId, [
+      {
+        model: TeacherCalendar,
+      },
+      {
+        model: StudentsClasses,
+        include: {
+          model: User,
+        },
+      },
+    ]);
+    const teacherCalendars = classItem.TeacherCalendars;
+    const stlClses = classItem.StudentsClasses;
+    const studentsAttendances = await studentAttendanceService.getByClassId(
+      classId
+    );
+    const arrayAttendances = [];
+    studentsAttendances.forEach((attendance) => {
+      const data = `${moment(attendance.dateLearning).format("YYYY-MM-DD")}||${
+        attendance.studentId
+      }||${attendance.classId}${attendance.status}`;
+      arrayAttendances.push(data);
+    });
+    // console.log(stlClses[0].User.name);
+    res.render(renderPath.TEACHER_ATTENDANCE, {
+      user,
+      msgSuccess,
+      redirectPath,
+      classItem,
+      teacherCalendars,
+      moment,
+      stlClses,
+      arrayAttendances,
+    });
+  },
+  handleAttendance: async (req, res) => {
+    console.log(req.body);
+    const classId = req.params.id;
+    const { attendance } = req.body;
+    await studentAttendanceService.destroyByClassId(classId);
+    for (elm of attendance) {
+      if (elm) {
+        console.log(elm);
+        const attendanceItem = elm.split("||");
+        console.log(attendanceItem);
+        await studentAttendanceService.create(
+          attendanceItem[0],
+          1,
+          +attendanceItem[1],
+          +classId,
+          +attendanceItem[2]
+        );
+      }
+    }
+    req.flash("success", messageSuccess.ATTENDANCE);
+    res.redirect(`${redirectPath.TEACHER_ATTENDANCE}${classId}`);
+  },
+
   courseList: async (req, res) => {
     const user = req.user;
     const msgSuccess = req.flash("success");
