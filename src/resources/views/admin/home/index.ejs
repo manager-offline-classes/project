@@ -3,4 +3,61 @@
 ` : ""%> <%- msgSuccess.length ? `
 <p class="alert alert-success">${msgSuccess}</p>
 ` : ""%>
-<h2>Admin heheheh</h2>
+<div class="row">
+  <div class="col-lg-4 col-6">
+    <!-- small box -->
+    <div class="small-box bg-info">
+      <div class="inner">
+        <h3><%= users.count %></h3>
+
+        <p>Người dùng</p>
+      </div>
+      <div class="icon">
+        <i class="fas fa-users"></i>
+      </div>
+    </div>
+  </div>
+  <!-- ./col -->
+  <div class="col-lg-4 col-6">
+    <!-- small box -->
+    <div class="small-box bg-success">
+      <div class="inner">
+        <h3><%= courses.count %></h3>
+
+        <p>Khóa học</p>
+      </div>
+      <div class="icon">
+        <i class="fas fa-book"></i>
+      </div>
+    </div>
+  </div>
+  <!-- ./col -->
+  <div class="col-lg-4 col-6">
+    <!-- small box -->
+    <div class="small-box bg-warning">
+      <div class="inner">
+        <h3><%= classes.count %></h3>
+
+        <p>Lớp học</p>
+      </div>
+      <div class="icon">
+        <i class="fas fa-chalkboard-teacher"></i>
+      </div>
+    </div>
+  </div>
+  <!-- ./col -->
+  <!-- <div class="col-lg-3 col-6"> -->
+  <!-- small box -->
+  <!-- <div class="small-box bg-danger">
+      <div class="inner">
+        <h3>65</h3>
+
+        <p>Unique Visitors</p>
+      </div>
+      <div class="icon">
+        <i class="ion ion-pie-graph"></i>
+      </div>
+    </div>
+  </div> -->
+  <!-- ./col -->
+</div>
