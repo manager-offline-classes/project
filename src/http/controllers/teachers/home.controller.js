@@ -37,7 +37,13 @@ const { validationResult } = require("express-validator");
 module.exports = {
   index: async (req, res) => {
     const user = req.user;
-
+    const students = await User.findAndCountAll({
+      where: {
+        typeId: 1,
+      },
+    });
+    const classes = await Class.findAndCountAll();
+    const courses = await Course.findAndCountAll();
     console.log(user.id);
     const userSocials = await UserSocial.findAll({
       where: { userId: user.id },
@@ -53,6 +59,9 @@ module.exports = {
       msgErr,
       msgSuccess,
       redirectPath,
+      students,
+      classes,
+      courses,
     });
   },
   classList: async (req, res) => {

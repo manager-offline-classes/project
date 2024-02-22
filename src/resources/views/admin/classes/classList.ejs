@@ -32,6 +32,8 @@
       <th>Ngày khai giảng</th>
       <th>Ngày bế giảng</th>
       <th>Lịch học</th>
+      <th>Điểm danh</th>
+      <th>Bài tập</th>
       <th>Thêm học viên</th>
       <th>Sửa</th>
       <th>Xóa</th>
@@ -63,17 +65,35 @@
         <% arraySchedule.forEach((schedule) => { %> <%= schedule %><br />
         <% }) %>
       </th>
+      <!-- điểm danh -->
+      <th class="font-weight-normal">
+        <a
+          href="<%= `${redirectPath.ADMIN_CLASS_ATTENDANCE}${classItem.id}`%>"
+          class="btn btn-warning d-flex justify-content-center align-items-center w-100"
+        >
+          <i class="fas fa-user-check"></i>
+        </a>
+      </th>
+      <!-- bài tập -->
+      <th>
+        <a
+          href="<%= `${redirectPath.CLASS_ADD_STUDENT}${classItem.id}`%>"
+          class="btn btn-primary w-100"
+        >
+          <i class="far fa-eye fa-lg ml-2"></i>
+        </a>
+      </th>
       <th class="">
         <a
           href="<%= `${redirectPath.CLASS_ADD_STUDENT}${classItem.id}`%>"
-          class="btn btn-primary bg-primary d-flex justify-content-center align-items-center col-auto w-100"
+          class="btn btn-primary w-100"
           >Thêm</a
         >
       </th>
       <th>
         <a
           href="<%= `${redirectPath.CLASS_UPDATE}${classItem.id}` %>"
-          class="btn btn-warning bg-warning d-flex justify-content-center align-items-center w-100"
+          class="btn btn-warning bg-warning w-100"
           >Sửa</a
         >
       </th>
@@ -83,11 +103,7 @@
         method="post"
       >
         <th>
-          <button
-            class="btn btn-danger bg-dabtn-danger d-flex justify-content-center align-items-center w-100"
-          >
-            Xóa
-          </button>
+          <button class="btn btn-danger bg-dabtn-danger w-100">Xóa</button>
         </th>
         <input type="hidden" name="_method" value="DELETE" />
       </form>

@@ -8,5 +8,8 @@ const studentMiddleware = require("../../http/middlewares/student.middeware");
 router.use(authMiddleware);
 router.use(studentMiddleware);
 router.get("/", HomeController.index);
+router.get("/class-list", HomeController.classList);
+router.get("/course-list/document/:id", HomeController.document);
+router.get("/class-list/attendance/:id", HomeController.attendance);
 
 module.exports = router;

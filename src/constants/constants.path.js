@@ -57,6 +57,7 @@ const redirectPath = {
   CLASS_UPDATE: "/admin/class-update/",
   CLASS_ADD_STUDENT: "/admin/class-add-student/",
   CLASS_DELETE: "/admin/class-delete/",
+  ADMIN_CLASS_ATTENDANCE: "/admin/class-list/attendance/",
 
   // teacher
   TEACHER_CLASS_LIST: "/teacher/class-list",
@@ -80,6 +81,11 @@ const redirectPath = {
     "/teacher/course-list/document/update-section/",
   TEACHER_DOCUMENT_DELETE_SECTION:
     "/teacher/course-list/document/delete-section/",
+
+  // route students
+  STUDENT_CLASS_LIST: "/student/class-list",
+  STUDENT_CLASS_DOCUMENT: "/student/course-list/document/",
+  STUDENT_CLASS_ATTENDANCE: "/student/class-list/attendance/",
 };
 
 const renderPath = {
@@ -125,6 +131,7 @@ const renderPath = {
   CLASS_LIST: "admin/classes/classList",
   CLASS_UPDATE: "admin/classes/classUpdate",
   CLASS_ADD_STUDENT: "admin/classes/classAddStudent",
+  ADMIN_CLASS_ATTENDANCE: "admin/classes/attendance",
 
   // class teacher
   TEACHER_CLASS_LIST: "teachers/classes/classList",
@@ -139,6 +146,11 @@ const renderPath = {
   TEACHER_DOCUMENT_UPDATE_CHAPTER: "teachers/courses/documents/chapterUpdate",
   TEACHER_DOCUMENT_CREATE_SECTION: "teachers/courses/documents/sectionCreate",
   TEACHER_DOCUMENT_UPDATE_SECTION: "teachers/courses/documents/sectionUpdate",
+
+  //route student
+  STUDENT_CLASS_LIST: "students/classes/classList",
+  STUDENT_CLASS_DOCUMENT: "students/classes/document",
+  STUDENT_CLASS_ATTENDANCE: "students/classes/attendance",
 };
 
 module.exports = {

@@ -141,4 +141,7 @@ router.delete("/class-delete/:id", HomeController.classDelete);
 router.get("/class-add-student/:id", HomeController.classAddStudent);
 router.post("/class-add-student/:id", HomeController.hanldeClassAddStudent);
 
+router.get("/class-list/attendance/:id", HomeController.attendance);
+router.post("/class-list/attendance/:id", HomeController.handleAttendance);
+
 module.exports = router;
