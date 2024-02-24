@@ -1,1 +1,56 @@
-<h1>Vui lòng truy cập tại <a href="<%= redirectPath.LOGIN_AUTH%>">đây</a></h1>
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Document</title>
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.0.1/css/bootstrap.min.css"
+      integrity="sha512-Ez0cGzNzHR1tYAv56860NLspgUGuQw16GiOOp/I2LuTmpSK9xDXlgJz3XN4cnpXWDmkNBKXR/VDMTCnAaEooxA=="
+      crossorigin="anonymous"
+      referrerpolicy="no-referrer"
+    />
+  </head>
+  <body>
+    <div class="container">
+      <h2>
+        Do tính năng tạo tài khoản là của admin nên sẽ có tài khoản test ( đã
+        tắt tính năng xác thực 2 yếu tố)
+      </h2>
+      <table class="table table-bordered mb-3">
+        <thead>
+          <tr>
+            <th>#</th>
+            <th>Tài khoản</th>
+            <th>Mật khẩu</th>
+            <th>Loại tài khoản</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td>1</td>
+            <td>admin1@gmai.com</td>
+            <td>123aA@</td>
+            <td>Quản trị</td>
+          </tr>
+          <tr>
+            <td>2</td>
+            <td>giangvien@gmail.com</td>
+            <td>123aA@</td>
+            <td>Giảng viên</td>
+          </tr>
+          <tr>
+            <td>3</td>
+            <td>hocvien@gmai.com</td>
+            <td>123aA@</td>
+            <td>Học viên</td>
+          </tr>
+        </tbody>
+      </table>
+      <h2>
+        Đăng nhập để sử dụng tại <a href="<%= redirectPath.LOGIN_AUTH%>">đây</a>
+      </h2>
+    </div>
+  </body>
+</html>
