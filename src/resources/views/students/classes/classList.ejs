@@ -30,8 +30,9 @@
       <th>Tên khóa học</th>
       <th>Ngày khai giảng</th>
       <th>Ngày bế giảng</th>
-      <th>Tài liệu</th>
       <th>Lịch học</th>
+      <th>Tài liệu</th>
+      <th>Bài tập</th>
       <th>Điểm danh</th>
     </tr>
   </thead>
@@ -49,14 +50,6 @@
         <%= moment(classItem.endDate).format("MM/DD/YYYY") %>
       </th>
 
-      <th class="font-weight-normal">
-        <a
-          href="<%= `${redirectPath.STUDENT_CLASS_DOCUMENT}${classItem.Course.id}` %>"
-          class="btn btn-primary w-100"
-          ><i class="far fa-eye fa-lg ml-2"></i
-        ></a>
-      </th>
-
       <% let scheduleItem = classItem.schedule.split(","); let timeLearnItem =
       classItem.timeLearn.split(","); const arraySchedule = []; for(let i = 0; i
       < scheduleItem.length; i++ ) { scheduleItem[i] === `0` ? scheduleItem[i] =
@@ -67,6 +60,23 @@
       <th class="font-weight-normal">
         <% arraySchedule.forEach((schedule) => { %> <%= schedule %><br />
         <% }) %>
+      </th>
+      <!-- TAI LIEU -->
+      <th class="font-weight-normal">
+        <a
+          href="<%= `${redirectPath.STUDENT_CLASS_DOCUMENT}${classItem.Course.id}` %>"
+          class="btn btn-primary w-100"
+          ><i class="far fa-eye fa-lg ml-2"></i
+        ></a>
+      </th>
+      <!-- bài tập -->
+      <th>
+        <a
+          href="<%= `${redirectPath.STUDENT_CLASS_HOMEWORK}${classItem.id}`%>"
+          class="btn btn-primary w-100"
+        >
+          <i class="far fa-eye fa-lg ml-2"></i>
+        </a>
       </th>
       <th class="">
         <a

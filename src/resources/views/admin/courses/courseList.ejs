@@ -33,8 +33,13 @@
       <th>Số Lượng Học Viên</th>
       <th>Thời Lượng Học</th>
       <th>Tài liệu</th>
+      <% if(permissionUtil.getPermissionUser(permissionUser, 'courses.update'))
+      {%>
       <th>Sửa</th>
+      <% } %> <% if(permissionUtil.getPermissionUser(permissionUser,
+      'courses.delete')) {%>
       <th>Xóa</th>
+      <% } %>
     </tr>
   </thead>
   <tbody>
@@ -58,6 +63,8 @@
         ></a>
       </th>
 
+      <% if(permissionUtil.getPermissionUser(permissionUser, 'courses.update'))
+      {%>
       <th>
         <a
           href="<%= `${redirectPath.COURSE_UPDATE}${course.id}` %>"
@@ -66,6 +73,8 @@
         >
       </th>
 
+      <% } %> <% if(permissionUtil.getPermissionUser(permissionUser,
+      'courses.delete')) {%>
       <form
         action="<%= `${redirectPath.COURSE_DELETE}${course.id}` %>"
         method="post"
@@ -79,6 +88,7 @@
         </th>
         <input type="hidden" name="_method" value="DELETE" />
       </form>
+      <% } %>
     </tr>
 
     <% }) %>

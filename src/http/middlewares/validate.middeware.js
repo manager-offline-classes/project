@@ -356,6 +356,18 @@ const validateLearningStauts = () => {
     body("pathName", messageError.LENGTH).isLength({ max: 200 }),
   ];
 };
+const validateCreateHomework = () => {
+  return [
+    body(["title", "content"], messageError.EMPTY).notEmpty(),
+    body(["title", "attachment"], messageError.LENGTH).isLength({ max: 200 }),
+  ];
+};
+const validateAddRole = () => {
+  return [
+    body(["nameRole"], messageError.EMPTY).notEmpty(),
+    body(["nameRole"], messageError.LENGTH).isLength({ max: 100 }),
+  ];
+};
 module.exports = {
   validateLoginAccount,
   validateForgetPassword,
@@ -370,4 +382,6 @@ module.exports = {
   validateCreateChapter,
   validateCreateSection,
   validateLearningStauts,
+  validateCreateHomework,
+  validateAddRole,
 };

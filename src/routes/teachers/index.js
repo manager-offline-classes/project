@@ -8,6 +8,7 @@ const roleMiddeware = require("../../http/middlewares/role.middleware");
 const {
   validateCreateChapter,
   validateCreateSection,
+  validateCreateHomework,
 } = require("../../http/middlewares/validate.middeware");
 router.use(authMiddleware);
 router.use(teacherMiddleware);
@@ -74,6 +75,31 @@ router.get(
 router.patch(
   "/student-list/update-learning-status/:id",
   HomeController.handleUpdateLearningStatus
+);
+
+router.get("/class-list/homework/:id", HomeController.homeWork);
+router.get("/class-list/add-homework/:id", HomeController.addHomeWork);
+router.post(
+  "/class-list/add-homework/:id",
+  validateCreateHomework(),
+  HomeController.hanldeAddHomeWork
+);
+
+router.get("/class-list/edit-homework/:id", HomeController.editHomework);
+router.patch(
+  "/class-list/edit-homework/:id",
+  validateCreateHomework(),
+  HomeController.handleEditHomework
+);
+router.delete("/class-list/delete-homework/:id", HomeController.deleteHomework);
+router.get("/class-list/homework-detail/:id", HomeController.homeworkDetail);
+router.post(
+  "/class-list/homework-detail/:id",
+  HomeController.addExerciseSubmit
+);
+router.post(
+  "/class-list/homework-detail/reply/:id",
+  HomeController.replyHomeworkDetail
 );
 
 module.exports = router;

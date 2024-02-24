@@ -35,15 +35,16 @@ CREATE TABLE IF NOT EXISTS `classes` (
   UNIQUE KEY `name` (`name`),
   KEY `courseId` (`courseId`),
   CONSTRAINT `classes_ibfk_1` FOREIGN KEY (`courseId`) REFERENCES `courses` (`id`) ON DELETE CASCADE
-) ENGINE=InnoDB AUTO_INCREMENT=7 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=9 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
--- Dumping data for table f8_project_manager_classes.classes: ~4 rows (approximately)
+-- Dumping data for table f8_project_manager_classes.classes: ~6 rows (approximately)
 INSERT INTO `classes` (`id`, `name`, `quantity`, `startDate`, `endDate`, `schedule`, `timeLearn`, `courseId`, `createdAt`, `updatedAt`) VALUES
-	(2, 'full-stack-1', 3, '2024-01-30 07:00:00', '2024-05-14 00:00:00', '2,6', '21:43,22:44,21:44,23:44', 1, '2024-01-30 21:44:02', '2024-01-30 21:44:52'),
-	(3, 'font-end-k1', 2, '2024-01-30 07:00:00', '2024-06-18 00:00:00', '2', '21:44,22:44', 3, '2024-01-30 21:44:20', '2024-01-30 21:44:59'),
-	(4, 'full-stack-2', 1, '2024-01-25 07:00:00', '2024-08-22 00:00:00', '4', '21:44,23:44', 1, '2024-01-30 21:44:34', '2024-01-30 21:45:05'),
-	(5, 'Back-end-1', 0, '2024-02-01 07:00:00', '2024-06-20 00:00:00', '4', '10:26,11:26', 2, '2024-02-01 10:27:00', '2024-02-01 10:27:00'),
-	(6, 'full-stack-5', 0, '2024-02-15 07:00:00', '2024-09-12 00:00:00', '4', '15:23,19:23', 1, '2024-02-07 15:23:12', '2024-02-07 15:23:12');
+	(3, 'font-end-k1', 3, '2024-01-30 07:00:00', '2024-06-18 00:00:00', '2', '21:44,22:44', 3, '2024-01-30 21:44:20', '2024-02-20 17:19:38'),
+	(4, 'full-stack-2', 2, '2024-01-25 07:00:00', '2024-08-22 00:00:00', '4', '21:44,23:44', 1, '2024-01-30 21:44:34', '2024-02-20 17:27:02'),
+	(5, 'Back-end-1', 3, '2024-02-01 07:00:00', '2024-06-20 00:00:00', '4', '10:26,11:26', 2, '2024-02-01 10:27:00', '2024-02-21 17:46:55'),
+	(6, 'full-stack-5', 2, '2024-02-15 07:00:00', '2024-09-12 00:00:00', '4', '15:23,19:23', 1, '2024-02-07 15:23:12', '2024-02-20 17:19:52'),
+	(7, 'tetst', 0, '2024-02-20 07:00:00', '2024-10-01 00:00:00', '2', '21:19,22:19', 5, '2024-02-20 21:19:03', '2024-02-20 21:19:03'),
+	(8, 'adsfdalskfjhla', 0, '2024-02-20 07:00:00', '2024-04-30 00:00:00', '1,2', '21:57,22:57,21:57,22:57', 2, '2024-02-20 21:57:35', '2024-02-20 21:57:35');
 
 -- Dumping structure for table f8_project_manager_classes.classesteacher
 CREATE TABLE IF NOT EXISTS `classesteacher` (
@@ -57,15 +58,16 @@ CREATE TABLE IF NOT EXISTS `classesteacher` (
   KEY `classId` (`classId`),
   CONSTRAINT `classesteacher_ibfk_1` FOREIGN KEY (`teacherId`) REFERENCES `users` (`id`) ON DELETE CASCADE,
   CONSTRAINT `classesteacher_ibfk_2` FOREIGN KEY (`classId`) REFERENCES `classes` (`id`) ON DELETE CASCADE
-) ENGINE=InnoDB AUTO_INCREMENT=6 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=8 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
--- Dumping data for table f8_project_manager_classes.classesteacher: ~4 rows (approximately)
+-- Dumping data for table f8_project_manager_classes.classesteacher: ~6 rows (approximately)
 INSERT INTO `classesteacher` (`id`, `teacherId`, `classId`, `createdAt`, `updatedAt`) VALUES
-	(1, 103, 2, '2024-01-30 21:44:02', '2024-01-30 21:44:02'),
 	(2, 104, 3, '2024-01-30 21:44:20', '2024-01-30 21:44:20'),
 	(3, 103, 4, '2024-01-30 21:44:34', '2024-01-30 21:44:34'),
 	(4, 103, 5, '2024-02-01 10:27:00', '2024-02-01 10:27:00'),
-	(5, 103, 6, '2024-02-07 15:23:12', '2024-02-07 15:23:12');
+	(5, 103, 6, '2024-02-07 15:23:12', '2024-02-07 15:23:12'),
+	(6, 103, 7, '2024-02-20 21:19:03', '2024-02-20 21:19:03'),
+	(7, 103, 8, '2024-02-20 21:57:35', '2024-02-20 21:57:35');
 
 -- Dumping structure for table f8_project_manager_classes.comments
 CREATE TABLE IF NOT EXISTS `comments` (
@@ -97,15 +99,17 @@ CREATE TABLE IF NOT EXISTS `coursemodules` (
   PRIMARY KEY (`id`),
   KEY `courseId` (`courseId`),
   CONSTRAINT `coursemodules_ibfk_1` FOREIGN KEY (`courseId`) REFERENCES `courses` (`id`) ON DELETE CASCADE
-) ENGINE=InnoDB AUTO_INCREMENT=7 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=9 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
--- Dumping data for table f8_project_manager_classes.coursemodules: ~5 rows (approximately)
+-- Dumping data for table f8_project_manager_classes.coursemodules: ~7 rows (approximately)
 INSERT INTO `coursemodules` (`id`, `name`, `courseId`, `createdAt`, `updatedAt`) VALUES
 	(1, 'Giới thiệu', 1, '2024-02-01 10:39:50', '2024-02-02 10:43:06'),
 	(2, 'Nhập môn lập trình', 1, '2024-02-01 10:39:56', '2024-02-02 10:43:22'),
 	(3, 'HTML là gì', 1, '2024-02-01 10:50:23', '2024-02-01 10:50:23'),
 	(4, 'Javascript là gì ?', 1, '2024-02-01 11:06:15', '2024-02-01 11:06:15'),
-	(6, 'Giới thiệu', 2, '2024-02-02 10:39:10', '2024-02-02 10:39:10');
+	(6, 'Giới thiệu', 2, '2024-02-02 10:39:10', '2024-02-02 10:39:10'),
+	(7, 'Giới thiệu chung', 3, '2024-02-21 19:30:33', '2024-02-21 19:30:33'),
+	(8, 'Font-End là gì', 3, '2024-02-21 19:30:43', '2024-02-21 19:30:43');
 
 -- Dumping structure for table f8_project_manager_classes.courses
 CREATE TABLE IF NOT EXISTS `courses` (
@@ -143,9 +147,14 @@ CREATE TABLE IF NOT EXISTS `exercises` (
   PRIMARY KEY (`id`),
   KEY `classId` (`classId`),
   CONSTRAINT `exercises_ibfk_1` FOREIGN KEY (`classId`) REFERENCES `classes` (`id`) ON DELETE CASCADE
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=12 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
--- Dumping data for table f8_project_manager_classes.exercises: ~0 rows (approximately)
+-- Dumping data for table f8_project_manager_classes.exercises: ~4 rows (approximately)
+INSERT INTO `exercises` (`id`, `classId`, `title`, `content`, `attachment`, `createdAt`, `updatedAt`) VALUES
+	(6, 3, 'Bài tập 3', 'Cho tam giác ABC; \\hat{B} = 600, AB = 7cm, BC = 15cm.Trên cạnh BC lấy điểm D sao cho \\hat{BAD} = 600. Gọi H là trung điểm của BD.\r\n\r\na.Tính độ dài HD\r\n\r\nb.Tính độ dài AC.\r\n\r\nc.Tam giác ABC có phải là tam giác vuông hay không?', 'https://momentjs.com/', '2024-02-22 11:46:08', '2024-02-22 16:44:37'),
+	(7, 3, 'bai tap 4', 'Phi Vụ Triệu Đô (Phần 5) Vietsub - HD\r\nMoney Heist (Season 5)\r\n\r\n 2021  50 phút / tập\r\n\r\nĐang phát: Hoàn Tất (10/10)\r\n\r\nTập mới nhất: 1098\r\n\r\nQuốc gia: Âu Mỹ\r\n\r\nDiễn viên: Alba FloresÁlvaro MorteEnrique ArceEsther AceboItziar ItuñoJaime LorenteMiguel HerránPedro AlonsoÚrsula Corberó\r\n\r\nThể loại: Chiến Tranh, Hành Động, Hình Sự, Phiêu Lưu\r\n\r\n1.45/ 5 2 lượt\r\nNỘI DUNG PHIM\r\nPhi Vụ Triệu Đô (Phần 5) này kể về cả nhóm đã ở Ngân hàng Tây Ban Nha hơn 100 giờ và Giáo Sư đang gặp nguy. Tệ hơn nữa, họ sắp phải đối mặt với một kẻ địch mới: quân đội.\r\n\r\nMở rộng...', 'https://sequelize.org/docs/v6/core-concepts/model-querying-basics/#operators', '2024-02-23 08:55:37', '2024-02-23 08:55:37'),
+	(9, 4, 'Bài tập 1', '[ HƯỚNG DẪN LUYỆN NGHE ]\r\n\r\nĐây phần luyện nghe tiếng anh cơ bản dành cho bạn mất gốc.\r\nHôm nay mình hướng dẫn các bạn luyện nghe theo giáo trình Tactics For Listening\r\n\r\n1. Tactics for Listening là gì ?\r\n', 'https://www.youtube.com/watch?v=Fnvp2EO79aw&list=PL58hfP3cNthqKkVWLFJ3_DuoJziQNGGKL', '2024-02-23 09:29:27', '2024-02-23 09:29:27'),
+	(11, 4, 'test', 'Chẳng hạn, bạn có thể nghe trong khi bạn đang rửa chén, lau nhà hay khi đang nấu ăn. Làm những công việc này sẽ khiến tâm trí bạn không còn tập trung vào âm thanh. Tuy nhiên, hãy đảm bảo rằng bạn vẫn có thể nghe thấy những gì đang được nói.\r\n', 'https://www.youtube.com/watch?v=KYk0MXjCmyA', '2024-02-23 09:31:24', '2024-02-23 09:31:38');
 
 -- Dumping structure for table f8_project_manager_classes.exercisessubmits
 CREATE TABLE IF NOT EXISTS `exercisessubmits` (
@@ -154,14 +163,26 @@ CREATE TABLE IF NOT EXISTS `exercisessubmits` (
   `exerciseId` int(11) DEFAULT NULL,
   `content` text DEFAULT NULL,
   `attachment` varchar(200) DEFAULT NULL,
+  `parentId` int(11) DEFAULT NULL,
   `createdAt` datetime NOT NULL,
   `updatedAt` datetime NOT NULL,
   PRIMARY KEY (`id`),
   KEY `studentId` (`studentId`),
-  CONSTRAINT `exercisessubmits_ibfk_1` FOREIGN KEY (`studentId`) REFERENCES `users` (`id`) ON DELETE CASCADE
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+  KEY `exercisessubmits_ibfk_2` (`exerciseId`),
+  CONSTRAINT `exercisessubmits_ibfk_1` FOREIGN KEY (`studentId`) REFERENCES `users` (`id`) ON DELETE CASCADE,
+  CONSTRAINT `exercisessubmits_ibfk_2` FOREIGN KEY (`exerciseId`) REFERENCES `exercises` (`id`) ON DELETE CASCADE
+) ENGINE=InnoDB AUTO_INCREMENT=30 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
--- Dumping data for table f8_project_manager_classes.exercisessubmits: ~0 rows (approximately)
+-- Dumping data for table f8_project_manager_classes.exercisessubmits: ~8 rows (approximately)
+INSERT INTO `exercisessubmits` (`id`, `studentId`, `exerciseId`, `content`, `attachment`, `parentId`, `createdAt`, `updatedAt`) VALUES
+	(1, 18, 6, 'Em nộp bài tập ạ ', NULL, NULL, '2024-02-22 14:23:54', '2024-02-22 14:23:55'),
+	(21, 1, 7, 'hihi dung roi', NULL, NULL, '2024-02-23 08:56:01', '2024-02-23 08:56:01'),
+	(24, 103, 11, 'ĐÂY LÀ TEST GIÁO VIÊN', NULL, NULL, '2024-02-23 09:32:51', '2024-02-23 09:32:51'),
+	(25, 1, 11, 'TEST ADM', NULL, 24, '2024-02-23 09:33:04', '2024-02-23 09:33:04'),
+	(26, 105, 6, 'Em nộp bài tập đây ạ https://www.youtube.com/watch?v=s6n7IL4WXHg', NULL, NULL, '2024-02-23 09:52:55', '2024-02-23 09:52:55'),
+	(27, 1, 6, 'ok chuẩn đó', NULL, 26, '2024-02-23 09:53:08', '2024-02-23 09:53:08'),
+	(28, 105, 9, 'Tớ nộp bài đây https://www.youtube.com/watch?v=s6n7IL4WXHg', NULL, NULL, '2024-02-23 09:54:00', '2024-02-23 09:54:00'),
+	(29, 103, 9, 'ok chuẩn đó', NULL, 28, '2024-02-23 09:55:07', '2024-02-23 09:55:07');
 
 -- Dumping structure for table f8_project_manager_classes.learningstatuses
 CREATE TABLE IF NOT EXISTS `learningstatuses` (
@@ -189,12 +210,15 @@ CREATE TABLE IF NOT EXISTS `logintokens` (
   PRIMARY KEY (`id`),
   KEY `userId` (`userId`),
   CONSTRAINT `logintokens_ibfk_1` FOREIGN KEY (`userId`) REFERENCES `users` (`id`) ON DELETE CASCADE
-) ENGINE=InnoDB AUTO_INCREMENT=62 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=154 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
--- Dumping data for table f8_project_manager_classes.logintokens: ~2 rows (approximately)
+-- Dumping data for table f8_project_manager_classes.logintokens: ~5 rows (approximately)
 INSERT INTO `logintokens` (`id`, `userId`, `token`, `createdAt`, `updatedAt`) VALUES
-	(60, 1, '4f601421e2419b166a073ef8ca267890', '2024-02-16 10:33:48', '2024-02-16 10:33:48'),
-	(61, 103, '311217491123a34d1fc5d845c4ee074c', '2024-02-16 10:41:40', '2024-02-16 10:41:40');
+	(119, 105, '0c8f57d6a9275eb38bc41ad1c84adcbd', '2024-02-23 09:42:34', '2024-02-23 09:42:34'),
+	(141, 2, 'baf2d76aba8a9b92b9378a9a4745e522', '2024-02-24 11:33:38', '2024-02-24 11:33:38'),
+	(148, 1, 'ed0e564cc44cf81a6f490b005c15745d', '2024-02-24 15:53:33', '2024-02-24 15:53:33'),
+	(152, 103, 'f30daf3e82a7669f8499bab4ac874e9c', '2024-02-24 16:04:17', '2024-02-24 16:04:17'),
+	(153, 108, '0a17b197a9b6ad7d08e040faa8e8a499', '2024-02-24 16:06:58', '2024-02-24 16:06:58');
 
 -- Dumping structure for table f8_project_manager_classes.moduledocuments
 CREATE TABLE IF NOT EXISTS `moduledocuments` (
@@ -207,15 +231,18 @@ CREATE TABLE IF NOT EXISTS `moduledocuments` (
   PRIMARY KEY (`id`),
   KEY `moduleId` (`moduleId`),
   CONSTRAINT `moduledocuments_ibfk_1` FOREIGN KEY (`moduleId`) REFERENCES `coursemodules` (`id`) ON DELETE CASCADE
-) ENGINE=InnoDB AUTO_INCREMENT=6 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=9 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
--- Dumping data for table f8_project_manager_classes.moduledocuments: ~4 rows (approximately)
+-- Dumping data for table f8_project_manager_classes.moduledocuments: ~8 rows (approximately)
 INSERT INTO `moduledocuments` (`id`, `content`, `pathName`, `moduleId`, `createdAt`, `updatedAt`) VALUES
 	(1, 'Giới thiệu về lập trình', 'https://codepen.io/hahcntt/pen/BepQVE', 1, '2024-02-01 10:40:14', '2024-02-01 10:40:14'),
 	(2, 'Giới thiệu html', 'https://poe.com/chat/1zmh2fo4c122qdmo5ea', 1, '2024-02-01 10:40:25', '2024-02-01 10:40:25'),
 	(3, 'Cấu trúc dữ liệu', 'https://codepen.io/hahcntt/pen/BepQVE', 2, '2024-02-01 10:40:47', '2024-02-01 10:40:47'),
 	(4, 'Nodejs là gì', 'https://codepen.io/hahcntt/pen/BepQVE', 1, '2024-02-02 10:46:45', '2024-02-02 10:46:45'),
-	(5, 'Gioi thieu ve javasss', 'https://codepen.io/hahcntt/pen/BepQVE', 1, '2024-02-02 10:46:57', '2024-02-02 10:49:40');
+	(5, 'Gioi thieu ve javasss', 'https://codepen.io/hahcntt/pen/BepQVE', 1, '2024-02-02 10:46:57', '2024-02-02 10:49:40'),
+	(6, 'Bạn là ai', 'https://codepen.io/hahcntt/pen/BepQVE', 7, '2024-02-21 19:30:52', '2024-02-21 19:30:52'),
+	(7, 'Tôi là ai', 'https://fontawesome.com/v5/icons/plus-square?f=classic&s=solid&sz=lg', 7, '2024-02-21 19:31:02', '2024-02-21 19:31:02'),
+	(8, 'Tại sao ?', 'https://poe.com/chat/1zmh2fo4c122qdmo5ea', 8, '2024-02-21 19:31:13', '2024-02-21 19:31:13');
 
 -- Dumping structure for table f8_project_manager_classes.permissions
 CREATE TABLE IF NOT EXISTS `permissions` (
@@ -224,9 +251,27 @@ CREATE TABLE IF NOT EXISTS `permissions` (
   `createdAt` datetime NOT NULL,
   `updatedAt` datetime NOT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=18 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
--- Dumping data for table f8_project_manager_classes.permissions: ~0 rows (approximately)
+-- Dumping data for table f8_project_manager_classes.permissions: ~17 rows (approximately)
+INSERT INTO `permissions` (`id`, `value`, `createdAt`, `updatedAt`) VALUES
+	(1, 'users.read', '2024-02-23 16:14:24', '2024-02-23 16:14:24'),
+	(2, 'roles.read', '2024-02-23 16:14:24', '2024-02-23 16:14:24'),
+	(3, 'users.add', '2024-02-23 16:17:29', '2024-02-23 16:17:29'),
+	(4, 'users.update', '2024-02-23 18:11:28', '2024-02-23 18:11:28'),
+	(5, 'roles.add', '2024-02-23 18:11:28', '2024-02-23 18:11:28'),
+	(6, 'users.delete', '2024-02-23 18:12:30', '2024-02-23 18:12:30'),
+	(7, 'users.permission', '2024-02-23 18:12:30', '2024-02-23 18:12:30'),
+	(8, 'roles.update', '2024-02-23 18:13:10', '2024-02-23 18:13:10'),
+	(9, 'courses.update', '2024-02-23 18:13:10', '2024-02-23 18:13:10'),
+	(10, 'courses.delete', '2024-02-23 18:13:10', '2024-02-23 18:13:10'),
+	(11, 'roles.delete', '2024-02-23 18:13:10', '2024-02-23 18:13:10'),
+	(12, 'courses.read', '2024-02-23 18:13:10', '2024-02-23 18:13:10'),
+	(13, 'courses.add', '2024-02-23 18:13:10', '2024-02-23 18:13:10'),
+	(14, 'classes.read', '2024-02-23 18:13:10', '2024-02-23 18:13:10'),
+	(15, 'classes.add', '2024-02-23 18:13:10', '2024-02-23 18:13:10'),
+	(16, 'classes.update', '2024-02-23 18:13:10', '2024-02-23 18:13:10'),
+	(17, 'classes.delete', '2024-02-23 18:13:10', '2024-02-23 18:13:10');
 
 -- Dumping structure for table f8_project_manager_classes.rolepermissions
 CREATE TABLE IF NOT EXISTS `rolepermissions` (
@@ -240,9 +285,34 @@ CREATE TABLE IF NOT EXISTS `rolepermissions` (
   KEY `roleId` (`roleId`),
   CONSTRAINT `rolepermissions_ibfk_1` FOREIGN KEY (`permissionId`) REFERENCES `permissions` (`id`) ON DELETE CASCADE,
   CONSTRAINT `rolepermissions_ibfk_2` FOREIGN KEY (`roleId`) REFERENCES `roles` (`id`) ON DELETE CASCADE
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=49 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
--- Dumping data for table f8_project_manager_classes.rolepermissions: ~0 rows (approximately)
+-- Dumping data for table f8_project_manager_classes.rolepermissions: ~24 rows (approximately)
+INSERT INTO `rolepermissions` (`id`, `permissionId`, `roleId`, `createdAt`, `updatedAt`) VALUES
+	(11, 1, 5, '2024-02-23 18:13:10', '2024-02-23 18:13:10'),
+	(12, 3, 5, '2024-02-23 18:13:10', '2024-02-23 18:13:10'),
+	(13, 6, 5, '2024-02-23 18:13:10', '2024-02-23 18:13:10'),
+	(14, 7, 5, '2024-02-23 18:13:10', '2024-02-23 18:13:10'),
+	(15, 2, 5, '2024-02-23 18:13:10', '2024-02-23 18:13:10'),
+	(16, 5, 5, '2024-02-23 18:13:10', '2024-02-23 18:13:10'),
+	(17, 4, 5, '2024-02-23 18:13:10', '2024-02-23 18:13:10'),
+	(18, 8, 5, '2024-02-23 18:13:10', '2024-02-23 18:13:10'),
+	(19, 9, 5, '2024-02-23 18:13:10', '2024-02-23 18:13:10'),
+	(20, 13, 5, '2024-02-23 18:13:10', '2024-02-23 18:13:10'),
+	(21, 12, 5, '2024-02-23 18:13:10', '2024-02-23 18:13:10'),
+	(22, 15, 5, '2024-02-23 18:13:10', '2024-02-23 18:13:10'),
+	(23, 16, 5, '2024-02-23 18:13:10', '2024-02-23 18:13:10'),
+	(24, 17, 5, '2024-02-23 18:13:10', '2024-02-23 18:13:10'),
+	(25, 10, 5, '2024-02-23 18:13:10', '2024-02-23 18:13:10'),
+	(26, 14, 5, '2024-02-23 18:13:10', '2024-02-23 18:13:10'),
+	(27, 11, 5, '2024-02-23 18:13:10', '2024-02-23 18:13:10'),
+	(32, 2, 6, '2024-02-24 08:42:57', '2024-02-24 08:42:57'),
+	(36, 1, 7, '2024-02-24 09:24:55', '2024-02-24 09:24:55'),
+	(37, 3, 7, '2024-02-24 09:24:55', '2024-02-24 09:24:55'),
+	(38, 4, 7, '2024-02-24 09:24:55', '2024-02-24 09:24:55'),
+	(39, 6, 7, '2024-02-24 09:24:55', '2024-02-24 09:24:55'),
+	(40, 7, 7, '2024-02-24 09:24:55', '2024-02-24 09:24:55'),
+	(43, 1, 6, '2024-02-24 10:19:03', '2024-02-24 10:19:03');
 
 -- Dumping structure for table f8_project_manager_classes.roles
 CREATE TABLE IF NOT EXISTS `roles` (
@@ -251,9 +321,13 @@ CREATE TABLE IF NOT EXISTS `roles` (
   `createdAt` datetime NOT NULL,
   `updatedAt` datetime NOT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=8 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
--- Dumping data for table f8_project_manager_classes.roles: ~0 rows (approximately)
+-- Dumping data for table f8_project_manager_classes.roles: ~3 rows (approximately)
+INSERT INTO `roles` (`id`, `name`, `createdAt`, `updatedAt`) VALUES
+	(5, 'Super Admin', '2024-02-23 18:13:10', '2024-02-23 18:13:10'),
+	(6, 'tét', '2024-02-24 08:42:57', '2024-02-24 11:38:56'),
+	(7, 'Only User', '2024-02-24 09:24:55', '2024-02-24 09:24:55');
 
 -- Dumping structure for table f8_project_manager_classes.sequelizemeta
 CREATE TABLE IF NOT EXISTS `sequelizemeta` (
@@ -318,22 +392,26 @@ CREATE TABLE IF NOT EXISTS `studentsattendances` (
   CONSTRAINT `studentsattendances_ibfk_1` FOREIGN KEY (`statusId`) REFERENCES `learningstatuses` (`id`) ON DELETE CASCADE,
   CONSTRAINT `studentsattendances_ibfk_2` FOREIGN KEY (`studentId`) REFERENCES `users` (`id`) ON DELETE CASCADE,
   CONSTRAINT `studentsattendances_ibfk_3` FOREIGN KEY (`classId`) REFERENCES `classes` (`id`) ON DELETE CASCADE
-) ENGINE=InnoDB AUTO_INCREMENT=139 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=211 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
--- Dumping data for table f8_project_manager_classes.studentsattendances: ~12 rows (approximately)
+-- Dumping data for table f8_project_manager_classes.studentsattendances: ~16 rows (approximately)
 INSERT INTO `studentsattendances` (`id`, `dateLearning`, `statusId`, `studentId`, `classId`, `status`, `createdAt`, `updatedAt`) VALUES
-	(120, '2024-01-30 07:00:00', 1, 8, 2, 0, '2024-02-07 21:38:33', '2024-02-07 21:38:33'),
-	(121, '2024-02-06 07:00:00', 1, 8, 2, 1, '2024-02-07 21:38:33', '2024-02-07 21:38:33'),
-	(122, '2024-02-13 07:00:00', 1, 8, 2, 1, '2024-02-07 21:38:33', '2024-02-07 21:38:33'),
-	(123, '2024-01-30 07:00:00', 1, 12, 2, 1, '2024-02-07 21:38:33', '2024-02-07 21:38:33'),
-	(124, '2024-02-06 07:00:00', 1, 12, 2, 2, '2024-02-07 21:38:33', '2024-02-07 21:38:33'),
-	(125, '2024-02-13 07:00:00', 1, 12, 2, 2, '2024-02-07 21:38:33', '2024-02-07 21:38:33'),
-	(126, '2024-02-20 07:00:00', 1, 12, 2, 1, '2024-02-07 21:38:33', '2024-02-07 21:38:33'),
-	(134, '2024-01-25 07:00:00', 1, 8, 4, 0, '2024-02-07 21:47:04', '2024-02-07 21:47:04'),
-	(135, '2024-02-01 07:00:00', 1, 8, 4, 2, '2024-02-07 21:47:04', '2024-02-07 21:47:04'),
-	(136, '2024-02-08 07:00:00', 1, 8, 4, 0, '2024-02-07 21:47:04', '2024-02-07 21:47:04'),
-	(137, '2024-02-15 07:00:00', 1, 8, 4, 1, '2024-02-07 21:47:04', '2024-02-07 21:47:04'),
-	(138, '2024-03-14 07:00:00', 1, 8, 4, 1, '2024-02-07 21:47:04', '2024-02-07 21:47:04');
+	(183, '2024-01-25 07:00:00', 1, 8, 4, 0, '2024-02-21 19:38:40', '2024-02-21 19:38:40'),
+	(184, '2024-02-01 07:00:00', 1, 8, 4, 2, '2024-02-21 19:38:40', '2024-02-21 19:38:40'),
+	(185, '2024-02-08 07:00:00', 1, 8, 4, 0, '2024-02-21 19:38:40', '2024-02-21 19:38:40'),
+	(186, '2024-02-15 07:00:00', 1, 8, 4, 1, '2024-02-21 19:38:40', '2024-02-21 19:38:40'),
+	(187, '2024-02-22 07:00:00', 1, 8, 4, 2, '2024-02-21 19:38:40', '2024-02-21 19:38:40'),
+	(188, '2024-03-14 07:00:00', 1, 8, 4, 1, '2024-02-21 19:38:40', '2024-02-21 19:38:40'),
+	(189, '2024-01-25 07:00:00', 1, 105, 4, 0, '2024-02-21 19:38:40', '2024-02-21 19:38:40'),
+	(190, '2024-02-01 07:00:00', 1, 105, 4, 1, '2024-02-21 19:38:40', '2024-02-21 19:38:40'),
+	(191, '2024-02-08 07:00:00', 1, 105, 4, 1, '2024-02-21 19:38:40', '2024-02-21 19:38:40'),
+	(192, '2024-02-22 07:00:00', 1, 105, 4, 1, '2024-02-21 19:38:40', '2024-02-21 19:38:40'),
+	(205, '2024-02-06 07:00:00', 1, 8, 3, 1, '2024-02-21 21:44:26', '2024-02-21 21:44:26'),
+	(206, '2024-02-13 07:00:00', 1, 8, 3, 2, '2024-02-21 21:44:26', '2024-02-21 21:44:26'),
+	(207, '2024-01-30 07:00:00', 1, 9, 3, 2, '2024-02-21 21:44:26', '2024-02-21 21:44:26'),
+	(208, '2024-02-13 07:00:00', 1, 9, 3, 1, '2024-02-21 21:44:26', '2024-02-21 21:44:26'),
+	(209, '2024-01-30 07:00:00', 1, 105, 3, 2, '2024-02-21 21:44:26', '2024-02-21 21:44:26'),
+	(210, '2024-02-13 07:00:00', 1, 105, 3, 1, '2024-02-21 21:44:26', '2024-02-21 21:44:26');
 
 -- Dumping structure for table f8_project_manager_classes.studentsclasses
 CREATE TABLE IF NOT EXISTS `studentsclasses` (
@@ -355,16 +433,20 @@ CREATE TABLE IF NOT EXISTS `studentsclasses` (
   CONSTRAINT `studentsclasses_ibfk_1` FOREIGN KEY (`studentId`) REFERENCES `users` (`id`) ON DELETE CASCADE,
   CONSTRAINT `studentsclasses_ibfk_2` FOREIGN KEY (`classId`) REFERENCES `classes` (`id`) ON DELETE CASCADE,
   CONSTRAINT `studentsclasses_ibfk_3` FOREIGN KEY (`statusId`) REFERENCES `learningstatuses` (`id`) ON DELETE CASCADE
-) ENGINE=InnoDB AUTO_INCREMENT=7 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=31 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
--- Dumping data for table f8_project_manager_classes.studentsclasses: ~6 rows (approximately)
+-- Dumping data for table f8_project_manager_classes.studentsclasses: ~10 rows (approximately)
 INSERT INTO `studentsclasses` (`id`, `studentId`, `classId`, `statusId`, `completedDate`, `dropDate`, `recover`, `reasonStatus`, `dateStatus`, `createdAt`, `updatedAt`) VALUES
-	(1, 8, 2, 4, NULL, NULL, NULL, 'thích', '2024-01-08 07:00:00', '2024-01-30 21:44:52', '2024-01-31 16:32:56'),
-	(2, 12, 2, 4, NULL, NULL, NULL, '', '2024-01-29 07:00:00', '2024-01-30 21:44:52', '2024-01-31 16:18:12'),
-	(3, 39, 2, 1, NULL, NULL, NULL, NULL, NULL, '2024-01-30 21:44:52', '2024-01-30 21:44:52'),
-	(4, 8, 3, 1, NULL, NULL, NULL, NULL, NULL, '2024-01-30 21:44:59', '2024-01-30 21:44:59'),
-	(5, 9, 3, 1, NULL, NULL, NULL, NULL, NULL, '2024-01-30 21:44:59', '2024-01-30 21:44:59'),
-	(6, 8, 4, 1, NULL, NULL, NULL, NULL, NULL, '2024-01-30 21:45:05', '2024-01-30 21:45:05');
+	(11, 8, 3, 1, NULL, NULL, NULL, NULL, NULL, '2024-02-20 17:19:38', '2024-02-20 17:19:38'),
+	(12, 9, 3, 1, NULL, NULL, NULL, NULL, NULL, '2024-02-20 17:19:38', '2024-02-20 17:19:38'),
+	(13, 105, 3, 1, NULL, NULL, NULL, NULL, NULL, '2024-02-20 17:19:38', '2024-02-20 17:19:38'),
+	(16, 105, 6, 1, NULL, NULL, NULL, NULL, NULL, '2024-02-20 17:19:52', '2024-02-20 17:19:52'),
+	(17, 106, 6, 1, NULL, NULL, NULL, NULL, NULL, '2024-02-20 17:19:52', '2024-02-20 17:19:52'),
+	(20, 8, 4, 1, NULL, NULL, NULL, NULL, NULL, '2024-02-20 17:27:02', '2024-02-20 17:27:02'),
+	(21, 105, 4, 1, NULL, NULL, NULL, NULL, NULL, '2024-02-20 17:27:02', '2024-02-20 17:27:02'),
+	(28, 9, 5, 1, NULL, NULL, NULL, NULL, NULL, '2024-02-21 17:46:55', '2024-02-21 17:46:55'),
+	(29, 105, 5, 1, NULL, NULL, NULL, NULL, NULL, '2024-02-21 17:46:55', '2024-02-21 17:46:55'),
+	(30, 106, 5, 1, NULL, NULL, NULL, NULL, NULL, '2024-02-21 17:46:55', '2024-02-21 17:46:55');
 
 -- Dumping structure for table f8_project_manager_classes.teachercalendars
 CREATE TABLE IF NOT EXISTS `teachercalendars` (
@@ -380,41 +462,10 @@ CREATE TABLE IF NOT EXISTS `teachercalendars` (
   KEY `classId` (`classId`),
   CONSTRAINT `teachercalendars_ibfk_1` FOREIGN KEY (`teacherId`) REFERENCES `users` (`id`) ON DELETE CASCADE,
   CONSTRAINT `teachercalendars_ibfk_2` FOREIGN KEY (`classId`) REFERENCES `classes` (`id`) ON DELETE CASCADE
-) ENGINE=InnoDB AUTO_INCREMENT=136 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=190 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
--- Dumping data for table f8_project_manager_classes.teachercalendars: ~122 rows (approximately)
+-- Dumping data for table f8_project_manager_classes.teachercalendars: ~158 rows (approximately)
 INSERT INTO `teachercalendars` (`id`, `teacherId`, `classId`, `scheduleStartDate`, `scheduleEndDate`, `createdAt`, `updatedAt`) VALUES
-	(1, 103, 2, '2024-01-30 21:43:00', '2024-01-30 22:44:00', '2024-01-30 21:44:02', '2024-01-30 21:44:02'),
-	(2, 103, 2, '2024-02-06 21:43:00', '2024-02-06 22:44:00', '2024-01-30 21:44:02', '2024-01-30 21:44:02'),
-	(3, 103, 2, '2024-02-13 21:43:00', '2024-02-13 22:44:00', '2024-01-30 21:44:02', '2024-01-30 21:44:02'),
-	(4, 103, 2, '2024-02-20 21:43:00', '2024-02-20 22:44:00', '2024-01-30 21:44:02', '2024-01-30 21:44:02'),
-	(5, 103, 2, '2024-02-27 21:43:00', '2024-02-27 22:44:00', '2024-01-30 21:44:02', '2024-01-30 21:44:02'),
-	(6, 103, 2, '2024-03-05 21:43:00', '2024-03-05 22:44:00', '2024-01-30 21:44:02', '2024-01-30 21:44:02'),
-	(7, 103, 2, '2024-03-12 21:43:00', '2024-03-12 22:44:00', '2024-01-30 21:44:02', '2024-01-30 21:44:02'),
-	(8, 103, 2, '2024-03-19 21:43:00', '2024-03-19 22:44:00', '2024-01-30 21:44:02', '2024-01-30 21:44:02'),
-	(9, 103, 2, '2024-03-26 21:43:00', '2024-03-26 22:44:00', '2024-01-30 21:44:02', '2024-01-30 21:44:02'),
-	(10, 103, 2, '2024-04-02 21:43:00', '2024-04-02 22:44:00', '2024-01-30 21:44:02', '2024-01-30 21:44:02'),
-	(11, 103, 2, '2024-04-09 21:43:00', '2024-04-09 22:44:00', '2024-01-30 21:44:02', '2024-01-30 21:44:02'),
-	(12, 103, 2, '2024-04-16 21:43:00', '2024-04-16 22:44:00', '2024-01-30 21:44:02', '2024-01-30 21:44:02'),
-	(13, 103, 2, '2024-04-23 21:43:00', '2024-04-23 22:44:00', '2024-01-30 21:44:02', '2024-01-30 21:44:02'),
-	(14, 103, 2, '2024-04-30 21:43:00', '2024-04-30 22:44:00', '2024-01-30 21:44:02', '2024-01-30 21:44:02'),
-	(15, 103, 2, '2024-05-07 21:43:00', '2024-05-07 22:44:00', '2024-01-30 21:44:02', '2024-01-30 21:44:02'),
-	(16, 103, 2, '2024-05-14 21:43:00', '2024-05-14 22:44:00', '2024-01-30 21:44:02', '2024-01-30 21:44:02'),
-	(17, 103, 2, '2024-05-21 21:43:00', '2024-05-21 22:44:00', '2024-01-30 21:44:02', '2024-01-30 21:44:02'),
-	(18, 103, 2, '2024-05-28 21:43:00', '2024-05-28 22:44:00', '2024-01-30 21:44:02', '2024-01-30 21:44:02'),
-	(19, 103, 2, '2024-06-04 21:43:00', '2024-06-04 22:44:00', '2024-01-30 21:44:02', '2024-01-30 21:44:02'),
-	(20, 103, 2, '2024-06-11 21:43:00', '2024-06-11 22:44:00', '2024-01-30 21:44:02', '2024-01-30 21:44:02'),
-	(21, 103, 2, '2024-06-18 21:43:00', '2024-06-18 22:44:00', '2024-01-30 21:44:02', '2024-01-30 21:44:02'),
-	(22, 103, 2, '2024-06-25 21:43:00', '2024-06-25 22:44:00', '2024-01-30 21:44:02', '2024-01-30 21:44:02'),
-	(23, 103, 2, '2024-07-02 21:43:00', '2024-07-02 22:44:00', '2024-01-30 21:44:02', '2024-01-30 21:44:02'),
-	(24, 103, 2, '2024-07-09 21:43:00', '2024-07-09 22:44:00', '2024-01-30 21:44:02', '2024-01-30 21:44:02'),
-	(25, 103, 2, '2024-07-16 21:43:00', '2024-07-16 22:44:00', '2024-01-30 21:44:02', '2024-01-30 21:44:02'),
-	(26, 103, 2, '2024-07-23 21:43:00', '2024-07-23 22:44:00', '2024-01-30 21:44:02', '2024-01-30 21:44:02'),
-	(27, 103, 2, '2024-07-30 21:43:00', '2024-07-30 22:44:00', '2024-01-30 21:44:02', '2024-01-30 21:44:02'),
-	(28, 103, 2, '2024-08-06 21:43:00', '2024-08-06 22:44:00', '2024-01-30 21:44:02', '2024-01-30 21:44:02'),
-	(29, 103, 2, '2024-08-13 21:43:00', '2024-08-13 22:44:00', '2024-01-30 21:44:02', '2024-01-30 21:44:02'),
-	(30, 103, 2, '2024-08-20 21:43:00', '2024-08-20 22:44:00', '2024-01-30 21:44:02', '2024-01-30 21:44:02'),
-	(31, 103, 2, '2024-08-27 21:43:00', '2024-08-27 22:44:00', '2024-01-30 21:44:02', '2024-01-30 21:44:02'),
 	(32, 104, 3, '2024-01-30 21:44:00', '2024-01-30 22:44:00', '2024-01-30 21:44:20', '2024-01-30 21:44:20'),
 	(33, 104, 3, '2024-02-06 21:44:00', '2024-02-06 22:44:00', '2024-01-30 21:44:20', '2024-01-30 21:44:20'),
 	(34, 104, 3, '2024-02-13 21:44:00', '2024-02-13 22:44:00', '2024-01-30 21:44:20', '2024-01-30 21:44:20'),
@@ -518,7 +569,61 @@ INSERT INTO `teachercalendars` (`id`, `teacherId`, `classId`, `scheduleStartDate
 	(132, 103, 6, '2024-08-22 15:23:00', '2024-08-22 19:23:00', '2024-02-07 15:23:12', '2024-02-07 15:23:12'),
 	(133, 103, 6, '2024-08-29 15:23:00', '2024-08-29 19:23:00', '2024-02-07 15:23:12', '2024-02-07 15:23:12'),
 	(134, 103, 6, '2024-09-05 15:23:00', '2024-09-05 19:23:00', '2024-02-07 15:23:12', '2024-02-07 15:23:12'),
-	(135, 103, 6, '2024-09-12 15:23:00', '2024-09-12 19:23:00', '2024-02-07 15:23:12', '2024-02-07 15:23:12');
+	(135, 103, 6, '2024-09-12 15:23:00', '2024-09-12 19:23:00', '2024-02-07 15:23:12', '2024-02-07 15:23:12'),
+	(136, 103, 7, '2024-02-20 21:19:00', '2024-02-20 22:19:00', '2024-02-20 21:19:03', '2024-02-20 21:19:03'),
+	(137, 103, 7, '2024-02-27 21:19:00', '2024-02-27 22:19:00', '2024-02-20 21:19:03', '2024-02-20 21:19:03'),
+	(138, 103, 7, '2024-03-05 21:19:00', '2024-03-05 22:19:00', '2024-02-20 21:19:03', '2024-02-20 21:19:03'),
+	(139, 103, 7, '2024-03-12 21:19:00', '2024-03-12 22:19:00', '2024-02-20 21:19:03', '2024-02-20 21:19:03'),
+	(140, 103, 7, '2024-03-19 21:19:00', '2024-03-19 22:19:00', '2024-02-20 21:19:03', '2024-02-20 21:19:03'),
+	(141, 103, 7, '2024-03-26 21:19:00', '2024-03-26 22:19:00', '2024-02-20 21:19:03', '2024-02-20 21:19:03'),
+	(142, 103, 7, '2024-04-02 21:19:00', '2024-04-02 22:19:00', '2024-02-20 21:19:03', '2024-02-20 21:19:03'),
+	(143, 103, 7, '2024-04-09 21:19:00', '2024-04-09 22:19:00', '2024-02-20 21:19:03', '2024-02-20 21:19:03'),
+	(144, 103, 7, '2024-04-16 21:19:00', '2024-04-16 22:19:00', '2024-02-20 21:19:03', '2024-02-20 21:19:03'),
+	(145, 103, 7, '2024-04-23 21:19:00', '2024-04-23 22:19:00', '2024-02-20 21:19:03', '2024-02-20 21:19:03'),
+	(146, 103, 7, '2024-04-30 21:19:00', '2024-04-30 22:19:00', '2024-02-20 21:19:03', '2024-02-20 21:19:03'),
+	(147, 103, 7, '2024-05-07 21:19:00', '2024-05-07 22:19:00', '2024-02-20 21:19:03', '2024-02-20 21:19:03'),
+	(148, 103, 7, '2024-05-14 21:19:00', '2024-05-14 22:19:00', '2024-02-20 21:19:03', '2024-02-20 21:19:03'),
+	(149, 103, 7, '2024-05-21 21:19:00', '2024-05-21 22:19:00', '2024-02-20 21:19:03', '2024-02-20 21:19:03'),
+	(150, 103, 7, '2024-05-28 21:19:00', '2024-05-28 22:19:00', '2024-02-20 21:19:03', '2024-02-20 21:19:03'),
+	(151, 103, 7, '2024-06-04 21:19:00', '2024-06-04 22:19:00', '2024-02-20 21:19:03', '2024-02-20 21:19:03'),
+	(152, 103, 7, '2024-06-11 21:19:00', '2024-06-11 22:19:00', '2024-02-20 21:19:03', '2024-02-20 21:19:03'),
+	(153, 103, 7, '2024-06-18 21:19:00', '2024-06-18 22:19:00', '2024-02-20 21:19:03', '2024-02-20 21:19:03'),
+	(154, 103, 7, '2024-06-25 21:19:00', '2024-06-25 22:19:00', '2024-02-20 21:19:03', '2024-02-20 21:19:03'),
+	(155, 103, 7, '2024-07-02 21:19:00', '2024-07-02 22:19:00', '2024-02-20 21:19:03', '2024-02-20 21:19:03'),
+	(156, 103, 7, '2024-07-09 21:19:00', '2024-07-09 22:19:00', '2024-02-20 21:19:03', '2024-02-20 21:19:03'),
+	(157, 103, 7, '2024-07-16 21:19:00', '2024-07-16 22:19:00', '2024-02-20 21:19:03', '2024-02-20 21:19:03'),
+	(158, 103, 7, '2024-07-23 21:19:00', '2024-07-23 22:19:00', '2024-02-20 21:19:03', '2024-02-20 21:19:03'),
+	(159, 103, 7, '2024-07-30 21:19:00', '2024-07-30 22:19:00', '2024-02-20 21:19:03', '2024-02-20 21:19:03'),
+	(160, 103, 7, '2024-08-06 21:19:00', '2024-08-06 22:19:00', '2024-02-20 21:19:03', '2024-02-20 21:19:03'),
+	(161, 103, 7, '2024-08-13 21:19:00', '2024-08-13 22:19:00', '2024-02-20 21:19:03', '2024-02-20 21:19:03'),
+	(162, 103, 7, '2024-08-20 21:19:00', '2024-08-20 22:19:00', '2024-02-20 21:19:03', '2024-02-20 21:19:03'),
+	(163, 103, 7, '2024-08-27 21:19:00', '2024-08-27 22:19:00', '2024-02-20 21:19:03', '2024-02-20 21:19:03'),
+	(164, 103, 7, '2024-09-03 21:19:00', '2024-09-03 22:19:00', '2024-02-20 21:19:03', '2024-02-20 21:19:03'),
+	(165, 103, 7, '2024-09-10 21:19:00', '2024-09-10 22:19:00', '2024-02-20 21:19:03', '2024-02-20 21:19:03'),
+	(166, 103, 7, '2024-09-17 21:19:00', '2024-09-17 22:19:00', '2024-02-20 21:19:03', '2024-02-20 21:19:03'),
+	(167, 103, 7, '2024-09-24 21:19:00', '2024-09-24 22:19:00', '2024-02-20 21:19:03', '2024-02-20 21:19:03'),
+	(168, 103, 7, '2024-10-01 21:19:00', '2024-10-01 22:19:00', '2024-02-20 21:19:03', '2024-02-20 21:19:03'),
+	(169, 103, 8, '2024-02-20 21:57:00', '2024-02-20 22:57:00', '2024-02-20 21:57:35', '2024-02-20 21:57:35'),
+	(170, 103, 8, '2024-02-26 21:57:00', '2024-02-26 22:57:00', '2024-02-20 21:57:35', '2024-02-20 21:57:35'),
+	(171, 103, 8, '2024-02-27 21:57:00', '2024-02-27 22:57:00', '2024-02-20 21:57:35', '2024-02-20 21:57:35'),
+	(172, 103, 8, '2024-03-04 21:57:00', '2024-03-04 22:57:00', '2024-02-20 21:57:35', '2024-02-20 21:57:35'),
+	(173, 103, 8, '2024-03-05 21:57:00', '2024-03-05 22:57:00', '2024-02-20 21:57:35', '2024-02-20 21:57:35'),
+	(174, 103, 8, '2024-03-11 21:57:00', '2024-03-11 22:57:00', '2024-02-20 21:57:35', '2024-02-20 21:57:35'),
+	(175, 103, 8, '2024-03-12 21:57:00', '2024-03-12 22:57:00', '2024-02-20 21:57:35', '2024-02-20 21:57:35'),
+	(176, 103, 8, '2024-03-18 21:57:00', '2024-03-18 22:57:00', '2024-02-20 21:57:35', '2024-02-20 21:57:35'),
+	(177, 103, 8, '2024-03-19 21:57:00', '2024-03-19 22:57:00', '2024-02-20 21:57:35', '2024-02-20 21:57:35'),
+	(178, 103, 8, '2024-03-25 21:57:00', '2024-03-25 22:57:00', '2024-02-20 21:57:35', '2024-02-20 21:57:35'),
+	(179, 103, 8, '2024-03-26 21:57:00', '2024-03-26 22:57:00', '2024-02-20 21:57:35', '2024-02-20 21:57:35'),
+	(180, 103, 8, '2024-04-01 21:57:00', '2024-04-01 22:57:00', '2024-02-20 21:57:35', '2024-02-20 21:57:35'),
+	(181, 103, 8, '2024-04-02 21:57:00', '2024-04-02 22:57:00', '2024-02-20 21:57:35', '2024-02-20 21:57:35'),
+	(182, 103, 8, '2024-04-08 21:57:00', '2024-04-08 22:57:00', '2024-02-20 21:57:35', '2024-02-20 21:57:35'),
+	(183, 103, 8, '2024-04-09 21:57:00', '2024-04-09 22:57:00', '2024-02-20 21:57:35', '2024-02-20 21:57:35'),
+	(184, 103, 8, '2024-04-15 21:57:00', '2024-04-15 22:57:00', '2024-02-20 21:57:35', '2024-02-20 21:57:35'),
+	(185, 103, 8, '2024-04-16 21:57:00', '2024-04-16 22:57:00', '2024-02-20 21:57:35', '2024-02-20 21:57:35'),
+	(186, 103, 8, '2024-04-22 21:57:00', '2024-04-22 22:57:00', '2024-02-20 21:57:35', '2024-02-20 21:57:35'),
+	(187, 103, 8, '2024-04-23 21:57:00', '2024-04-23 22:57:00', '2024-02-20 21:57:35', '2024-02-20 21:57:35'),
+	(188, 103, 8, '2024-04-29 21:57:00', '2024-04-29 22:57:00', '2024-02-20 21:57:35', '2024-02-20 21:57:35'),
+	(189, 103, 8, '2024-04-30 21:57:00', '2024-04-30 22:57:00', '2024-02-20 21:57:35', '2024-02-20 21:57:35');
 
 -- Dumping structure for table f8_project_manager_classes.types
 CREATE TABLE IF NOT EXISTS `types` (
@@ -547,12 +652,15 @@ CREATE TABLE IF NOT EXISTS `userotps` (
   UNIQUE KEY `otp` (`otp`),
   KEY `userId` (`userId`),
   CONSTRAINT `userotps_ibfk_1` FOREIGN KEY (`userId`) REFERENCES `users` (`id`) ON DELETE CASCADE
-) ENGINE=InnoDB AUTO_INCREMENT=3 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=15 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
--- Dumping data for table f8_project_manager_classes.userotps: ~2 rows (approximately)
+-- Dumping data for table f8_project_manager_classes.userotps: ~5 rows (approximately)
 INSERT INTO `userotps` (`id`, `otp`, `userId`, `expires`, `createdAt`, `updatedAt`) VALUES
-	(1, '6400', 103, '2024-01-30 21:47:28', '2024-01-30 21:46:28', '2024-01-30 21:46:28'),
-	(2, '1276', 1, '2024-02-16 10:34:16', '2024-02-16 10:33:16', '2024-02-16 10:33:16');
+	(3, '8333', 105, '2024-02-20 16:57:24', '2024-02-20 16:56:24', '2024-02-20 16:56:24'),
+	(6, '1384', 2, '2024-02-24 10:19:04', '2024-02-24 10:18:04', '2024-02-24 10:18:04'),
+	(12, '9939', 108, '2024-02-24 15:54:55', '2024-02-24 15:53:55', '2024-02-24 15:53:55'),
+	(13, '8993', 103, '2024-02-24 16:04:41', '2024-02-24 16:03:41', '2024-02-24 16:03:41'),
+	(14, '1613', 1, '2024-02-24 16:05:57', '2024-02-24 16:04:57', '2024-02-24 16:04:57');
 
 -- Dumping structure for table f8_project_manager_classes.userpermissions
 CREATE TABLE IF NOT EXISTS `userpermissions` (
@@ -582,9 +690,13 @@ CREATE TABLE IF NOT EXISTS `userroles` (
   KEY `roleId` (`roleId`),
   CONSTRAINT `userroles_ibfk_1` FOREIGN KEY (`userId`) REFERENCES `users` (`id`) ON DELETE CASCADE,
   CONSTRAINT `userroles_ibfk_2` FOREIGN KEY (`roleId`) REFERENCES `roles` (`id`) ON DELETE CASCADE
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=8 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
--- Dumping data for table f8_project_manager_classes.userroles: ~0 rows (approximately)
+-- Dumping data for table f8_project_manager_classes.userroles: ~3 rows (approximately)
+INSERT INTO `userroles` (`id`, `userId`, `roleId`, `createdAt`, `updatedAt`) VALUES
+	(5, 2, 6, '2024-02-24 09:51:12', '2024-02-24 09:51:12'),
+	(6, 1, 5, '2024-02-24 09:52:14', '2024-02-24 09:52:14'),
+	(7, 108, 5, '2024-02-24 15:53:44', '2024-02-24 15:53:44');
 
 -- Dumping structure for table f8_project_manager_classes.users
 CREATE TABLE IF NOT EXISTS `users` (
@@ -602,12 +714,12 @@ CREATE TABLE IF NOT EXISTS `users` (
   UNIQUE KEY `email` (`email`),
   KEY `typeId` (`typeId`),
   CONSTRAINT `users_ibfk_1` FOREIGN KEY (`typeId`) REFERENCES `types` (`id`) ON DELETE CASCADE
-) ENGINE=InnoDB AUTO_INCREMENT=108 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=109 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
--- Dumping data for table f8_project_manager_classes.users: ~102 rows (approximately)
+-- Dumping data for table f8_project_manager_classes.users: ~108 rows (approximately)
 INSERT INTO `users` (`id`, `name`, `email`, `password`, `phone`, `address`, `typeId`, `firstLogin`, `createdAt`, `updatedAt`) VALUES
 	(1, 'Admin', 'admin@gmail.com', '$2b$10$rmQ/CRftXSlsCsxqSvrb3OJnC5.ErdzA8pV6qhUT8VUCmm7wGC9h.', NULL, NULL, 3, 1, '2024-01-30 21:41:25', '2024-01-30 21:42:02'),
-	(2, 'nguyen thanh nam', 'nam2002bv@gmail.com', '$2b$10$yim/GDoqyKhCkJaj7ev6PeaYIN4YfQHbhnvb5E8THfFer8kNrfGZe', NULL, NULL, 3, 0, '2024-01-30 21:41:25', '2024-01-30 21:41:25'),
+	(2, 'nguyen thanh nam', 'nam2002bv@gmail.com', '$2b$10$cHtVFfo898JZv6egHbrOgecbgOIrmeEgsPan/S2pvP8DSHHEuCzru', NULL, NULL, 3, 1, '2024-01-30 21:41:25', '2024-02-24 09:51:31'),
 	(3, 'nguyen van 0', 'nguyenvan0@gmail.com', '$2b$10$5q09V4nc7gD0S640g4sGoet3KwV7OjmE/T6w63gg76vuoVqtfcYym', '0943996675', NULL, 3, 0, '2024-01-30 21:41:25', '2024-01-30 21:41:25'),
 	(4, 'nguyen van 1', 'nguyenvan1@gmail.com', '$2b$10$B.a0LmwwSl8KE7R3a8kCs.iYAZLAGQfy.3Kjg9Mua.BKh/M0Gpvhi', '0927016896', NULL, 2, 0, '2024-01-30 21:41:25', '2024-01-30 21:41:25'),
 	(5, 'nguyen van 2', 'nguyenvan2@gmail.com', '$2b$10$l3XjDybrh8XLGeDmvsCPt.2pLRnNPzVSWRTyZfZ4ArcPSeRnpB4qy', '0978038882', NULL, 3, 0, '2024-01-30 21:41:25', '2024-01-30 21:41:25'),
@@ -708,11 +820,12 @@ INSERT INTO `users` (`id`, `name`, `email`, `password`, `phone`, `address`, `typ
 	(100, 'nguyen van 97', 'nguyenvan97@gmail.com', '$2b$10$BSxfEYzGgMRuVazNfZT1Vui.HhxxYKCeTfd1LkXuYvXtGvIt/9vWS', '0952214067', NULL, 1, 0, '2024-01-30 21:41:30', '2024-01-30 21:41:30'),
 	(101, 'nguyen van 98', 'nguyenvan98@gmail.com', '$2b$10$S.esjLOFO2NN4J6CYDUknOfhGIqtGE.LHThyH0jHHf2JIL3PrUrBq', '0966774893', NULL, 3, 0, '2024-01-30 21:41:30', '2024-01-30 21:41:30'),
 	(102, 'nguyen van 99', 'nguyenvan99@gmail.com', '$2b$10$jDIFoiDR.MGHdBkK00EQueB0OHhC0TGBn/fT2YjKK/0/tUyeE4hHW', '0976558026', NULL, 2, 0, '2024-01-30 21:41:30', '2024-01-30 21:41:30'),
-	(103, 'student113', 'student113@gmail.com', '$2b$10$QfaKWuokVwzAI3zzVgVp2OQevDp97ulWuY3tu6Zi.aefxSPcsGrdq', '06498445432', 'Hai Phong', 2, 1, '2024-01-30 21:41:30', '2024-01-30 21:45:46'),
+	(103, 'giang vien test', 'giangvien@gmail.com', '$2b$10$QfaKWuokVwzAI3zzVgVp2OQevDp97ulWuY3tu6Zi.aefxSPcsGrdq', '06498445432', 'Hai Phong', 2, 1, '2024-01-30 21:41:30', '2024-01-30 21:45:46'),
 	(104, 'tran lan', 'lanst2333@gmail.com', '$2b$10$zNbEuXZwDgQN7m5srhfNuemFo3fn5XjPITjKRGOJFSWGNLYvHfhCC', '091545432', 'Hai Phong', 2, 0, '2024-01-30 21:41:30', '2024-01-30 21:41:30'),
-	(105, 'nguyen kien', 'kienad23@gmail.com', '$2b$10$EyoQA4RPMPvopa41KvfLVe7gwQuaIA1lbN289i/XqpF7gL3g61ihy', '09848445432', 'Quang Ninh', 1, 0, '2024-01-30 21:41:30', '2024-01-30 21:41:30'),
+	(105, 'test hoc vien', 'hocvien@gmail.com', '$2b$10$TRZncmhm51D5lGTfctPvZOlv6oCkD1ohzFzvWRL2SH8Eot/wBD7La', '09848445432', 'Quang Ninh', 1, 1, '2024-01-30 21:41:30', '2024-02-20 16:49:11'),
 	(106, 'tran long', 'tranlong8448@gmail.com', '$2b$10$Eb4eB9gll3lKgzW7/fn6Ce1RkxtgZqQC3hQOEiQOkzPHpwBzKDSbO', NULL, NULL, 1, 0, '2024-01-30 21:41:31', '2024-01-30 21:41:31'),
-	(107, 'hoang an', 'an2000@gmail.com', '$2b$10$2HGswSlsDV5gP2UKUE8qhugrbkpao5cFEnUSNasBQSM2X/kasx1Oe', '0844543002', 'Hai Duong', 2, 0, '2024-01-30 21:41:31', '2024-01-30 21:41:31');
+	(107, 'hoang an', 'an2000@gmail.com', '$2b$10$2HGswSlsDV5gP2UKUE8qhugrbkpao5cFEnUSNasBQSM2X/kasx1Oe', '0844543002', 'Hai Duong', 2, 0, '2024-01-30 21:41:31', '2024-01-30 21:41:31'),
+	(108, 'test admin', 'admin1@gmail.com', '$2b$10$ZyrOVzN1/0.QgAUSrHDfHuGTlpVzLwh4XV03Oa50th6laQLEc1hMi', '0630146514', 'Hai phong', 3, 1, '2024-02-24 15:48:57', '2024-02-24 15:52:08');
 
 -- Dumping structure for table f8_project_manager_classes.userscolumns
 CREATE TABLE IF NOT EXISTS `userscolumns` (
@@ -741,12 +854,14 @@ CREATE TABLE IF NOT EXISTS `usersocials` (
   PRIMARY KEY (`id`),
   KEY `userId` (`userId`),
   CONSTRAINT `usersocials_ibfk_1` FOREIGN KEY (`userId`) REFERENCES `users` (`id`) ON DELETE CASCADE
-) ENGINE=InnoDB AUTO_INCREMENT=3 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=5 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
--- Dumping data for table f8_project_manager_classes.usersocials: ~2 rows (approximately)
+-- Dumping data for table f8_project_manager_classes.usersocials: ~4 rows (approximately)
 INSERT INTO `usersocials` (`id`, `userId`, `provider`, `providerId`, `createdAt`, `updatedAt`) VALUES
 	(1, 1, 'google', '106813759271647600540', '2024-01-30 21:42:11', '2024-01-30 21:42:11'),
-	(2, 103, 'github', '78036237', '2024-01-30 21:46:37', '2024-01-30 21:46:37');
+	(2, 103, 'github', '78036237', '2024-01-30 21:46:37', '2024-01-30 21:46:37'),
+	(3, 105, 'google', '116387464926304599050', '2024-02-20 16:56:35', '2024-02-20 16:56:35'),
+	(4, 2, 'google', '107058906095727553246', '2024-02-24 10:18:42', '2024-02-24 10:18:42');
 
 /*!40103 SET TIME_ZONE=IFNULL(@OLD_TIME_ZONE, 'system') */;
 /*!40101 SET SQL_MODE=IFNULL(@OLD_SQL_MODE, '') */;

@@ -30,8 +30,17 @@
       <th>Email</th>
       <th>Số điện thoại</th>
       <th>Địa chỉ</th>
+      <% if(permissionUtil.getPermissionUser(permissionUser,
+      'users.permission')) {%>
+      <th>Phân quyền</th>
+      <% } %> <% if(permissionUtil.getPermissionUser(permissionUser,
+      'users.update')) {%>
       <th>Sửa</th>
+
+      <% } %> <% if(permissionUtil.getPermissionUser(permissionUser,
+      'users.delete')) {%>
       <th>Xóa</th>
+      <% } %>
     </tr>
   </thead>
   <tbody>
@@ -43,6 +52,17 @@
       <th class="font-weight-normal"><%= user.phone %></th>
 
       <th class="font-weight-normal"><%= user.address %></th>
+      <% if(permissionUtil.getPermissionUser(permissionUser,
+      'users.permission')) {%>
+      <th>
+        <a
+          href="<%= `${redirectPath.ADMIN_PERMISSION}${user.id}` %>"
+          class="btn btn-secondary w-100"
+          >Phân quyền</a
+        >
+      </th>
+      <% } %> <% if(permissionUtil.getPermissionUser(permissionUser,
+      'users.update')) {%>
       <th>
         <a
           href="<%= `${redirectPath.USER_UPDATE}${user.id}` %>"
@@ -51,6 +71,8 @@
         >
       </th>
 
+      <% } %> <% if(permissionUtil.getPermissionUser(permissionUser,
+      'users.delete')) {%>
       <form
         action="<%= `${redirectPath.USER_DELETE_ADMIN}${user.id}` %>"
         method="post"
@@ -64,6 +86,7 @@
         </th>
         <input type="hidden" name="_method" value="DELETE" />
       </form>
+      <% } %>
     </tr>
 
     <% }) %>

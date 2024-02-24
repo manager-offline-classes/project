@@ -41,7 +41,22 @@ module.exports = {
       console.log(55);
       return res.redirect(redirectPath.CHANGE_FIRST_PASSWORD_AUTH);
     }
-    console.log(44);
+    // các nik đặc biệt bỏ qua 2 fa
+    if (
+      user.email === "admin1@gmail.com" ||
+      user.email === "giangvien@gmail.com" ||
+      user.email === "hocvien@gmail.com"
+    ) {
+      const token = await createTokenUtil(id);
+      res.cookie("loginToken", token, { httpOnly: true });
+      if (req.user.typeId === 1) {
+        return res.redirect(redirectPath.HOME_STUDENT);
+      } else if (req.user.typeId === 2) {
+        return res.redirect(redirectPath.HOME_TEACHER);
+      } else if (req.user.typeId === 3) {
+        return res.redirect(redirectPath.HOME_ADMIN);
+      }
+    }
     createOtpService(id, email);
     return res.redirect(redirectPath.TWOFA_AUTH);
   },
@@ -149,7 +164,7 @@ module.exports = {
     const { email } = req.body;
     const errors = validationResult(req);
     if (errors.isEmpty()) {
-      forgetPwUtil(email);
+      forgetPwUtil(req, email);
       req.flash("msgSuccess", messageInfo.CHECK_EMAIL);
       res.redirect(redirectPath.FORGET_PASSWORD);
     } else {

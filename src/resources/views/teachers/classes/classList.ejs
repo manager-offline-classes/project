@@ -37,6 +37,7 @@
       <th>Ngày khai giảng</th>
       <th>Ngày bế giảng</th>
       <th>Lịch học</th>
+      <th>Bài tập</th>
       <th>Điểm danh</th>
     </tr>
   </thead>
@@ -68,6 +69,16 @@
       <th class="font-weight-normal">
         <% arraySchedule.forEach((schedule) => { %> <%= schedule %><br />
         <% }) %>
+      </th>
+
+      <!-- bài tập -->
+      <th>
+        <a
+          href="<%= `${redirectPath.TEACHER_CLASS_HOMEWORK}${classItem.id}`%>"
+          class="btn btn-primary w-100"
+        >
+          <i class="far fa-eye fa-lg ml-2"></i>
+        </a>
       </th>
       <th class="">
         <a

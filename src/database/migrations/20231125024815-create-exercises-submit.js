@@ -19,12 +19,20 @@ module.exports = {
       },
       exerciseId: {
         type: Sequelize.INTEGER,
+        references: {
+          model: "Exercises",
+          key: "id",
+        },
+        onDelete: "CASCADE",
       },
       content: {
         type: Sequelize.TEXT,
       },
       attachment: {
         type: Sequelize.STRING(200),
+      },
+      parentId: {
+        type: Sequelize.INTEGER,
       },
       createdAt: {
         allowNull: false,

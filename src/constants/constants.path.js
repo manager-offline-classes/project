@@ -58,7 +58,18 @@ const redirectPath = {
   CLASS_ADD_STUDENT: "/admin/class-add-student/",
   CLASS_DELETE: "/admin/class-delete/",
   ADMIN_CLASS_ATTENDANCE: "/admin/class-list/attendance/",
-
+  ADMIN_CLASS_HOMEWORK: "/admin/class-list/homework/",
+  ADMIN_CLASS_ADD_HOMEWORK: "/admin/class-list/add-homework/",
+  ADMIN_CLASS_EDIT_HOMEWORK: "/admin/class-list/edit-homework/",
+  ADMIN_CLASS_DELETE_HOMEWORK: "/admin/class-list/delete-homework/",
+  ADMIN_CLASS_DETAIL_HOMEWORK: "/admin/class-list/homework-detail/",
+  ADMIN_CLASS_REPLY_HOMEWORK: "/admin/class-list/homework-detail/reply/",
+  ADMIN_CLASS_DELETE_REPLY_HOMEWORK:
+    "/admin/class-list/homework-detail/delete-reply/",
+  ADMIN_ROLE_ADD: "/admin/roles/add",
+  ADMIN_ROLE_INDEX: "/admin/roles",
+  ADMIN_ROLE_EDIT: "/admin/roles/edit/",
+  ADMIN_PERMISSION: "/admin/users/permissions/",
   // teacher
   TEACHER_CLASS_LIST: "/teacher/class-list",
   VIEW_STUDENT_IN_CLASS: "/teacher/class-list/view-student/",
@@ -82,14 +93,26 @@ const redirectPath = {
   TEACHER_DOCUMENT_DELETE_SECTION:
     "/teacher/course-list/document/delete-section/",
 
+  TEACHER_CLASS_HOMEWORK: "/teacher/class-list/homework/",
+  TEACHER_CLASS_ADD_HOMEWORK: "/teacher/class-list/add-homework/",
+  TEACHER_CLASS_EDIT_HOMEWORK: "/teacher/class-list/edit-homework/",
+  TEACHER_CLASS_DELETE_HOMEWORK: "/teacher/class-list/delete-homework/",
+  TEACHER_CLASS_DETAIL_HOMEWORK: "/teacher/class-list/homework-detail/",
+  TEACHER_CLASS_REPLY_HOMEWORK: "/teacher/class-list/homework-detail/reply/",
+
   // route students
   STUDENT_CLASS_LIST: "/student/class-list",
   STUDENT_CLASS_DOCUMENT: "/student/course-list/document/",
   STUDENT_CLASS_ATTENDANCE: "/student/class-list/attendance/",
+
+  STUDENT_CLASS_HOMEWORK: "/student/class-list/homework/",
+  STUDENT_CLASS_DETAIL_HOMEWORK: "/student/class-list/homework-detail/",
+  STUDENT_CLASS_REPLY_HOMEWORK: "/student/class-list/homework-detail/reply/",
 };
 
 const renderPath = {
   // Auth
+  REDIRECT_LOGIN: "auth/redirectLogin",
   LOGIN_AUTH: "auth/login",
   TWOFA_AUTH: "auth/twoFA",
   FORGET_PASSWORD_AUTH: "auth/forgetPw",
@@ -132,7 +155,14 @@ const renderPath = {
   CLASS_UPDATE: "admin/classes/classUpdate",
   CLASS_ADD_STUDENT: "admin/classes/classAddStudent",
   ADMIN_CLASS_ATTENDANCE: "admin/classes/attendance",
-
+  ADMIN_CLASS_HOMEWORK: "admin/classes/homeworks/homework",
+  ADMIN_CLASS_ADD_HOMEWORK: "admin/classes/homeworks/addHomework",
+  ADMIN_CLASS_EDIT_HOMEWORK: "admin/classes/homeworks/editHomework",
+  ADMIN_CLASS_DETAIL_HOMEWORK: "admin/classes/homeworks/detail",
+  ADMIN_ROLE_ADD: "admin/roles/add",
+  ADMIN_ROLE_INDEX: "admin/roles/index",
+  ADMIN_ROLE_EDIT: "admin/roles/edit",
+  ADMIN_PERMISSION: "admin/users/permission",
   // class teacher
   TEACHER_CLASS_LIST: "teachers/classes/classList",
   VIEW_STUDENT_IN_CLASS: "teachers/classes/viewStudent",
@@ -146,11 +176,19 @@ const renderPath = {
   TEACHER_DOCUMENT_UPDATE_CHAPTER: "teachers/courses/documents/chapterUpdate",
   TEACHER_DOCUMENT_CREATE_SECTION: "teachers/courses/documents/sectionCreate",
   TEACHER_DOCUMENT_UPDATE_SECTION: "teachers/courses/documents/sectionUpdate",
+  // TEACHER homework
+  TEACHER_CLASS_HOMEWORK: "teachers/classes/homeworks/homework",
+  TEACHER_CLASS_ADD_HOMEWORK: "teachers/classes/homeworks/addHomework",
+  TEACHER_CLASS_EDIT_HOMEWORK: "teachers/classes/homeworks/editHomework",
+  TEACHER_CLASS_DETAIL_HOMEWORK: "teachers/classes/homeworks/detail",
 
   //route student
   STUDENT_CLASS_LIST: "students/classes/classList",
   STUDENT_CLASS_DOCUMENT: "students/classes/document",
   STUDENT_CLASS_ATTENDANCE: "students/classes/attendance",
+
+  STUDENT_CLASS_HOMEWORK: "students/classes/homeworks/homework",
+  STUDENT_CLASS_DETAIL_HOMEWORK: "students/classes/homeworks/detail",
 };
 
 module.exports = {

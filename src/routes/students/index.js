@@ -12,4 +12,10 @@ router.get("/class-list", HomeController.classList);
 router.get("/course-list/document/:id", HomeController.document);
 router.get("/class-list/attendance/:id", HomeController.attendance);
 
+router.get("/class-list/homework/:id", HomeController.homeWork);
+router.get("/class-list/homework-detail/:id", HomeController.homeworkDetail);
+router.post(
+  "/class-list/homework-detail/:id",
+  HomeController.addExerciseSubmit
+);
 module.exports = router;

@@ -7,6 +7,7 @@ const {
   CourseModule,
   ModuleDocument,
   TeacherCalendar,
+  ExercisesSubmit,
 } = require("../../../models/index");
 const {
   renderPath,
@@ -21,6 +22,8 @@ const userService = require("../../services/users.services");
 const classesService = require("../../services/classes.services");
 const coursesService = require("../../services/courses.services");
 const studentAttendanceService = require("../../services/studentAttendance.service");
+const exerciseService = require("../../services/exercises.service");
+const exerciseSubmitService = require("../../services/exerciseSubmit.service");
 const moment = require("moment");
 const { getPaginateUrl } = require("../../../utils/url.util");
 const { Op } = require("sequelize");
@@ -194,5 +197,54 @@ module.exports = {
       stlClses,
       arrayAttendances,
     });
+  },
+  homeWork: async (req, res) => {
+    const user = req.user;
+    const msgErr = req.flash("msgErr");
+    const msgSuccess = req.flash("success");
+    const classId = req.params.id;
+    const classItem = await classesService.getClassById(classId);
+    const exercises = await exerciseService.getByClassId(classId);
+    res.render(renderPath.STUDENT_CLASS_HOMEWORK, {
+      user,
+      redirectPath,
+      msgErr,
+      msgSuccess,
+      messageInfo,
+      exercises,
+      classItem,
+    });
+  },
+  homeworkDetail: async (req, res) => {
+    const user = req.user;
+    const msgErr = req.flash("msgErr");
+    const msgSuccess = req.flash("success");
+    const exerciseId = req.params.id;
+
+    const exercise = await exerciseService.getExerciseById(exerciseId, {
+      model: ExercisesSubmit,
+      include: {
+        model: User,
+      },
+    });
+    const classItem = await classesService.getClassById(exercise.classId);
+    res.render(renderPath.STUDENT_CLASS_DETAIL_HOMEWORK, {
+      user,
+      redirectPath,
+      msgErr,
+      msgSuccess,
+      exercise,
+      classItem,
+      moment,
+      messageInfo,
+    });
+  },
+  addExerciseSubmit: async (req, res) => {
+    const exerciseId = req.params.id;
+    const userId = req.user.id;
+    const { content1 } = req.body;
+    await exerciseSubmitService.create(userId, exerciseId, content1);
+    req.flash("success", messageSuccess.CREATE);
+    res.redirect(`${redirectPath.STUDENT_CLASS_DETAIL_HOMEWORK}${exerciseId}`);
   },
 };

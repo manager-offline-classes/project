@@ -36,7 +36,9 @@
           </a>
 
           <div class="d-flex justify-content-start">
-            <h3 class="mt-1">Chương <%= index+1%>: <%= courseModule.name %></h3>
+            <h3 class="mt-1 col-lg-10">
+              Chương <%= index+1%>: <%= courseModule.name %>
+            </h3>
 
             <a
               href="<%= `${redirectPath.ADMIN_DOCUMENT_UPDATE_CHAPTER}${courseModule.id}`%>"
