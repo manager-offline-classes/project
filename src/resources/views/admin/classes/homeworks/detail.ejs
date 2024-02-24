@@ -1,0 +1,182 @@
+<style>
+  body {
+    background-color: #eee;
+  }
+
+  .card {
+    background-color: #fff;
+    border: none;
+  }
+
+  .form-color {
+    background-color: #fafafa;
+  }
+
+  .form-control {
+    height: 48px;
+    border-radius: 25px;
+  }
+
+  .form-control:focus {
+    color: #495057;
+    background-color: #fff;
+    border-color: blue;
+    outline: 0;
+    box-shadow: none;
+    text-indent: 10px;
+  }
+
+  .c-badge {
+    background-color: #35b69f;
+    color: white;
+    height: 20px;
+    font-size: 11px;
+    width: 92px;
+    border-radius: 5px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin-top: 2px;
+  }
+
+  .comment-text {
+    font-size: 13px;
+  }
+
+  .wish {
+    color: #35b69f;
+  }
+
+  .user-feed {
+    font-size: 14px;
+    margin-top: 12px;
+  }
+</style>
+<a
+  href="<%= `${redirectPath.ADMIN_CLASS_HOMEWORK}${classItem.id}`%>"
+  class="text-dark"
+  ><i class="fas fa-2x fa-arrow-alt-circle-left"></i
+></a>
+<%- msgErr.length ? `
+<p class="alert alert-danger">${msgErr}</p>
+` : ""%><%- msgSuccess.length ? `
+<p class="alert alert-success">${msgSuccess}</p>
+` : ""%>
+<h2 class="text-center">Lớp : <%= classItem.name %></h2>
+<h3><%= exercise.title %>:</h3>
+<p class="ml-3"><%= exercise.content %></p>
+<p class="ml-3">
+  Tài liệu: <% if (exercise.attachment) { %>
+  <a href="<%= exercise.attachment %>">đây</a>
+  <% } else { %> không có <% } %>
+</p>
+
+<div class="container mt-5 mb-5">
+  <div class="row height d-flex justify-content-center align-items-center">
+    <div class="col-12">
+      <div class="card">
+        <div class="p-3">
+          <h3>Khu vực nộp bài</h3>
+        </div>
+        <form action="" method="post">
+          <div class="mt-3 d-flex flex-row align-items-center p-3 form-color">
+            <input
+              type="text"
+              name="content1"
+              class="form-control"
+              placeholder="Nhập câu trả lời..."
+            />
+
+            <button type="submit" class="border-0 bg-transparent">
+              <i class="fas fa-paper-plane fa-2x" style="color: blue"></i>
+            </button>
+          </div>
+        </form>
+
+        <% exercise.ExercisesSubmits.forEach( (ExSubmit)=>{ %>
+        <%if(!ExSubmit.parentId){%>
+        <div class="mt-2 border border-primary">
+          <div class="d-flex flex-row p-3">
+            <div class="w-100">
+              <div class="d-flex justify-content-between align-items-center">
+                <div class="d-flex flex-row align-items-center">
+                  <h4 class="mr-2"><%= ExSubmit.User.name %></h4>
+                </div>
+                <small
+                  ><%= moment(ExSubmit.updatedAt).format("DD/MM/YYYY, hh:mm a")
+                  %>
+                </small>
+              </div>
+              <p class="text-justify comment-text mb-0 ml-2">
+                <%= ExSubmit.content %>
+              </p>
+            </div>
+
+            <form
+              action="<%= `${redirectPath.ADMIN_CLASS_DELETE_REPLY_HOMEWORK}${ExSubmit.id}`%>"
+              onsubmit="return confirm('<%= messageInfo.CHECK_DELETE%>')"
+              method="post"
+              class="ml-3"
+            >
+              <button type="submit" class="btn btn-link p-0">
+                <i class="fas fa-trash-alt fa-2x" style="color: #ff0000"></i>
+              </button>
+              <input type="hidden" name="_method" value="DELETE" />
+            </form>
+          </div>
+          <% exercise.ExercisesSubmits.forEach( (ExSubmitReply)=>{ %>
+          <!-- start reply cmt -->
+          <% if(ExSubmit.id == ExSubmitReply.parentId){%>
+          <div class="d-flex flex-row p-3 border-top ml-5">
+            <div class="w-100">
+              <div class="d-flex justify-content-between align-items-center">
+                <div class="d-flex flex-row align-items-center">
+                  <h4 class="mr-2"><%= ExSubmitReply.User.name %></h4>
+                </div>
+                <small
+                  ><%= moment(ExSubmitReply.updatedAt).format("DD/MM, hh:mm a")
+                  %></small
+                >
+              </div>
+              <p class="text-justify comment-text mb-0 ml-2">
+                <%= ExSubmitReply.content %>
+              </p>
+            </div>
+            <form
+              action="<%= `${redirectPath.ADMIN_CLASS_DELETE_REPLY_HOMEWORK}${ExSubmitReply.id}`%>"
+              onsubmit="return confirm('<%= messageInfo.CHECK_DELETE%>')"
+              method="post"
+              class="ml-3"
+            >
+              <button type="submit" class="btn btn-link p-0">
+                <i class="fas fa-trash-alt fa-2x" style="color: #ff0000"></i>
+              </button>
+              <input type="hidden" name="_method" value="DELETE" />
+            </form>
+          </div>
+
+          <!-- end reply cmt --><% } %> <% }) %>
+
+          <form
+            action="<%= `${redirectPath.ADMIN_CLASS_REPLY_HOMEWORK}${ExSubmit.id}` %>"
+            method="post"
+          >
+            <div class="mt-3 d-flex flex-row align-items-center p-3 form-color">
+              <input
+                type="text"
+                name="content2"
+                class="form-control"
+                placeholder="Nhập câu trả lời..."
+              />
+
+              <button type="submit" class="border-0 bg-transparent">
+                <i class="fas fa-paper-plane fa-2x" style="color: blue"></i>
+              </button>
+            </div>
+          </form>
+        </div>
+        <% } %> <% }) %>
+      </div>
+    </div>
+  </div>
+</div>

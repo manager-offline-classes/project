@@ -31,8 +31,14 @@
       <th>Số điện thoại</th>
       <th>Địa chỉ</th>
       <th>Lớp học</th>
+      <% if(permissionUtil.getPermissionUser(permissionUser, 'users.update'))
+      {%>
       <th>Sửa</th>
+
+      <% } %> <% if(permissionUtil.getPermissionUser(permissionUser,
+      'users.delete')) {%>
       <th>Xóa</th>
+      <% } %>
     </tr>
   </thead>
   <tbody>
@@ -49,6 +55,8 @@
         `*${classItem.class} (${classItem.course})`%><br />
         <%} }) %>
       </th>
+      <% if(permissionUtil.getPermissionUser(permissionUser, 'users.update'))
+      {%>
       <th>
         <a
           href="<%= `${redirectPath.USER_UPDATE}${user.id}` %>"
@@ -56,6 +64,8 @@
           >Sửa</a
         >
       </th>
+      <% } %> <% if(permissionUtil.getPermissionUser(permissionUser,
+      'users.delete')) {%>
 
       <form
         action="<%= `${redirectPath.USER_DELETE_ADMIN}${user.id}` %>"
@@ -70,6 +80,7 @@
         </th>
         <input type="hidden" name="_method" value="DELETE" />
       </form>
+      <% } %>
     </tr>
 
     <% }) %>

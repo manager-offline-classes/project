@@ -1,7 +1,7 @@
 const nodemailer = require("nodemailer");
-
+const url = require("url");
 const jwt = require("jsonwebtoken");
-module.exports = async (email) => {
+module.exports = async (req, email) => {
   const token = jwt.sign({ email: email }, process.env.JWT_KEY, {
     expiresIn: 5 * 60,
   });
@@ -14,7 +14,10 @@ module.exports = async (email) => {
       pass: process.env.MAIL_PASS,
     },
   });
-  const linkResetPw = `http://localhost:${process.env.PORT}/auth/resetPw/${token}`;
+  const url = req.protocol + "://" + req.get("host");
+  const linkResetPw = `${url}/auth/resetPw/${token}`;
+  console.log(23442);
+  console.log(linkResetPw);
   await transporter.sendMail({
     from: `"Class NguyenNam" ${process.env.MAIL_USER}`, // sender address
     to: email, // list of receivers

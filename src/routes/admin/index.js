@@ -14,6 +14,8 @@ const {
   validateUpdateClass,
   validateCreateChapter,
   validateCreateSection,
+  validateCreateHomework,
+  validateAddRole,
 } = require("../../http/middlewares/validate.middeware");
 const homeController = require("../../http/controllers/admin/home.controller");
 router.use(authMiddleware);
@@ -143,5 +145,49 @@ router.post("/class-add-student/:id", HomeController.hanldeClassAddStudent);
 
 router.get("/class-list/attendance/:id", HomeController.attendance);
 router.post("/class-list/attendance/:id", HomeController.handleAttendance);
+router.get("/class-list/homework/:id", HomeController.homeWork);
+router.get("/class-list/add-homework/:id", HomeController.addHomeWork);
+router.post(
+  "/class-list/add-homework/:id",
+  validateCreateHomework(),
+  HomeController.hanldeAddHomeWork
+);
+
+router.get("/class-list/edit-homework/:id", HomeController.editHomework);
+router.patch(
+  "/class-list/edit-homework/:id",
+  validateCreateHomework(),
+  HomeController.handleEditHomework
+);
+router.delete("/class-list/delete-homework/:id", HomeController.deleteHomework);
+router.get("/class-list/homework-detail/:id", HomeController.homeworkDetail);
+router.post(
+  "/class-list/homework-detail/:id",
+  HomeController.addExerciseSubmit
+);
+router.post(
+  "/class-list/homework-detail/reply/:id",
+  HomeController.replyHomeworkDetail
+);
+router.delete(
+  "/class-list/homework-detail/delete-reply/:id",
+  HomeController.deleteReplyHomeworkDetail
+);
+
+router.get("/roles/add", HomeController.addRole);
+router.post("/roles/add", validateAddRole(), HomeController.handleAddRole);
+
+router.get("/roles", HomeController.indexRoles);
+router.get("/roles/edit/:id", HomeController.editRole);
+router.patch(
+  "/roles/edit/:id",
+  validateAddRole(),
+  HomeController.handleEditRole
+);
+
+router.delete("/roles/delete/:id", HomeController.deleteRole);
+
+router.get("/users/permissions/:id", HomeController.permission);
+router.post("/users/permissions/:id", HomeController.handlePermission);
 
 module.exports = router;

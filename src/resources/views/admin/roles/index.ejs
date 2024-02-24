@@ -1,0 +1,89 @@
+<%- msgSuccess.length ? `
+<p class="alert alert-success">${msgSuccess}</p>
+` : ""%>
+<div class="card-body">
+  <table class="table table-bordered text-center">
+    <thead>
+      <tr>
+        <th style="width: 20px">#</th>
+        <th style="width: 40%">Tên</th>
+        <% if(permissionUtil.getPermissionUser(permissionUser, 'roles.update')
+        || permissionUtil.getPermissionUser(permissionUser, 'roles.delete')) {%>
+        <th colspan="2">Chức năng</th>
+        <% } %>
+      </tr>
+    </thead>
+    <tbody>
+      <% roles.forEach((role, index) => { %>
+      <tr>
+        <td><%= index + 1 %></td>
+        <td><%= role.name %></td>
+        <% if(permissionUtil.getPermissionUser(permissionUser, 'roles.update'))
+        {%>
+        <td>
+          <form
+            action="<%= `${redirectPath.ADMIN_ROLE_EDIT}${role.id}`%>"
+            method="get"
+          >
+            <button type="submit" class="btn btn-warning">
+              <i class="fas fa-edit"></i>
+            </button>
+          </form>
+        </td>
+        <% } %> <% if(permissionUtil.getPermissionUser(permissionUser,
+        'roles.delete')) {%>
+
+        <td>
+          <button
+            type="button"
+            class="btn btn-danger"
+            data-toggle="modal"
+            data-target="#modal-danger-<%= role.id %>"
+          >
+            <i class="fas fa-trash-alt"></i>
+          </button>
+          <div class="modal fade" id="modal-danger-<%= role.id %>">
+            <div class="modal-dialog">
+              <div class="modal-content bg-danger">
+                <div class="modal-header">
+                  <h4 class="modal-title">Xóa role</h4>
+                  <button
+                    type="button"
+                    class="close"
+                    data-dismiss="modal"
+                    aria-label="Close"
+                  >
+                    <span aria-hidden="true">&times;</span>
+                  </button>
+                </div>
+                <div class="modal-body">
+                  <p>Bạn có chắc xóa role này?</p>
+                </div>
+                <div class="modal-footer justify-content-between">
+                  <button
+                    type="button"
+                    class="btn btn-outline-light"
+                    data-dismiss="modal"
+                  >
+                    Không
+                  </button>
+                  <form
+                    action="/admin/roles/delete/<%= role.id %>"
+                    method="post"
+                  >
+                    <input type="hidden" name="_method" value="DELETE" />
+                    <button type="submit" class="btn btn-outline-light">
+                      Có
+                    </button>
+                  </form>
+                </div>
+              </div>
+            </div>
+          </div>
+        </td>
+        <% } %>
+      </tr>
+      <% }) %>
+    </tbody>
+  </table>
+</div>

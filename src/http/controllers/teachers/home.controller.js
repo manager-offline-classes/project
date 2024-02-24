@@ -9,23 +9,27 @@ const {
   CourseModule,
   ModuleDocument,
   TeacherCalendar,
+  ExercisesSubmit,
+  Exercises,
 } = require("../../../models/index");
 const {
   renderPath,
   redirectPath,
 } = require("../../../constants/constants.path");
-const classesService = require("../../services/classes.services");
 const moment = require("moment");
 
 const { getPaginateUrl } = require("../../../utils/url.util");
 const { Op } = require("sequelize");
 const studentsClassesService = require("../../services/studentsClasses.services");
+const classesService = require("../../services/classes.services");
 const userService = require("../../services/users.services");
 const learningStatusService = require("../../services/learningStatus.services");
 const coursesService = require("../../services/courses.services");
 const courseModuleService = require("../../services/courseModule.services");
 const moduleDocumentService = require("../../services/moduleDocument.services");
 const studentAttendanceService = require("../../services/studentAttendance.service");
+const exerciseService = require("../../services/exercises.service");
+const exerciseSubmitService = require("../../services/exerciseSubmit.service");
 const {
   messageSuccess,
   messageInfo,
@@ -669,5 +673,146 @@ module.exports = {
     }
     req.flash("success", messageSuccess.UPDATE);
     res.redirect(redirectPath.TEACHER_STUDENT_LIST);
+  },
+
+  homeWork: async (req, res) => {
+    const user = req.user;
+    const msgErr = req.flash("msgErr");
+    const msgSuccess = req.flash("success");
+    const classId = req.params.id;
+    const classItem = await classesService.getClassById(classId);
+    const exercises = await exerciseService.getByClassId(classId);
+    res.render(renderPath.TEACHER_CLASS_HOMEWORK, {
+      user,
+      redirectPath,
+      msgErr,
+      msgSuccess,
+      messageInfo,
+      exercises,
+      classItem,
+    });
+  },
+  addHomeWork: async (req, res) => {
+    const user = req.user;
+    const msgErr = req.flash("msgErr");
+    const errors = req.flash("errors");
+    const classId = req.params.id;
+    const classItem = await classesService.getClassById(classId);
+    res.render(renderPath.TEACHER_CLASS_ADD_HOMEWORK, {
+      user,
+      redirectPath,
+      msgErr,
+      classItem,
+      validateUtil,
+      errors,
+    });
+  },
+  hanldeAddHomeWork: async (req, res) => {
+    const errors = validationResult(req);
+    const classId = req.params.id;
+    if (errors.isEmpty()) {
+      const { title, attachment, content } = req.body;
+      await exerciseService.create(classId, title, content, attachment);
+      req.flash("success", messageSuccess.CREATE);
+      res.redirect(`${redirectPath.TEACHER_CLASS_HOMEWORK}${classId}`);
+    } else {
+      req.flash("errors", errors.array());
+      req.flash("msgErr", messageError.ERROR_INFO);
+      res.redirect(`${redirectPath.TEACHER_CLASS_ADD_HOMEWORK}${classId}`);
+    }
+  },
+  editHomework: async (req, res) => {
+    const user = req.user;
+    const errors = req.flash("errors");
+    const msgErr = req.flash("msgErr");
+    const exerciseId = req.params.id;
+    const exercise = await exerciseService.getExerciseById(exerciseId, {
+      model: Class,
+    });
+    res.render(renderPath.TEACHER_CLASS_EDIT_HOMEWORK, {
+      user,
+      redirectPath,
+      msgErr,
+      validateUtil,
+      errors,
+      exercise,
+    });
+  },
+  handleEditHomework: async (req, res) => {
+    const errors = validationResult(req);
+    const exerciseId = req.params.id;
+
+    if (errors.isEmpty()) {
+      const { title, attachment, content } = req.body;
+      const exercise = await exerciseService.getExerciseById(exerciseId);
+      await exerciseService.update(exercise.id, title, content, attachment);
+      req.flash("success", messageSuccess.CREATE);
+      res.redirect(`${redirectPath.TEACHER_CLASS_HOMEWORK}${exercise.classId}`);
+    } else {
+      req.flash("errors", errors.array());
+      req.flash("msgErr", messageError.ERROR_INFO);
+      res.redirect(`${redirectPath.TEACHER_CLASS_EDIT_HOMEWORK}${exerciseId}`);
+    }
+  },
+  deleteHomework: async (req, res) => {
+    const exerciseId = req.params.id;
+    const exercise = await exerciseService.getExerciseById(exerciseId);
+    await exerciseService.destroy(exerciseId);
+    req.flash("success", messageSuccess.DELETE);
+    res.redirect(`${redirectPath.TEACHER_CLASS_HOMEWORK}${exercise.classId}`);
+  },
+  homeworkDetail: async (req, res) => {
+    const user = req.user;
+    const msgErr = req.flash("msgErr");
+    const msgSuccess = req.flash("success");
+    const exerciseId = req.params.id;
+
+    const exercise = await exerciseService.getExerciseById(exerciseId, {
+      model: ExercisesSubmit,
+      include: {
+        model: User,
+      },
+    });
+    const classItem = await classesService.getClassById(exercise.classId);
+    res.render(renderPath.TEACHER_CLASS_DETAIL_HOMEWORK, {
+      user,
+      redirectPath,
+      msgErr,
+      msgSuccess,
+      exercise,
+      classItem,
+      moment,
+      messageInfo,
+    });
+  },
+  addExerciseSubmit: async (req, res) => {
+    const exerciseId = req.params.id;
+    const userId = req.user.id;
+    const { content1 } = req.body;
+    await exerciseSubmitService.create(userId, exerciseId, content1);
+    req.flash("success", messageSuccess.CREATE);
+    res.redirect(`${redirectPath.TEACHER_CLASS_DETAIL_HOMEWORK}${exerciseId}`);
+  },
+  replyHomeworkDetail: async (req, res) => {
+    const exerciseSubmitId = req.params.id;
+    const userId = req.user.id;
+    const { content2 } = req.body;
+    console.log(5563);
+    const exerciseSubmit = await exerciseSubmitService.getById(
+      exerciseSubmitId,
+      { model: Exercises }
+    );
+    console.log(23434);
+    console.log(exerciseSubmit);
+    await exerciseSubmitService.create(
+      userId,
+      exerciseSubmit.Exercise.id,
+      content2,
+      exerciseSubmitId
+    );
+    req.flash("success", messageSuccess.CREATE);
+    res.redirect(
+      `${redirectPath.TEACHER_CLASS_DETAIL_HOMEWORK}${exerciseSubmit.Exercise.id}`
+    );
   },
 };

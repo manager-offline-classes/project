@@ -16,6 +16,7 @@ const {
 } = require("../../../models/index");
 
 const validateUtil = require("../../../utils/validate.util");
+const permissionUtil = require("../../../utils/permission.utils");
 const { validationResult, body } = require("express-validator");
 const {
   messageError,
@@ -32,7 +33,11 @@ module.exports = {
     const socials = userSocials.map((social) => social.dataValues.provider);
     const msgErr = req.flash("error");
     const msgSuccess = req.flash("success");
+
+    const permissionUser = await permissionUtil.roleUser(req);
     return res.render(renderPath.SETTINGS_ADMIN, {
+      permissionUser,
+      permissionUtil,
       user,
       socials,
       msgErr,
@@ -52,7 +57,11 @@ module.exports = {
     console.log(msgErr);
     const msgSuccess = req.flash("success");
     const errors = req.flash("errors");
+
+    const permissionUser = await permissionUtil.roleUser(req);
     return res.render(renderPath.SETTINGS_ADMIN_INFO, {
+      permissionUser,
+      permissionUtil,
       user,
       socials,
       errors,
@@ -82,7 +91,11 @@ module.exports = {
     const user = req.user;
     const msgErr = req.flash("msgErr");
     const msgSuccess = req.flash("msgSuccess");
+
+    const permissionUser = await permissionUtil.roleUser(req);
     res.render(renderPath.SETTINGS_ADMIN_PASSWORD, {
+      permissionUser,
+      permissionUtil,
       redirectPath,
       user,
       msgErr,

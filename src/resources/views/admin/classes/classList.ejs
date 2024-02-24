@@ -28,15 +28,20 @@
       <th>Tên lớp học</th>
       <th>Tên khóa học</th>
       <th>Tên giáo viên</th>
-      <th>Sĩ số thực tế</th>
-      <th>Ngày khai giảng</th>
-      <th>Ngày bế giảng</th>
+      <th>Sĩ số thực</th>
+      <th>Khai giảng</th>
+      <th>Bế giảng</th>
       <th>Lịch học</th>
       <th>Điểm danh</th>
       <th>Bài tập</th>
       <th>Thêm học viên</th>
+      <% if(permissionUtil.getPermissionUser(permissionUser, 'classes.update'))
+      {%>
       <th>Sửa</th>
+      <% } %> <% if(permissionUtil.getPermissionUser(permissionUser,
+      'classes.delete')) {%>
       <th>Xóa</th>
+      <% } %>
     </tr>
   </thead>
   <tbody>
@@ -77,7 +82,7 @@
       <!-- bài tập -->
       <th>
         <a
-          href="<%= `${redirectPath.CLASS_ADD_STUDENT}${classItem.id}`%>"
+          href="<%= `${redirectPath.ADMIN_CLASS_HOMEWORK}${classItem.id}`%>"
           class="btn btn-primary w-100"
         >
           <i class="far fa-eye fa-lg ml-2"></i>
@@ -90,6 +95,8 @@
           >Thêm</a
         >
       </th>
+      <% if(permissionUtil.getPermissionUser(permissionUser, 'classes.update'))
+      {%>
       <th>
         <a
           href="<%= `${redirectPath.CLASS_UPDATE}${classItem.id}` %>"
@@ -97,6 +104,8 @@
           >Sửa</a
         >
       </th>
+      <% } %> <% if(permissionUtil.getPermissionUser(permissionUser,
+      'classes.delete')) {%>
 
       <form
         action="<%= `${redirectPath.CLASS_DELETE}${classItem.id}` %>"
@@ -107,6 +116,7 @@
         </th>
         <input type="hidden" name="_method" value="DELETE" />
       </form>
+      <% } %>
     </tr>
 
     <% }) %>

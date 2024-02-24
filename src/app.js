@@ -22,6 +22,7 @@ const googlePassport = require("./passport/google.passport");
 const githubPassport = require("./passport/github.passport");
 const facebookPassport = require("./passport/facebook.passport");
 const passport = require("passport");
+const { redirectPath, renderPath } = require("./constants/constants.path");
 var app = express();
 
 app.use(
@@ -83,9 +84,11 @@ app.use("/teacher", teachersRouter);
 app.use("/settings", settingsRouter);
 app.use("/", (req, res) => {
   // return res.redirect("/admin");
-  return res.send(
-    "Trang không tồn tại! Vui lòng truy cập http://127.0.0.1:3000/auth/login "
-  );
+  // res.redirect(redirectPath.LOGIN_AUTH);
+  // return res.send(
+  //   "Trang không tồn tại! Vui lòng truy cập http://127.0.0.1:3000/auth/login "
+  // );
+  res.render(renderPath.REDIRECT_LOGIN, { redirectPath, layout: false });
 });
 // catch 404 and forward to error handler
 app.use(function (req, res, next) {

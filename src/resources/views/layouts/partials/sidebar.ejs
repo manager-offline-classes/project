@@ -42,6 +42,8 @@
             <p>Tổng quan</p>
           </a>
         </li>
+        <% if(permissionUtil.getPermissionUser(permissionUser, 'users.add') ||
+        permissionUtil.getPermissionUser(permissionUser, 'users.read')) {%>
         <li class="nav-item">
           <a href="#" class="nav-link">
             <i class="nav-icon fas fa-users"></i>
@@ -51,12 +53,16 @@
             </p>
           </a>
           <ul class="nav nav-treeview">
+            <% if(permissionUtil.getPermissionUser(permissionUser, 'users.add'))
+            {%>
             <li class="nav-item">
               <a href="<%= redirectPath.USER_CREATE %>" class="nav-link">
                 <i class="far fa-circle nav-icon"></i>
                 <p>Thêm mới</p>
               </a>
             </li>
+            <% } %> <% if(permissionUtil.getPermissionUser(permissionUser,
+            'users.read')) {%>
             <li class="nav-item">
               <a href="<%= redirectPath.USER_LIST_ADMIN %>" class="nav-link">
                 <i class="far fa-circle nav-icon"></i>
@@ -75,9 +81,12 @@
                 <p>Danh sách học viên</p>
               </a>
             </li>
+            <% } %>
           </ul>
         </li>
-
+        <% } %> <% if(permissionUtil.getPermissionUser(permissionUser,
+        'courses.add') || permissionUtil.getPermissionUser(permissionUser,
+        'courses.read')) {%>
         <li class="nav-item">
           <a href="pages/widgets.html" class="nav-link">
             <i class="nav-icon fas fa-book"></i>
@@ -87,21 +96,29 @@
             </p>
           </a>
           <ul class="nav nav-treeview">
+            <% if(permissionUtil.getPermissionUser(permissionUser,
+            'courses.add')) {%>
             <li class="nav-item">
               <a href="<%= redirectPath.COURSE_CREATE %>" class="nav-link">
                 <i class="far fa-circle nav-icon"></i>
                 <p>Thêm mới</p>
               </a>
             </li>
+            <% } %> <% if(permissionUtil.getPermissionUser(permissionUser,
+            'courses.read')) {%>
+
             <li class="nav-item">
               <a href="<%= redirectPath.COURSE_LIST %>" class="nav-link">
                 <i class="far fa-circle nav-icon"></i>
                 <p>Danh sách khóa học</p>
               </a>
             </li>
+            <% } %>
           </ul>
         </li>
-
+        <% } %> <% if(permissionUtil.getPermissionUser(permissionUser,
+        'classes.add') || permissionUtil.getPermissionUser(permissionUser,
+        'classes.read')) {%>
         <li class="nav-item">
           <a href="pages/widgets.html" class="nav-link">
             <i class="nav-icon fas fa-chalkboard-teacher"></i>
@@ -112,20 +129,58 @@
             </p>
           </a>
           <ul class="nav nav-treeview">
+            <% if(permissionUtil.getPermissionUser(permissionUser,
+            'classes.add')) {%>
             <li class="nav-item">
               <a href="<%= redirectPath.CLASS_CREATE %>" class="nav-link">
                 <i class="far fa-circle nav-icon"></i>
                 <p>Thêm mới</p>
               </a>
             </li>
+            <% } %> <% if(permissionUtil.getPermissionUser(permissionUser,
+            'classes.read')) {%>
             <li class="nav-item">
               <a href="<%= redirectPath.CLASS_LIST %>" class="nav-link">
                 <i class="far fa-circle nav-icon"></i>
                 <p>Danh sách lớp học</p>
               </a>
             </li>
+            <% } %>
           </ul>
         </li>
+        <% } %> <% if(permissionUtil.getPermissionUser(permissionUser,
+        'roles.add') || permissionUtil.getPermissionUser(permissionUser,
+        'roles.read')) {%>
+        <li class="nav-item">
+          <a href="pages/widgets.html" class="nav-link">
+            <i class="nav-icon fas fa-user-cog"></i>
+
+            <p>
+              Phân quyền
+              <i class="fas fa-angle-left right"></i>
+            </p>
+          </a>
+          <ul class="nav nav-treeview">
+            <% if(permissionUtil.getPermissionUser(permissionUser, 'roles.add'))
+            {%>
+            <li class="nav-item">
+              <a href="<%= redirectPath.ADMIN_ROLE_ADD %>" class="nav-link">
+                <i class="far fa-circle nav-icon"></i>
+                <p>Thêm mới</p>
+              </a>
+            </li>
+            <% } %> <% if(permissionUtil.getPermissionUser(permissionUser,
+            'roles.read')) {%>
+            <li class="nav-item">
+              <a href="<%= redirectPath.ADMIN_ROLE_INDEX %>" class="nav-link">
+                <i class="far fa-circle nav-icon"></i>
+                <p>Danh sách</p>
+              </a>
+            </li>
+            <% } %>
+          </ul>
+        </li>
+        <% } %>
       </ul>
     </nav>
     <!-- /.sidebar-menu -->

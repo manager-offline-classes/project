@@ -28,6 +28,7 @@ module.exports = (sequelize, DataTypes) => {
       exerciseId: DataTypes.INTEGER,
       content: DataTypes.TEXT,
       attachment: DataTypes.STRING(200),
+      parentId: DataTypes.INTEGER,
     },
     {
       sequelize,
