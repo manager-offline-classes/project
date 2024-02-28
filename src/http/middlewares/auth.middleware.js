@@ -9,7 +9,11 @@ module.exports = async (req, res, next) => {
         userId: req.user.id,
       },
     });
-    if (loginToken.token === req.cookies.loginToken) {
+    if (
+      loginToken?.token === req.cookies.loginToken &&
+      req.cookies.loginToken
+    ) {
+      console.log(324234);
       next();
       // return;
     } else {
