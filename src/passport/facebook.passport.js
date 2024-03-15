@@ -1,4 +1,5 @@
 // require("dotenv").config();
+const { UserSocial, User } = require("../models/index");
 var FacebookStrategy = require("passport-facebook");
 console.log("CallbackUrl: " + process.env.FACEBOOK_CALLBACK_URL);
 const {
@@ -13,21 +14,27 @@ module.exports = new FacebookStrategy(
     state: true,
     enableProof: true,
     profileFields: ["email", "displayName", "name"],
+    passReqToCallback: true,
   },
-  async (accessToken, refreshToken, profile, cb) => {
+  async (req, accessToken, refreshToken, profile, cb) => {
     const { displayName, emails, id } = profile;
-    console.log(468464);
+    // console.log(req);
+    console.log(accessToken);
+    console.log(refreshToken);
     console.log(profile);
     console.log(id);
+    console.log(468464);
+    console.log(`log req: `, req);
 
     // kiểm tra mxh này có trong db khong
     const userSocial = await UserSocial.findOne({
       where: { providerId: id },
     });
     // console.log(userSocial);
-    console.log(req.isAuthenticated());
+    // console.log(req.isAuthenticated());
     // Status : not logged in yet
-    if (!req.isAuthenticated()) {
+
+    if (!req?.isAuthenticated()) {
       const user = await User.findByPk(userSocial?.userId);
       if (user) {
         // mxh đã lk với user này
@@ -38,6 +45,7 @@ module.exports = new FacebookStrategy(
         });
       }
     }
+
     // status : log in
     else {
       let user = req.user;
@@ -46,6 +54,7 @@ module.exports = new FacebookStrategy(
         req.flash("error", messageError.ACCOUNT_LINKED);
         return cb(null, user);
       } else {
+        console.log(322222222222);
         UserSocial.create({
           userId: req.user.id,
           provider: "facebook",
