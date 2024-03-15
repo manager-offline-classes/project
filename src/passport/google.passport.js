@@ -15,6 +15,8 @@ module.exports = new GoogleStrategy(
   },
   async (req, issuer, profile, cb) => {
     const { displayName, emails, id } = profile;
+    // console.log(`passport GG: `);
+    // console.log(req);
     // kiểm tra mxh này có trong db khong
     const userSocial = await UserSocial.findOne({
       where: { providerId: id },

@@ -76,6 +76,8 @@ router.get(
   }),
   authController.passportRedirect
 );
+
+router.get("/disableFacebook", authController.disableFacebook);
 router.get(
   "/change-first-password",
   twoFAMiddleware,
